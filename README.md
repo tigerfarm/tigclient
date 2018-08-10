@@ -11,7 +11,6 @@ Set Heroku project environment variables by clicking Settings.
 Click Reveal Config Vars. Add the following key value pair:
 ````
 TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
-TOKEN_PASSWORD=your_password_to_generate_tokens
 ````
 Owl Client Screen print:
 
@@ -142,7 +141,7 @@ Create Function Environment Variables.
     (Key : value)
     CLIENT_ID : Example, owluser (Your default Client identity attribute, no spaces)
     CLIENT_PHONE_NUMBER : Example, +12223331234 (Your Twilio phone number)
-    TOKEN_PASSWORD : value to protect someone using your client.
+    TOKEN_PASSWORD=your_password_to_generate_tokens
     
     VOICE_TWIML_APP_SID_CALL_CLIENT : Example: APeb4627655a2a4be5ae1ba962fc9576cf
     (API key code to a Twilio Function URL)
