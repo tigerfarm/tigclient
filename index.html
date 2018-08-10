@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Owl Client</title>
+        <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <!-- Popup keypad -->
+        <link rel="stylesheet" href="jqueryKeypad.css"/>
+        <script src="jqueryKeypad.js"></script>
+        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+        <script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script>
+        <link rel="stylesheet" href="client.css">
+        <script src="client.js"></script>
+    </head>
+    <body>
+        <div id="topBar">
+            <table><tr>
+                    <td><a href="/index.html"><img src="custom/companyLogo.jpg" alt="Twilio" style="width:120px; padding-right: 30px;"/></a></td>
+                    <td><h1>Owl Client Application</h1></td>
+                </tr></table>
+        </div>
+        <div id="chatBox">
+            <div class="panelTitle">
+                Dashboard
+            </div>
+            <div style="margin-top: 6px;">
+                <table>
+                    <tr>
+                        <td><button id="btn-call" onclick="call();">Call</button></td>
+                        <td><button id="btn-hangup" onclick="hangup();">Hangup</button></td>
+                        <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
+                        <td>Keypad</td>
+                        <td><button id="numpadButton-btn" class="ui-btn ui-icon-grid ui-btn-icon-notext ui-alt-icon ui-nodisc-icon">&nbsp;</button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panelArea">
+                <table>
+                    <tr><td>Client ID </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid">Set Client ID.</div></td></tr>
+                    <tr><td>Call to </td><td><input id="number" type="text"/></td></tr>
+                    <tr><td>Token password </td><td><input type="text" id="tokenPassword" name="tokenPassword" placeholder="Enter password"/></td><td><div class="msgTokenPassword"></div></tr>
+                </table>
+            </div>
+        </div>
+        <div id="logBox">
+            <div class="panelTitle">
+                Log messages
+            </div>
+            <div class="panelArea">
+                <textarea id="log"></textarea>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <td><button id="clearLog" onclick="clearLog();">Clear</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="padding-top: 10px; padding-left: 12px;width: 645px;">
+            <table style="background-color: black; color: black; margin: 3px;">
+                <thead>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Type of call</td>
+                        <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Sample (to-caller)</td>
+                        <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Description</td>
+                    </tr>
+                </thead>
+                <tbody style="background-color:#6782A8; border: 1px solid #000000; color: white; padding: 3px">
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px; ">Conference</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberc();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">conference:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">Music plays until others join.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px;">Any Phone number</td>
+                        <td style="background-color: white; color: black; padding: 3px;">+15552221234</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call your mobile phone.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px;">Client to Client</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setClient();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">client:</a>david</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call others use this Client.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px;">Enqueue</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumbereq();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">enqueue:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call into a Twilio queue.
+                            <br/>Music plays until an agent calls the queue.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px;">De-queue</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberq();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">queue:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">As an agent, call into the queue to take a call.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px;">SIP address</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setSip();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">sip:</a>david@davidsubdomain.sip.us1.twilio.com</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call a SIP address in the same account.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="bottomBar">
+            <img src="custom/logo.jpg" alt="Twilio"/>
+            <div id="bottomContent">
+                <div style="padding-bottom: 10px;"><a href="https://github.com/tigerfarm/OwlClient" style="color: rgba(255,255,255,.65);">GitHub repository: OwlClient</a></div>
+                <a href="https://twilio.learnupon.com/store" style="color: rgba(255,255,255,.65);">Training</a>
+                | <a href="https://www.twilio.com/support-plans" style="color: rgba(255,255,255,.65);">Support</a>
+                | <a href="https://www.twilio.com/company" style="color: rgba(255,255,255,.65);">About Twilio</a>
+            </div>
+            <div style="padding-top: 10px;">2018 Twilio</div>
+        </div>
+    </body>
+</html>
