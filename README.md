@@ -2,10 +2,6 @@
 
 These are the steps to implement a Twilio JavaScript Web Client using Twilio Functions.
 
-Owl Client Screen print:
-
-<img src="ScreenPrint.jpg"/>
-
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/owlc)
 
 When you deploy to Heroku, you will be prompted for an app name. 
@@ -16,6 +12,9 @@ Click Reveal Config Vars. Add the following key value pair:
 ````
 TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 ````
+Owl Client Screen print:
+
+<img src="ScreenPrint.jpg"/>
 
 Requirements:
 
