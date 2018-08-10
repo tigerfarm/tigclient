@@ -1,4 +1,4 @@
-# Owl Client Application Version 2
+# Owl Client Application Version 3
 
 Deploy a Twilio Client application, to make and receive voice calls from your browser.
 
@@ -114,11 +114,12 @@ Create a Twilio Function to provide TwiML to make phone calls.
 3. Click Save.
 
 Create a Voice TwiML Application entry using the above Twilio Function URL.
+This is used in the token to link to the Function (Make a call).
 In the Console, go to:
 
 [https://www.twilio.com/console/voice/runtime/twiml-apps](https://www.twilio.com/console/voice/runtime/twiml-apps)
     
-1. Click Create new TwiML Ap
+1. Click Create new TwiML App
 2. Enter the following:
    - Friendly name: Make a call 
    - Voice, Request URL: https://about-time-6360.twil.io/makecall (Use URL of above, with your domain name)
@@ -139,14 +140,11 @@ Check: Enable ACCOUNT_SID and AUTH_TOKEN.
 Create Function Environment Variables.
 
     (Key : value)
-    CLIENT_ID : Example, owluser (Your default Client identity attribute, no spaces)
-    CLIENT_PHONE_NUMBER : Example, +12223331234 (Your Twilio phone number)
-    TOKEN_PASSWORD=your_password_to_generate_tokens
-    
+    CLIENT_PHONE_NUMBER : your_Twilio_phone_number, Example, +12223331234 (caller id)
+    TOKEN_PASSWORD : your_password_to_allow_token_generation
     VOICE_TWIML_APP_SID_CALL_CLIENT : Example: APeb4627655a2a4be5ae1ba962fc9576cf
-    (API key code to a Twilio Function URL)
-    This is used in the token. This links the token Function to the TwiML provider Function.
-    
+                                      (API key code to a Twilio Function URL)
+                                      
     Click Save, to save the environment variables.
 
 Update your Twilio Function host name into the Twilio Client server side programs.
