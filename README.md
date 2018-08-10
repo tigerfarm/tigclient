@@ -1,6 +1,6 @@
 # Owl Client Application Version 2
 
-These are the steps to implement a Twilio JavaScript Web Client using Twilio Functions.
+Deploy a Twilio Client application, to make and receive voice calls from your browser.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
 

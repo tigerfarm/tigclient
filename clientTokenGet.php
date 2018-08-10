@@ -12,16 +12,17 @@ if ($tokenHost == "") {
         return;
     }
 }
-$tokenClientId = htmlspecialchars($_GET["tokenhost"]);
+$tokenClientId = htmlspecialchars($_GET["clientid"]);
 if ($tokenClientId == "") {
     $tokenClientId = getenv('CLIENT_ID');
     if ($tokenClientId == "") {
-        $tokenClientId = "owluser";
+        echo '-- CLIENT_ID must be an environment variable or GET parameter.';
+        return;
     }
 }
 $tokenPassword = htmlspecialchars($_GET["tokenPassword"]);
 if ($tokenClientId == "") {
-    echo '-- TOKEN_HOST must be an environment variable.';
+    echo '-- TOKEN_HOST must be a GET parameter.';
     return;
 }
 
