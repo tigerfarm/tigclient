@@ -25,13 +25,7 @@ if ($tokenClientId == "") {
     echo '-- TOKEN_HOST must be a GET parameter.';
     return;
 }
-
-echo "-- tokenPassword:" . $tokenPassword . ": TOKEN_PASSWORD:" . getenv('TOKEN_PASSWORD') . ":";
-if ($tokenPassword != getenv('TOKEN_PASSWORD')) {
-    echo "-- Password invalid.";
-    return;
-}
-$theRequest = "https://" . $tokenHost . "/tokenclient?clientid=" . $tokenClientId;
+$theRequest = "https://" . $tokenHost . "/tokenclient?clientid=" . $tokenClientId . "&tokenPassword=" . $tokenPassword;
 // echo "+ $theRequest :' . $theRequest . ': ';
 $token = file_get_contents($theRequest);
 echo $token;

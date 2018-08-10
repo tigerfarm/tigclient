@@ -11,6 +11,7 @@ Set Heroku project environment variables by clicking Settings.
 Click Reveal Config Vars. Add the following key value pair:
 ````
 TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
+TOKEN_PASSWORD=your_password_to_generate_tokens
 ````
 Owl Client Screen print:
 
@@ -31,11 +32,11 @@ The Client files:
 The server files:
 - [nodeHttpServer.js](nodeHttpServer.js) : a NodeJS HTTP Server that serves the Client files and calls clientTokenGet.php.
 This is used to run the Twilio Client locally on a computer.
-- [clientTokenGet.php](clientTokenGet.php) : a program that calls your Twilio Function (generateToken.js).
+- [clientTokenGet.php](clientTokenGet.php) : a program that calls your Twilio Function (tokenclient.js).
 This is used when hosting the Twilio Client remotely on a public PHP website.
 
 Twilio NodeJS Functions
-- [generateToken.js](generateToken.js) : generates and returns a Client capability token.
+- [tokenclient.js](tokenclient.js) : generates and returns a Client capability token.
 - [makecall.js](makecall.js) : provides TwiML to make phone calls.
 
 Heroku Hosting Service
@@ -96,9 +97,9 @@ In the Console, go to:
 1. Click the Create Function icon (circle with plus sign in the middle).
 2. Click Blank. Click Create.
    - Properties, Function Name: Generate Client Token
-   - URL Path: https://about-time-6360.twil.io /generateToken (note, your domain is display here)
+   - URL Path: https://about-time-6360.twil.io /tokenclient (note, your domain is display here)
    - Uncheck Configuration, Access Control to allow Twilio JS Client access.
-   - Copy and paste the contents of [generateToken.js](generateToken.js) into the Code box.
+   - Copy and paste the contents of [tokenclient.js](tokenclient.js) into the Code box.
 3. Click Save.
 
 Create a Twilio Function to provide TwiML to make phone calls.
