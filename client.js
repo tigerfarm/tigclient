@@ -138,9 +138,10 @@ function clearLog() {
     log.value = "+ Ready";
 }
 window.onload = function () {
+    var log = document.getElementById('log');
     log.value = "+++ Start.";
+    log.style.height = '90px';
     setClientId();
-    refresh();
 };
 
 function sendDigits(theDigit) {

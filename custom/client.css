@@ -17,6 +17,8 @@
 h1 {
     margin: 0;
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-family: Times, "Times New Roman", serif;
+    font-weight: bold;
     font-size: 3em;
 }
 /* -------------------------------------------------------------------------- */
@@ -63,7 +65,7 @@ input {
 }
 #log
 {
-    height: 160px; 
+    height: 90px; 
     width: 615px;
     padding: 3px 3px 0px 3px;
 }
@@ -76,10 +78,12 @@ button#btn-delete,
 button#btn-chat,
 button#clearLog {
     width: 120px;
-    height: 40px;
+    height: 30px;
     border-radius: 9px;
     color: white;
     background-color: #F73550;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 14px; 
 }
 button#btn-refresh { width: 150px; }
 
