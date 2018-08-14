@@ -2,7 +2,7 @@
 
 Deploy a Twilio Client application, to make and receive voice calls from your browser.
 
-Note, no development required to getting running.
+Note, no development required to try this application.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
 
