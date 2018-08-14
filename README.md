@@ -25,68 +25,11 @@ Owl Client Screen print:
 
 <img src="ScreenPrint.jpg"/>
 
-## Files
-
-The Client files:
-- [index.html](index.html) : Twilio JavaScript (JS) Client to make and receive phone calls.
-- [custom/app.css](custom/app.css) : Styles
-
-The server files:
-- [nodeHttpServer.js](nodeHttpServer.js) : a NodeJS HTTP Server that serves the Client files and calls clientTokenGet.php.
-This is used to run the Twilio Client locally on a computer.
-- [clientTokenGet.php](clientTokenGet.php) : a program that calls your Twilio Function (tokenclient.js).
-This is used when hosting the Twilio Client remotely on a public PHP website.
-
-Twilio NodeJS Functions
-- [tokenclient.js](tokenclient.js) : generates and returns a Client capability token.
-- [makecall.js](makecall.js) : provides TwiML to make phone calls.
-
-Heroku Hosting Service
-- [app.json](app.json) : Heroku deployment file to describe the application.
-- [composer.json](composer.json) : Heroku deployment file which sets the programming language used.
-
-## Implementation
-
-The server side can run locally on a computer using NodeJS, or run on a website that runs PHP programs.
-
-### Local Server Side Setup using a NodeJS Webserver
-
-Download the project zip file.
-
-    https://github.com/tigerfarm/OwlClient
-
-1. Click Clone or Download. Click Download ZIP.
-2. Unzip the file into a work directory.
-3. Change into the unzipped directory: OwlClient-master.
-
-Install the NodeJS "request" module:
-    
-    $ npm install request
-
-Run the NodeJS HTTP server.
-
-    $ node nodeHttpServer.js
-    +++ Start: nodeHttpServer.js
-    Static file server running at
-      => http://localhost:8000/
-    CTRL + C to shutdown
-    ...
-    
-Use a browser to access the Twilio Client:
-
-    http://localhost:8000/index.html
-    
-Next, add Twilio Functions.
-
-### Remote Server Side Setup using a PHP Webserver
-
-Download the project zip file. Unzip the file into your website's CGI bin directory, or in any directory that will automatically run clientTokenGet.php as PHP program when called from HTTP. Test by displaying the Client in your browser, example URL:
-
-    https://example.com/cgi/index.html
+## Twilio Console Configurations
 
 ### Add Twilio Functions
 
-You will need to replace the sample domain name, "about-time-6360.twil.io," with your Runtime Domain name.
+In the following, you will need to replace the sample domain name, "about-time-1235.twil.io," with your Runtime Domain name.
 You can view your Runtime Domain name at this link:
 
 [https://www.twilio.com/console/runtime/overview](https://www.twilio.com/console/runtime/overview)
@@ -99,7 +42,7 @@ In the Console, go to:
 1. Click the Create Function icon (circle with plus sign in the middle).
 2. Click Blank. Click Create.
    - Properties, Function Name: Generate Client Token
-   - URL Path: https://about-time-6360.twil.io /tokenclient (note, your domain is display here)
+   - URL Path: https://about-time-1235.twil.io /tokenclient (note, your domain is display here)
    - Uncheck Configuration, Access Control to allow Twilio JS Client access.
    - Copy and paste the contents of [tokenclient.js](tokenclient.js) into the Code box.
 3. Click Save.
@@ -111,7 +54,7 @@ Create a Twilio Function to provide TwiML to make phone calls.
 1. Click the Create Function icon (circle with plus sign in the middle).
 2. Click Blank. Click Create.
    - Properties, Function Name: Make a call
-   - URL Path: https://about-time-6360.twil.io /makecall (note, your domain is display here)
+   - URL Path: https://about-time-1235.twil.io /makecall (note, your domain is display here)
    - For testing, uncheck Configuration, Access Control to allow accessible from a browser.
    - Copy and paste the contents of [makecall.js](makecall.js) into the Code box.
 3. Click Save.
@@ -125,7 +68,7 @@ In the Console, go to:
 1. Click Create new TwiML App
 2. Enter the following:
    - Friendly name: Make a call 
-   - Voice, Request URL: https://about-time-6360.twil.io/makecall (Use URL of above, with your domain name)
+   - Voice, Request URL: https://about-time-1235.twil.io/makecall (Use URL of above, with your domain name)
 3. After clicking Save, go back into the app entry to get the app SID.
    - The SID is used when creating a Function environment variable.
    - Example: APeb4627655a2a4be5ae1ba962fc9576cf
@@ -163,23 +106,27 @@ You can view the host name by going to the following link. The host name, is You
     
     If you are running nodeHttpServer.js. Restart it.
 
-## Ready to Test
+### Testing Steps
 
-If running locally, use a browser to access the Twilio Client:
+If on the Heroku website, use a browser to access the website Twilio Client URL,
+example (replace "mytwilioclient" with your Heroku application name):
 
-    http://localhost:8000/index.html
+    https://mytwilioclient.herokuapp.com/
 
-If on a website, use a browser to access the website Twilio Client URL, example:
+1.1 Enter a Client ID, example your first name. Enter your Token password.
 
-    http://example.com/index.html
+1.2 Click Call and hear a message from the Twilio Voice service, "Error placing the call. The to-caller is required."
 
-1. Click Call and hear a message from the Twilio Voice service, "Error placing the call. The to-caller is required."
+2.1 In the "Call to" field, enter: conference:support.
 
-2. In the to-caller field, enter: conference:support. Click Call, and you will be connect to the Twilio conference named, support. You will hear the classic Twilio conference music. Ask someone to join the conference.
+2.2 Click Call, and you will be connect to the Twilio conference named, support.
+    You will hear the classic Twilio conference music.
 
-Click Hangup to disconnect the conference call.
+2.3 In another browser, use Owl Client, with different Client Id, to join the conference.
 
-3. Test token refresh. In a separate tab, go to your call logs:
+2.4 Click Hangup to disconnect the conference call.
+
+3. In a separate tab, view your call logs:
 
 https://www.twilio.com/console/voice/logs/calls
 
@@ -188,8 +135,77 @@ Enter your name (no spaces) as the clientid (From). Click Call. Refresh the call
 
 4. Call your mobile phone number.
 
-5. Have someone else use the Twilio Client with different client id, then call them.
+5. Have someone else use the Twilio Client, with different client id, then call them.
 
-Note, you can call a sip address, example, sip:david@davidsubdomain.sip.us1.twilio.com.
+## For Developers
+
+### Files
+
+The Client files:
+- [index.html](index.html) : Twilio JavaScript (JS) Client to make and receive phone calls.
+- [custom/app.css](custom/app.css) : Styles
+
+The server files:
+- [nodeHttpServer.js](nodeHttpServer.js) : a NodeJS HTTP Server that serves the Client files and calls clientTokenGet.php.
+This is used to run the Twilio Client locally on a computer.
+- [clientTokenGet.php](clientTokenGet.php) : a program that calls your Twilio Function (tokenclient.js).
+This is used when hosting the Twilio Client remotely on a public PHP website.
+
+Twilio NodeJS Functions
+- [tokenclient.js](tokenclient.js) : generates and returns a Client capability token.
+- [makecall.js](makecall.js) : provides TwiML to make phone calls.
+
+Heroku Hosting Service
+- [app.json](app.json) : Heroku deployment file to describe the application.
+- [composer.json](composer.json) : Heroku deployment file which sets the programming language used.
+
+## Local host Implementation
+
+The server side can run locally on a computer using NodeJS, or run on a website that runs PHP programs.
+
+Note, the Twilio Node.JS helper library is not required.
+
+### Local Server Side Setup using a NodeJS Webserver
+
+Download the project zip file.
+
+    https://github.com/tigerfarm/OwlClient
+
+1. Click Clone or Download. Click Download ZIP.
+2. Unzip the file into a work directory.
+3. Change into the unzipped directory: OwlClient-master.
+
+Install the NodeJS "request" module:
+    
+    $ npm install request
+
+Run the NodeJS HTTP server.
+
+    $ node nodeHttpServer.js
+    +++ Start: nodeHttpServer.js
+    Static file server running at
+      => http://localhost:8000/
+    CTRL + C to shutdown
+    ...
+    
+Use a browser to access the Twilio Client:
+
+    http://localhost:8000/index.html
+    
+Next, add Twilio Functions.
+
+### Remote Server Side Setup using a PHP Webserver
+
+Download the project zip file. Unzip the file into your website's CGI bin directory, or in any directory that will automatically run clientTokenGet.php as PHP program when called from HTTP. Test by displaying the Client in your browser, example URL:
+
+    https://example.com/cgi/index.html
+
+## Ready to Test
+
+If running locally, use a browser to access the Twilio Client:
+
+    http://localhost:8000/index.html
+
+Use the above testing steps.
 
 Cheers...
