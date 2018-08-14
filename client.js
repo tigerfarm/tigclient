@@ -83,8 +83,8 @@ function refresh() {
         //      incoming: 'http://tigerfarmpress.com/tech/docs/sound/HAL.mp3',
         //      outgoing: 'http://tigerfarmpress.com/tech/docs/sound/st-affirmative.mp3'}});
         //      // https://www.twilio.com/docs/api/client/regions
-        // Twilio.Device.setup(theToken.trim(), { region: "ie1" });
-        Twilio.Device.setup(theToken.trim(), {debug: true});
+        // Twilio.Device.setup(theToken.trim(), { region: "ie1" }); // gll - Global Low Lantecy
+        Twilio.Device.setup(theToken.trim(), {region: "gll", debug: true});
         $("div.msgClientid").html("Current client id: <b>" + clientId + "</b>");
         logger("Token refreshed.");
         tokenClientId = clientId;
