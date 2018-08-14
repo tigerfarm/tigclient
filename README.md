@@ -21,7 +21,7 @@ Owl Client Screen print:
 Requirements:
 
 - For non-developers and developer: you will need a Twilio account. A free Trial account will work.
--- For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
+- For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
 - Only for developers: NodeJS installed to run the Client locally on your computer.
 Or a website that runs PHP programs such as Heroku. PHP is very common with service providers.
 
