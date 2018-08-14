@@ -2,6 +2,13 @@
 
 Deploy a Twilio Client application, to make and receive voice calls from your browser.
 
+Requirements:
+
+- For non-developers and developer: you will need a Twilio account. A free Trial account will work.
+- For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
+- Only for developers: NodeJS installed to run the Client locally on your computer.
+Or a website that runs PHP programs such as Heroku. PHP is very common with service providers.
+
 Note, no development required to try this application.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
@@ -17,13 +24,6 @@ TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 Owl Client Screen print:
 
 <img src="ScreenPrint.jpg"/>
-
-Requirements:
-
-- For non-developers and developer: you will need a Twilio account. A free Trial account will work.
-- For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
-- Only for developers: NodeJS installed to run the Client locally on your computer.
-Or a website that runs PHP programs such as Heroku. PHP is very common with service providers.
 
 ## Files
 
