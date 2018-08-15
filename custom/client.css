@@ -36,7 +36,7 @@ h1 {
 #chatBox
 {
     margin-top: 6px;
-    height: 206px;
+    height: 190px;
     width: 624px;
     border: solid tomato;
     margin-left: 15px;
@@ -54,7 +54,7 @@ input {
 /* -------------------------------------------------------------------------- */
 #logBox
 {
-    height: 180px;
+    height: 176px;
     width: 624px; 
     border: solid tomato;
     margin-top: 6px;

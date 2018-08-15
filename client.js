@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-var tokenClientId = "owluser";
+var tokenClientId = "";
 var clientId = tokenClientId;
 var theConnection;
 
@@ -29,6 +29,7 @@ Twilio.Device.incoming(function (conn) {
     // Or conn.reject();
 });
 function call() {
+    clearMessages();
     logger("++ Make an outgoing call.");
     setClientId();
     if (clientId !== tokenClientId) {
@@ -45,6 +46,7 @@ function hangup() {
 }
 
 function refresh() {
+    clearMessages();
     clientId = $("#clientid").val();
     if (clientId === "") {
         $("div.msgClientid").html("<b>Required</b>");
@@ -83,24 +85,29 @@ function refresh() {
     // .always(function () {alert("finished");});
 }
 
+function sendDigits(theDigit) {
+    // logger("sendDigits: " + theDigit);
+    theConnection.sendDigits(theDigit);
+}
+
+// -----------------------------------------------------------------------------
+function clearMessages() {
+    $("div.msgClientid").html("Current client id: <b>" + clientId + "</b>");
+    $("div.msgTokenPassword").html("");
+}
 function setNumberc() {
-    // alert("set");
     document.getElementById('number').value = "conference:support";
 }
 function setClient() {
-    // alert("set");
     document.getElementById('number').value = "client:";
 }
 function setSip() {
-    // alert("set");
     document.getElementById('number').value = "sip:";
 }
 function setNumbereq() {
-    // alert("set");
     document.getElementById('number').value = "enqueue:support";
 }
 function setNumberq() {
-    // alert("set");
     document.getElementById('number').value = "queue:support";
 }
 function setClientId() {
@@ -123,23 +130,11 @@ function logger(message) {
 function clearLog() {
     log.value = "+ Ready";
 }
-function pressKey() {
-    logger("+ pressKey");
-    sendDigits("1");
-}
-function keyPad() {
-    logger("+ keyPad");
-}
 window.onload = function () {
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     log.style.height = '90px';
     setClientId();
 };
-
-function sendDigits(theDigit) {
-    // logger("sendDigits.");
-    theConnection.sendDigits(theDigit);
-}
 
 // -----------------------------------------------------------------------------
