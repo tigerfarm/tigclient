@@ -1,18 +1,4 @@
 // -----------------------------------------------------------------------------
-$.fn.numpad.defaults.onKeypadCreate = function () {
-    $(this).enhanceWithin();
-};
-$(document).on('pageshow', function () {
-    $('#numpadButton-btn').numpad({
-        positionX: 'center',
-        positionY: 'top',
-        textDone: 'Done'
-    });
-}
-);
-$.mobile.loading().hide();  // Removes the "Loading" message.
-
-// -----------------------------------------------------------------------------
 var tokenClientId = "owluser";
 var clientId = tokenClientId;
 var theConnection;
@@ -136,6 +122,13 @@ function logger(message) {
 }
 function clearLog() {
     log.value = "+ Ready";
+}
+function pressKey() {
+    logger("+ pressKey");
+    sendDigits("1");
+}
+function keyPad() {
+    logger("+ keyPad");
 }
 window.onload = function () {
     var log = document.getElementById('log');

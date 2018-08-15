@@ -5,11 +5,6 @@
         <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <!-- Popup keypad -->
-        <link rel="stylesheet" href="jqueryKeypad.css"/>
-        <script src="jqueryKeypad.js"></script>
-        <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
         <script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script>
         <link rel="stylesheet" href="custom/client.css">
         <script src="client.js"></script>
@@ -31,14 +26,45 @@
                         <td><button id="btn-call" onclick="call();">Call</button></td>
                         <td><button id="btn-hangup" onclick="hangup();">Hangup</button></td>
                         <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
-                        <td>Keypad</td>
-                        <td><button id="numpadButton-btn" class="ui-btn ui-icon-grid ui-btn-icon-notext ui-alt-icon ui-nodisc-icon">&nbsp;</button></td>
+                        <td>
+                            <button id="btn-keypad" onclick="keyPad();" style='display: none;'>keypad</button>
+                        </td>
                     </tr>
                 </table>
             </div>
             <div class="panelArea">
                 <table>
-                    <tr><td>Client ID </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid">Set Client ID.</div></td></tr>
+                    <tr>
+                        <td>Client ID </td>
+                        <td><input id="clientid" type="text"/></td>
+                        <td><div class="msgClientid" style='width: 190px;'>Set Client ID.</div></td>
+                        <td rowspan="3"> 
+                            <div style='margin-left: 3px;'>
+                                <table>
+                                    <tr>
+                                        <td><button class="keyPadButton" onclick='sendDigits("1");'>1</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("2");'>2</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("3");'>3</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button class="keyPadButton" onclick='sendDigits("4");'>4</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("5");'>5</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("6");'>6</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button class="keyPadButton" onclick='sendDigits("7");'>7</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("8");'>8</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("9");'>9</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button class="keyPadButton" onclick='sendDigits("*");'>*</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("0");'>0</button></td>
+                                        <td><button class="keyPadButton" onclick='sendDigits("#");'>#</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
                     <tr><td>Call to </td><td><input id="number" type="text"/></td></tr>
                     <tr><td>Token password </td><td><input type="password" id="tokenPassword" name="tokenPassword" placeholder="Enter password"/></td><td><div class="msgTokenPassword"></div></tr>
                 </table>
@@ -59,6 +85,7 @@
                 </table>
             </div>
         </div>
+
         <div style="padding-top: 10px; padding-left: 12px;width: 645px;">
             <table style="background-color: black; color: black; margin: 3px;">
                 <thead>
