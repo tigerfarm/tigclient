@@ -23,7 +23,7 @@ TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 ````
 Owl Client Screen print:
 
-<img src="ScreenPrint.jpg"/>
+<img src="Owl_Client.jpg"/>
 
 ## Twilio Console Configurations
 
