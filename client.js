@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 var tokenClientId = "";
 var clientId = tokenClientId;
-var theConnection;
+var theConnection = "";
 
 Twilio.Device.ready(function (device) {
     logger("Ready.");
@@ -30,14 +30,19 @@ Twilio.Device.incoming(function (conn) {
 });
 function call() {
     clearMessages();
-    logger("++ Make an outgoing call.");
-    setClientId();
-    if (clientId !== tokenClientId) {
-        refresh();
+    theNumber = $("#number").val();
+    if (theNumber === "") {
+        $("div.msgNumber").html("<b>Required</b>");
+        logger("- Required: Call to.");
+        return;
     }
-    logger("+ From: " + clientId);
-    logger("+ To:   " + $("#number").val());
-    params = {"To": $("#number").val(), "From": "client:" + clientId};
+    if (tokenClientId === "") {
+        $("div.msgTokenPassword").html("<b>Refresh the token</b>");
+        logger("- Required: Refresh the token before making the call.");
+        return;
+    }
+    logger("++ Make an outgoing call from: " + clientId + " To: " + theNumber);
+    params = {"To": theNumber, "From": "client:" + clientId};
     Twilio.Device.connect(params);
 }
 function hangup() {
@@ -63,7 +68,7 @@ function refresh() {
     // Need to do an Ajax call to a local program that goes and gets the token.
     logger("Refresh the token using client id: " + clientId);
     //
-    var jqxhr = $.get("clientTokenGet.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
+    $.get("clientTokenGet.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
         // alert("theToken :" + theToken.trim() + ":");
         // Twilio.Device documentation: https://www.twilio.com/docs/api/client/device-13
         // Optional, control sounds:
@@ -85,14 +90,33 @@ function refresh() {
     // .always(function () {alert("finished");});
 }
 
-function sendDigits(theDigit) {
-    // logger("sendDigits: " + theDigit);
-    theConnection.sendDigits(theDigit);
+function sendDigits(aDigit) {
+    // logger("sendDigits: " + aDigit);
+    theConnection.sendDigits(aDigit);
 }
+function playDigit(aDigit) {
+    logger("playDigit: " + aDigit);
+    theConnection.sendDigits(aDigit);
+}
+// from: http://www.dumb.com/touchtones/
+// var theSong=" 9#963692363699#963692931"; // London Bridge
+var theSong=" 1199##96633221996633299663321199##96633221"; // Twinkle, Twinkle, Little Star
+var theDigit = 0;
+function playSong() {
+    theDigit++;
+    if (theDigit >= theSong.length) {
+        theDigit = 0;
+        return;
+    }
+    playDigit(theSong.substring(theDigit,theDigit+1));
+    setTimeout('playSong()', 500);
+}
+function donothing() {}
 
 // -----------------------------------------------------------------------------
 function clearMessages() {
     $("div.msgClientid").html("Current client id: <b>" + clientId + "</b>");
+    $("div.msgNumber").html("");
     $("div.msgTokenPassword").html("");
 }
 function setNumberc() {
