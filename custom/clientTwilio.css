@@ -1,55 +1,32 @@
-/*  HTML Links -----------------------------------------------------------------
-*/
-a {
-    text-decoration:none;
-    color: white;
-}
-a:hover {
-    text-decoration:underline;
-    color: white;
-}
-a:visited {
-    text-decoration:none;
-    color: white;
-}
-
-h1 {
-    margin: 0;
-    color: #954C08;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-family: Times, "Times New Roman", serif;
-    font-weight: bold;
-    font-size: 2.3em;
-}
-
 /* -------------------------------------------------------------------------- */
 #topBar {
     width: 780px;
     margin: 6px 0px 0px 18px;
     padding: 0px 0px 0px 0px;
 }
-#companyLogo {
-    width:70px; padding-right: 30px;
-}
 #bottomBar {
     width: 639px;
     margin: 6px 0px 0px 15px;
-    padding: 15px 0px 15px 0px;
+    padding: 6px 0px 20px 0px;
     font: Helvetica,Arial,sans-serif;
     font-size: 14px; 
     text-align: center;
-    color: white; 
-    background-color: #954C08;
+    color: rgba(255,255,255,.65); 
+    background-color: #080A30;
 }
-
+h1 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-family: Times, "Times New Roman", serif;
+    font-weight: bold;
+    font-size: 2.3em;
+}
 /* -------------------------------------------------------------------------- */
 .panelTitle
 {
     color: white;
-    background: black;
+    background: #F73550;
     padding: 9px;
-    font: Helvetica,Arial,sans-serif;
-    font-size: 14px; 
 }
 .panelArea
 {
@@ -59,21 +36,13 @@ h1 {
 #chatBox
 {
     margin-top: 6px;
-    height: 193px;
+    height: 190px;
     width: 624px;
-    border: solid #954C08;
+    border: solid tomato;
     margin-left: 15px;
     padding: 6px;
     border-width: 1px;
     border-radius: 6px;
-}
-
-#chatMessages
-{
-    height: 206px; 
-    width: 600px;
-    margin: 3px;
-    padding: 3px;
 }
 
 input {
@@ -85,9 +54,9 @@ input {
 /* -------------------------------------------------------------------------- */
 #logBox
 {
-    height: 296px;
+    height: 176px;
     width: 624px; 
-    border: solid #954C08;
+    border: solid tomato;
     margin-top: 6px;
     margin-left: 15px;
     padding: 6px;
@@ -96,10 +65,9 @@ input {
 }
 #log
 {
-    height: 196px; 
-    width: 616px;
-    margin: 3px 3px 3px 0px;
-    padding: 3px;
+    height: 90px; 
+    width: 615px;
+    padding: 3px 3px 0px 3px;
 }
 
 /* Default */
@@ -109,14 +77,16 @@ button#btn-refresh,
 button#btn-delete,
 button#btn-chat,
 button#clearLog {
-    width: 90px;
-    height: 40px;
+    width: 120px;
+    height: 30px;
     border-radius: 9px;
     color: white;
-    background-color: #954C08;
+    background-color: #F73550;
     font: Helvetica,Arial,sans-serif;
-    font-size: 0.7em; 
+    font-size: 14px; 
 }
+button#btn-refresh { width: 150px; }
+
 button#btn-call:hover,
 button#btn-call:focus,
 button#btn-hangup:hover,
@@ -125,9 +95,8 @@ button#btn-refresh:hover,
 button#btn-refresh:focus,
 button#clearLog:hover,
 button#clearLog:focus
-
 {
-    background-color: #B76418;  /* hover background color */
+    background-color: red;  /* hover background color */
     color: #fff;                /* hover text */
     border-color: #954C08;      /* top hover border */
     text-decoration: none;

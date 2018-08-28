@@ -157,7 +157,7 @@ function clearLog() {
 window.onload = function () {
     var log = document.getElementById('log');
     log.value = "+++ Start.";
-    log.style.height = '90px';
+    // log.style.height = '90px';
     setClientId();
 };
 
