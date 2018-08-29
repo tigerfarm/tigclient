@@ -15,18 +15,6 @@
             <div class="panelTitle">
                 Dashboard
             </div>
-            <div style="margin-top: 6px;">
-                <table>
-                    <tr>
-                        <td><button id="btn-call" onclick="call();">Call</button></td>
-                        <td><button id="btn-hangup" onclick="hangup();">Hangup</button></td>
-                        <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
-                        <td>
-                            <button id="btn-keypad" onclick="keyPad();" style='display: none;'>keypad</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
             <div class="panelArea">
                 <table>
                     <tr>
@@ -60,6 +48,18 @@
                     </tr>
                     <tr><td>Call to </td><td><input id="number" type="text"/></td><td><div class="msgNumber"></div></tr>
                     <tr><td>Password </td><td><input type="password" id="tokenPassword" name="tokenPassword" placeholder="Your access password"/></td><td><div class="msgTokenPassword"></div></tr>
+                </table>
+            </div>
+            <div style="margin-top: 6px;">
+                <table>
+                    <tr>
+                        <td><button id="btn-call" onclick="call();">Call</button></td>
+                        <td><button id="btn-hangup" onclick="hangup();">Hangup</button></td>
+                        <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
+                        <td>
+                            <button id="btn-keypad" onclick="keyPad();" style='display: none;'>keypad</button>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
