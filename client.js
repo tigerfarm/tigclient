@@ -2,6 +2,8 @@
 var tokenClientId = "";
 var clientId = tokenClientId;
 var theConnection = "";
+var theCallSid = "";
+var theCallSidUrl = "";
 
 Twilio.Device.ready(function (device) {
     logger("Token refreshed.");
@@ -11,25 +13,34 @@ Twilio.Device.ready(function (device) {
 Twilio.Device.connect(function (conn) {
     logger("Call connected.");
     // https://www.twilio.com/docs/api/client/connection#outgoing-parameters
-    logger("+ CallSid: " + conn.parameters.CallSid);
-    // add: "See log."
-    // https://www.twilio.com/console/voice/calls/logs/CA60f7eb18499913a90e6c689ccd822953
-    // https://www.twilio.com/console/voice/calls/logs/CA4e5ed40ee48dd922e35e79d43dd78db3
-    theUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + conn.parameters.CallSid + '" style="color:#954C08">See log.</a>';
-    $("div.msgNumber").html("Call connected. " + theUrl);
     theConnection = conn;
+    // ---------------------
+    theCallSid = conn.parameters.CallSid;
+    logger("+ CallSid: " + theCallSid);
+    theCallSidUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + theCallSid + '" style="color:#954C08">See log.</a>';
+    $("div.msgNumber").html("Call connected. " + theCallSidUrl);
+    $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
-    $("div.msgNumber").html("Call ended");
+    $("div.msgNumber").html("Call ended. " + theCallSidUrl);
+    $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
 });
 Twilio.Device.error(function (error) {
     logger("Error: " + error.message + ".");
     if ( error.message.indexOf("token parsing failed") > 0) {
-        //  "JWT token parsing failed"
+        //  Error: "JWT token parsing failed"
         $("div.msgTokenPassword").html("<b>Invalid password</b>");
+        $('#btn-call').prop('disabled', true);
+        return;
+    }
+    if ( error.message.indexOf("Token Expired") > 0) {
+        //  Error: "JWT Token Expired."
+        $("div.msgTokenPassword").html("<b>Invalid password</b>");
+        $('#btn-call').prop('disabled', true);
+        $('#btn-hangup').prop('disabled', true);
         return;
     }
 });
@@ -55,6 +66,10 @@ function call() {
         $("div.msgTokenPassword").html("<b>Refresh the token</b>");
         logger("- Required: Refresh the token before making the call.");
         return;
+    }
+    theCallType = $('#callType :selected').val();
+    if (theCallType !== "pstn") {
+        theNumber = theCallType + ":" + theNumber
     }
     logger("++ Make an outgoing call from: " + clientId + " To: " + theNumber);
     params = {"To": theNumber, "From": "client:" + clientId};
@@ -133,21 +148,6 @@ function clearMessages() {
     $("div.msgClientid").html("Current id: <b>" + clientId + "</b>");
     $("div.msgNumber").html("");
     $("div.msgTokenPassword").html("");
-}
-function setNumberc() {
-    document.getElementById('number').value = "conference:support";
-}
-function setClient() {
-    document.getElementById('number').value = "client:";
-}
-function setSip() {
-    document.getElementById('number').value = "sip:";
-}
-function setNumbereq() {
-    document.getElementById('number').value = "enqueue:support";
-}
-function setNumberq() {
-    document.getElementById('number').value = "queue:support";
 }
 function setClientId() {
     clientId = $("#clientid").val();

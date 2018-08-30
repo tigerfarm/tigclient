@@ -96,41 +96,41 @@
                 <thead>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Type of call</td>
-                        <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Sample (to-caller)</td>
+                        <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Sample (Call to)</td>
                         <td style="background-color: white; color: black; padding: 3px; font-weight: bold;">Description</td>
                     </tr>
                 </thead>
                 <tbody style="background-color:#6782A8; border: 1px solid #000000; color: white; padding: 3px">
                     <tr>
-                        <td style="background-color: white; color: black; padding: 3px;">Any Phone number</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Any PSTN Phone number</td>
                         <td style="background-color: white; color: black; padding: 3px;">+15552221234</td>
-                        <td style="background-color: white; color: black; padding: 3px;">Call your mobile phone.</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Use to call your mobile phone.</br>Use <a target="console" style='color:#954C08;' href="https://www.twilio.com/docs/glossary/what-e164">E.164 format.</a></td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">Client to Client</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setClient();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">client:</a>david</td>
-                        <td style="background-color: white; color: black; padding: 3px;">Call others use this Client.</td>
+                        <td style="background-color: white; color: black; padding: 3px;">david</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call other Voice Clients.</td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px; ">Conference</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberc();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">conference:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">allhands</td>
                         <td style="background-color: white; color: black; padding: 3px;">Music plays until others join.</td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">Enqueue</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumbereq();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">enqueue:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">support</td>
                         <td style="background-color: white; color: black; padding: 3px;">Call into a Twilio queue.
                             <br/>Music plays until an agent calls the queue.</td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">De-queue</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberq();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">queue:support</a></td>
-                        <td style="background-color: white; color: black; padding: 3px;">As an agent, call into the queue to take a call.</td>
+                        <td style="background-color: white; color: black; padding: 3px;">support</td>
+                        <td style="background-color: white; color: black; padding: 3px;">As an agent, call into the queue to be connected to an enqueued caller.</td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">SIP address</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setSip();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">sip:</a>david@dav.sip.us1.twilio.com</td>
-                        <td style="background-color: white; color: black; padding: 3px;">Call a SIP address in the same account.</td>
+                        <td style="background-color: white; color: black; padding: 3px;">david@dav.sip.us1.twilio.com</td>
+                        <td style="background-color: white; color: black; padding: 3px;">Call a SIP address that is in the same account.</td>
                     </tr>
                 </tbody>
             </table>
