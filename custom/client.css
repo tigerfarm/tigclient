@@ -157,6 +157,7 @@ button#clearLog.active {
     border-bottom-color: #3884CF;
 }
 
+button#btn-call:disabled,
 button#btn-hangup:disabled {
     width: 90px;
     height: 40px;

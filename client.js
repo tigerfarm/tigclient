@@ -6,16 +6,23 @@ var theConnection = "";
 Twilio.Device.ready(function (device) {
     logger("Token refreshed.");
     logger("Ready to make and receive calls.");
+    $('#btn-call').prop('disabled', false);
 });
 Twilio.Device.connect(function (conn) {
     logger("Call connected.");
     // https://www.twilio.com/docs/api/client/connection#outgoing-parameters
     logger("+ CallSid: " + conn.parameters.CallSid);
+    // add: "See log."
+    // https://www.twilio.com/console/voice/calls/logs/CA60f7eb18499913a90e6c689ccd822953
+    // https://www.twilio.com/console/voice/calls/logs/CA4e5ed40ee48dd922e35e79d43dd78db3
+    theUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + conn.parameters.CallSid + '" style="color:#954C08">See log.</a>';
+    $("div.msgNumber").html("Call connected. " + theUrl);
     theConnection = conn;
     $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
+    $("div.msgNumber").html("Call ended");
     $('#btn-hangup').prop('disabled', true);
 });
 Twilio.Device.error(function (error) {
@@ -23,6 +30,7 @@ Twilio.Device.error(function (error) {
     if ( error.message.indexOf("token parsing failed") > 0) {
         //  "JWT token parsing failed"
         $("div.msgTokenPassword").html("<b>Invalid password</b>");
+        return;
     }
 });
 Twilio.Device.incoming(function (conn) {
@@ -162,6 +170,7 @@ function clearLog() {
     log.value = "+ Ready";
 }
 window.onload = function () {
+    $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', true);
     var log = document.getElementById('log');
     log.value = "+++ Start.";
