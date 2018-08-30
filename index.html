@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Owl Client</title>
+        <title>Tiger Voice Client</title>
         <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
-
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script>
-        <link rel="stylesheet" href="custom/client.css">
         <script src="client.js"></script>
+        <link rel="stylesheet" href="custom/client.css">
     </head>
     <body>
         <script type="text/javascript" src="custom/pageTop.js"></script>
@@ -18,7 +17,10 @@
             <div class="panelArea">
                 <table>
                     <tr>
-                        <td>Client ID </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid" style='width: 210px;'>Set Client ID.</div></td>
+                        <td>Call to </td><td><input id="number" type="text"/></td>
+                        <td>
+                            <div class="msgNumber" style='width: 210px;'></div>
+                        </td>
                         <td rowspan="3"> 
                             <div style='margin-left: 3px;'>
                                 <table>
@@ -46,26 +48,35 @@
                             </div>
                         </td>
                     </tr>
-                    <tr><td>Call to </td><td><input id="number" type="text"/></td><td><div class="msgNumber"></div></tr>
+                    <tr><td>Call to type </td>
+                        <td>
+                            <select id="callType">
+                                <option value="pstn" selected>PSTN</option>
+                                <option value="client">Twilio Client</option>
+                                <option value="conference">Conference</option>
+                                <option value="enqueue">Enqueue (caller)</option>
+                                <option value="queue">Queue (agent)</option>
+                                <option value="sip">SIP address</option>
+                            </select>
+                        </td>
+                        <td><div class="msgCallType"></div></tr>
+                    <tr><td>Client ID </td><td><input id="clientid" type="text"/></td><td><div class="msgClientid">Set Client ID.</div></td></tr>
                     <tr><td>Password </td><td><input type="password" id="tokenPassword" name="tokenPassword" placeholder="Your access password"/></td><td><div class="msgTokenPassword"></div></tr>
                 </table>
             </div>
             <div style="margin-top: 6px;">
                 <table>
                     <tr>
-                        <td><button id="btn-call" onclick="call();">Call</button></td>
-                        <td><button id="btn-hangup" onclick="hangup();">Hangup</button></td>
                         <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
-                        <td>
-                            <button id="btn-keypad" onclick="keyPad();" style='display: none;'>keypad</button>
-                        </td>
+                        <td><button id="btn-call" onclick="call();">Call</button></td>
+                        <td><button id="btn-hangup" onclick="hangup();" disabled>Hangup</button></td>
                     </tr>
                 </table>
             </div>
         </div>
         <div id="logBox">
             <div class="panelTitle">
-                Log messages
+                Call session messages
             </div>
             <div class="panelArea">
                 <textarea id="log"></textarea>
@@ -91,11 +102,6 @@
                 </thead>
                 <tbody style="background-color:#6782A8; border: 1px solid #000000; color: white; padding: 3px">
                     <tr>
-                        <td style="background-color: white; color: black; padding: 3px; ">Conference</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberc();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">conference:support</a></td>
-                        <td style="background-color: white; color: black; padding: 3px;">Music plays until others join.</td>
-                    </tr>
-                    <tr>
                         <td style="background-color: white; color: black; padding: 3px;">Any Phone number</td>
                         <td style="background-color: white; color: black; padding: 3px;">+15552221234</td>
                         <td style="background-color: white; color: black; padding: 3px;">Call your mobile phone.</td>
@@ -104,6 +110,11 @@
                         <td style="background-color: white; color: black; padding: 3px;">Client to Client</td>
                         <td style="background-color: white; color: black; padding: 3px;"><a onClick="setClient();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">client:</a>david</td>
                         <td style="background-color: white; color: black; padding: 3px;">Call others use this Client.</td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: white; color: black; padding: 3px; ">Conference</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setNumberc();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">conference:support</a></td>
+                        <td style="background-color: white; color: black; padding: 3px;">Music plays until others join.</td>
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">Enqueue</td>
@@ -118,7 +129,7 @@
                     </tr>
                     <tr>
                         <td style="background-color: white; color: black; padding: 3px;">SIP address</td>
-                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setSip();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">sip:</a>david@davidsubdomain.sip.us1.twilio.com</td>
+                        <td style="background-color: white; color: black; padding: 3px;"><a onClick="setSip();" style="cursor: pointer; cursor: hand; color: blue; font-weight: bold;">sip:</a>david@dav.sip.us1.twilio.com</td>
                         <td style="background-color: white; color: black; padding: 3px;">Call a SIP address in the same account.</td>
                     </tr>
                 </tbody>

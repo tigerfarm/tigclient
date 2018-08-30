@@ -4,19 +4,26 @@ var clientId = tokenClientId;
 var theConnection = "";
 
 Twilio.Device.ready(function (device) {
-    logger("Ready.");
+    logger("Token refreshed.");
+    logger("Ready to make and receive calls.");
 });
 Twilio.Device.connect(function (conn) {
     logger("Call connected.");
     // https://www.twilio.com/docs/api/client/connection#outgoing-parameters
     logger("+ CallSid: " + conn.parameters.CallSid);
     theConnection = conn;
+    $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
+    $('#btn-hangup').prop('disabled', true);
 });
 Twilio.Device.error(function (error) {
-    logger("Error: " + error.message);
+    logger("Error: " + error.message + ".");
+    if ( error.message.indexOf("token parsing failed") > 0) {
+        //  "JWT token parsing failed"
+        $("div.msgTokenPassword").html("<b>Invalid password</b>");
+    }
 });
 Twilio.Device.incoming(function (conn) {
     // Accept the incoming connection and start two-way audio
@@ -78,8 +85,8 @@ function refresh() {
         //      // https://www.twilio.com/docs/api/client/regions
         // Twilio.Device.setup(theToken.trim(), { region: "ie1" }); // gll - Global Low Lantecy
         Twilio.Device.setup(theToken.trim(), {region: "gll", debug: true});
-        $("div.msgClientid").html("Current client id: <b>" + clientId + "</b>");
-        logger("Token refreshed.");
+        $("div.msgClientid").html("Current id: <b>" + clientId + "</b>");
+        // logger("Token refreshed.");
         tokenClientId = clientId;
     })
             // .done(function () {alert("second success");})
@@ -115,7 +122,7 @@ function donothing() {}
 
 // -----------------------------------------------------------------------------
 function clearMessages() {
-    $("div.msgClientid").html("Current client id: <b>" + clientId + "</b>");
+    $("div.msgClientid").html("Current id: <b>" + clientId + "</b>");
     $("div.msgNumber").html("");
     $("div.msgTokenPassword").html("");
 }
@@ -155,6 +162,7 @@ function clearLog() {
     log.value = "+ Ready";
 }
 window.onload = function () {
+    $('#btn-hangup').prop('disabled', true);
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     // log.style.height = '90px';

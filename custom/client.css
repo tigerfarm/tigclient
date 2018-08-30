@@ -59,7 +59,7 @@ h1 {
 #chatBox
 {
     margin-top: 6px;
-    height: 193px;
+    height: 230px;
     width: 624px;
     border: solid #954C08;
     margin-left: 15px;
@@ -80,6 +80,20 @@ input {
     line-height: 1.4em;
     font-size: 14px;
     width: 180px;
+}
+
+#callType {
+    width: 180px;
+    font-size: 0.8em;
+    padding: 3px;
+    background-color: white;
+    border-width: 1px;
+    border-radius: 6px;
+    background: white;
+}
+select option {
+    color: white;
+    background: #954C08;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -141,6 +155,16 @@ button#clearLog.active {
     background-color: gray;
     border-color: #2a65a0;
     border-bottom-color: #3884CF;
+}
+
+button#btn-hangup:disabled {
+    width: 90px;
+    height: 40px;
+    border-radius: 9px;
+    color: white;
+    background-color: #cccccc;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 0.7em; 
 }
 
 /* overrides extra padding on button elements in Firefox */
