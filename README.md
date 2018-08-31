@@ -20,7 +20,6 @@ Set Heroku project environment variables by clicking Settings.
 Click Reveal Config Vars. Add the following key value pair:
 ````
 TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
-TOKEN_PASSWORD=your_password_to_generate_tokens
 ````
 Owl Client Screen print:
 
