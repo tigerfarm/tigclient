@@ -109,7 +109,7 @@ function refresh() {
         //      // https://www.twilio.com/docs/api/client/regions
         // Twilio.Device.setup(theToken.trim(), { region: "ie1" }); // gll - Global Low Lantecy
         Twilio.Device.setup(theToken.trim(), {region: "gll", debug: true});
-        $("div.msgClientid").html("Current id: <b>" + clientId + "</b>");
+        $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
         // logger("Token refreshed.");
         tokenClientId = clientId;
     })
@@ -146,7 +146,7 @@ function donothing() {}
 
 // -----------------------------------------------------------------------------
 function clearMessages() {
-    $("div.msgClientid").html("Current id: <b>" + clientId + "</b>");
+    $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
     $("div.msgNumber").html("");
     $("div.msgTokenPassword").html("");
 }
