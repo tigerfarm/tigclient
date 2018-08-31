@@ -6,7 +6,7 @@ var theCallSid = "";
 var theCallSidUrl = "";
 
 Twilio.Device.ready(function (device) {
-    logger("Token refreshed.");
+    $("div.msgTokenPassword").html("Token refreshed");
     logger("Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
 });
@@ -39,6 +39,7 @@ Twilio.Device.error(function (error) {
     if ( error.message.indexOf("Token Expired") > 0) {
         //  Error: "JWT Token Expired."
         $("div.msgTokenPassword").html("Token Expired");
+        $("div.msgClientid").html("");
         $('#btn-call').prop('disabled', true);
         $('#btn-hangup').prop('disabled', true);
         return;
