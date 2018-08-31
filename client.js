@@ -18,13 +18,13 @@ Twilio.Device.connect(function (conn) {
     theCallSid = conn.parameters.CallSid;
     logger("+ CallSid: " + theCallSid);
     theCallSidUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + theCallSid + '" style="color:#954C08">See log.</a>';
-    $("div.msgNumber").html("Call connected. " + theCallSidUrl);
+    $("div.msgCallTo").html("Call connected. " + theCallSidUrl);
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
-    $("div.msgNumber").html("Call ended. " + theCallSidUrl);
+    $("div.msgCallTo").html("Call ended. " + theCallSidUrl);
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
 });
@@ -56,10 +56,11 @@ Twilio.Device.incoming(function (conn) {
     // Or conn.reject();
 });
 function call() {
-    clearMessages();
-    theNumber = $("#number").val();
-    if (theNumber === "") {
-        $("div.msgNumber").html("<b>Required</b>");
+    // clearMessages();
+    $("div.msgCallTo").html("");
+    theCallTo = $("#callTo").val();
+    if (theCallTo === "") {
+        $("div.msgCallTo").html("<b>Required</b>");
         logger("- Required: Call to.");
         return;
     }
@@ -70,10 +71,10 @@ function call() {
     }
     theCallType = $('#callType :selected').val();
     if (theCallType !== "pstn") {
-        theNumber = theCallType + ":" + theNumber
+        theCallTo = theCallType + ":" + theCallTo
     }
-    logger("++ Make an outgoing call from: " + clientId + " To: " + theNumber);
-    params = {"To": theNumber, "From": "client:" + clientId};
+    logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo);
+    params = {"To": theCallTo, "From": "client:" + clientId};
     Twilio.Device.connect(params);
 }
 function hangup() {
@@ -147,7 +148,7 @@ function donothing() {}
 // -----------------------------------------------------------------------------
 function clearMessages() {
     $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
-    $("div.msgNumber").html("");
+    $("div.msgCallTo").html("");
     $("div.msgTokenPassword").html("");
 }
 function setClientId() {
