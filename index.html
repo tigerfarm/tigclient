@@ -70,6 +70,12 @@
                         <td><button id="btn-refresh" onclick="refreshClientId();">Refresh token</button></td>
                         <td><button id="btn-call" onclick="call();">Call</button></td>
                         <td><button id="btn-hangup" onclick="hangup();" disabled>Hangup</button></td>
+                        <td><button id="btn-accept" onclick="accept();" disabled style='visibility: hidden;'>Accept Call</button></td>
+                        <td><button id="btn-reject" onclick="reject();" disabled style='visibility: hidden;'>Reject Call</button></td>
+                    </tr>
+                    <tr>
+                        <td><div style='padding-top: 9px;'>Messages: </div></td>
+                        <td colspan="4"><div class='callMessages' style='padding-top: 9px;'>Need to refresh the token.</div></td>
                     </tr>
                 </table>
             </div>

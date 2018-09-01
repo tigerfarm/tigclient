@@ -59,7 +59,7 @@ h1 {
 #chatBox
 {
     margin-top: 6px;
-    height: 230px;
+    height: 260px;
     width: 624px;
     border: solid #954C08;
     margin-left: 15px;
@@ -121,7 +121,8 @@ button#btn-call,
 button#btn-hangup,
 button#btn-refresh,
 button#btn-delete,
-button#btn-chat,
+button#btn-accept,
+button#btn-reject,
 button#clearLog {
     width: 90px;
     height: 40px;
@@ -137,10 +138,12 @@ button#btn-hangup:hover,
 button#btn-hangup:focus,
 button#btn-refresh:hover,
 button#btn-refresh:focus,
+button#btn-accept:hover,
+button#btn-accept:focus,
+button#btn-reject:hover,
+button#btn-reject:focus,
 button#clearLog:hover,
-button#clearLog:focus
-
-{
+button#clearLog:focus {
     background-color: #B76418;  /* hover background color */
     color: #fff;                /* hover text */
     border-color: #954C08;      /* top hover border */
@@ -151,12 +154,16 @@ button#clearLog:focus
 button#btn-call:active,
 button#btn-hangup:active,
 button#btn-refresh:active,
+button#btn-accept:active,
+button#btn-reject:active,
 button#clearLog.active {
     background-color: gray;
     border-color: #2a65a0;
     border-bottom-color: #3884CF;
 }
 
+button#btn-accept:disabled,
+button#btn-reject:disabled,
 button#btn-call:disabled,
 button#btn-hangup:disabled {
     width: 90px;

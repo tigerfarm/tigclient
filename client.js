@@ -4,9 +4,14 @@ var clientId = tokenClientId;
 var theConnection = "";
 var theCallSid = "";
 var theCallSidUrl = "";
+var tokenValid = false;
+
+// -----------------------------------------------------------------------------
+// Using the Client SDK calls and objects.
 
 Twilio.Device.ready(function (device) {
     $("div.msgTokenPassword").html("Token refreshed");
+    $("div.callMessages").html("Ready to make and receive calls.");
     logger("Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
 });
@@ -14,47 +19,73 @@ Twilio.Device.connect(function (conn) {
     logger("Call connected.");
     // https://www.twilio.com/docs/api/client/connection#outgoing-parameters
     theConnection = conn;
-    // ---------------------
     theCallSid = conn.parameters.CallSid;
     logger("+ CallSid: " + theCallSid);
+    // ---------------------
     theCallSidUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + theCallSid + '" style="color:#954C08">See log.</a>';
     $("div.msgCallTo").html("Call connected. " + theCallSidUrl);
+    $("div.callMessages").html("");
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
     $("div.msgCallTo").html("Call ended. " + theCallSidUrl);
+    $("div.callMessages").html("Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
+    $('#btn-accept').prop('disabled', true);
+    $('#btn-reject').prop('disabled', true);
 });
 Twilio.Device.error(function (error) {
     logger("Error: " + error.message + ".");
-    if ( error.message.indexOf("token parsing failed") > 0) {
+    if (error.message.indexOf("token parsing failed") > 0) {
         //  Error: "JWT token parsing failed"
         $("div.msgTokenPassword").html("<b>Invalid password</b>");
         $('#btn-call').prop('disabled', true);
+        tokenValid = false;
         return;
     }
-    if ( error.message.indexOf("Token Expired") > 0) {
+    if (error.message.indexOf("Token Expired") > 0) {
         //  Error: "JWT Token Expired."
         $("div.msgTokenPassword").html("Token Expired");
         $("div.msgClientid").html("");
         $('#btn-call').prop('disabled', true);
         $('#btn-hangup').prop('disabled', true);
+        tokenValid = false;
         return;
     }
 });
 Twilio.Device.incoming(function (conn) {
+    $("div.callMessages").html("Incomming call from: " + conn.parameters.From);
+    logger("+ Incoming call, CallSid: " + conn.parameters.CallSid);
+    logger("+ From:   " + conn.parameters.From);
+    logger("+ To:     " + conn.parameters.To);
+    logger("+ Region: " + Twilio.Device.region());
+    // --------------------
     // Accept the incoming connection and start two-way audio
     // https://www.twilio.com/docs/api/client/connection#incoming-parameters
-    logger("+ Incoming call, CallSid: " + conn.parameters.CallSid);
-    logger("+ To:     " + conn.parameters.To);
-    logger("+ From:   " + conn.parameters.From);
-    logger("+ Region: " + Twilio.Device.region());
-    conn.accept();
+    // conn.accept();
     // Or conn.reject();
+    $('#btn-accept').prop('disabled', false);
+    $('#btn-reject').prop('disabled', false);
 });
+/** **/
+function accept() {
+    logger("Accept call.");
+    conn.accept();
+    $('#btn-call').prop('disabled', true);
+    $('#btn-hangup').prop('disabled', false);
+    $('#btn-accept').prop('disabled', true);
+    $('#btn-reject').prop('disabled', true);
+}
+function reject() {
+    logger("Reject call.");
+    conn.reject();
+    $('#btn-accept').prop('disabled', true);
+    $('#btn-reject').prop('disabled', true);
+}
+
 function call() {
     // clearMessages();
     $("div.msgCallTo").html("");
@@ -82,7 +113,39 @@ function hangup() {
     Twilio.Device.disconnectAll();
 }
 
+function sendDigits(aDigit) {
+    // logger("sendDigits: " + aDigit);
+    theConnection.sendDigits(aDigit);
+}
+
+// Play a song for amusement.
+function playDigit(aDigit) {
+    logger("playDigit: " + aDigit);
+    theConnection.sendDigits(aDigit);
+}
+// from: http://www.dumb.com/touchtones/
+// var theSong=" 9#963692363699#963692931"; // London Bridge
+var theSong = " 1199##96633221996633299663321199##96633221"; // Twinkle, Twinkle, Little Star
+var theDigit = 0;
+function playSong() {
+    theDigit++;
+    if (theDigit >= theSong.length) {
+        theDigit = 0;
+        return;
+    }
+    playDigit(theSong.substring(theDigit, theDigit + 1));
+    setTimeout('playSong()', 500);
+}
+function donothing() {}
+
+// -----------------------------------------------------------------------------
+// Getting the access token.
+
 function refresh() {
+    if (tokenValid) {
+        $("div.msgTokenPassword").html("Token already valid.");
+        return;
+    }
     clearMessages();
     clientId = $("#clientid").val();
     if (clientId === "") {
@@ -99,6 +162,7 @@ function refresh() {
     // Since, programs cannot make an Ajax call to a remote resource,
     // Need to do an Ajax call to a local program that goes and gets the token.
     logger("Refresh the token using client id: " + clientId);
+    $("div.callMessages").html("Refreshing token, please wait.");
     //
     $.get("clientTokenGet.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
         // alert("theToken :" + theToken.trim() + ":");
@@ -110,7 +174,9 @@ function refresh() {
         //      // https://www.twilio.com/docs/api/client/regions
         // Twilio.Device.setup(theToken.trim(), { region: "ie1" }); // gll - Global Low Lantecy
         Twilio.Device.setup(theToken.trim(), {region: "gll", debug: true});
-        $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
+        $("div.msgClientid").html("Token id: " + clientId);
+        $("div.callMessages").html("");
+        tokenValid = true;
         // logger("Token refreshed.");
         tokenClientId = clientId;
     })
@@ -122,30 +188,9 @@ function refresh() {
     // .always(function () {alert("finished");});
 }
 
-function sendDigits(aDigit) {
-    // logger("sendDigits: " + aDigit);
-    theConnection.sendDigits(aDigit);
-}
-function playDigit(aDigit) {
-    logger("playDigit: " + aDigit);
-    theConnection.sendDigits(aDigit);
-}
-// from: http://www.dumb.com/touchtones/
-// var theSong=" 9#963692363699#963692931"; // London Bridge
-var theSong=" 1199##96633221996633299663321199##96633221"; // Twinkle, Twinkle, Little Star
-var theDigit = 0;
-function playSong() {
-    theDigit++;
-    if (theDigit >= theSong.length) {
-        theDigit = 0;
-        return;
-    }
-    playDigit(theSong.substring(theDigit,theDigit+1));
-    setTimeout('playSong()', 500);
-}
-function donothing() {}
-
 // -----------------------------------------------------------------------------
+// UI functions
+
 function clearMessages() {
     $("div.msgClientid").html("Token id: <b>" + clientId + "</b>");
     $("div.msgCallTo").html("");
@@ -160,7 +205,11 @@ function setClientId() {
 }
 function refreshClientId() {
     // logger("++ Refresh the Client Id (to-caller).");
-    setClientId();
+    clientId = $("#clientid").val();
+    if (clientId === "") {
+        // logger("Use default token client id.");
+        clientId = tokenClientId;
+    };
     refresh();
 }
 function logger(message) {
@@ -174,10 +223,12 @@ function clearLog() {
 window.onload = function () {
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', true);
+    $('#btn-accept').prop('disabled', true);
+    $('#btn-reject').prop('disabled', true);
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     // log.style.height = '90px';
-    setClientId();
+    // setClientId();
 };
 
 // -----------------------------------------------------------------------------
