@@ -2,10 +2,12 @@
 var tokenClientId = "";
 var clientId = tokenClientId;
 var theConnection = "";
+var theCaller = "";
 var theCallSid = "";
 var theCallSidUrl = "";
 var tokenValid = false;
 var theConnection = "";
+var theCallTo = "";
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
 
@@ -24,14 +26,22 @@ Twilio.Device.connect(function (conn) {
     // ---------------------
     theCallSidUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + theCallSid + '" style="color:#954C08">See log.</a>';
     $("div.msgCallTo").html("Call connected. " + theCallSidUrl);
-    $("div.callMessages").html("");
+    theCallerMsg = theCallTo;
+    if (theCaller !== "") {
+        theCallerMsg = "Call ended: " + theCaller + ". "; 
+    }
+    $("div.callMessages").html("Call connected with: " + theCallerMsg);
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
     $("div.msgCallTo").html("Call ended. " + theCallSidUrl);
-    $("div.callMessages").html("Ready to make and receive calls.");
+    theCallerMsg = "Call ended: " + theCallTo + ". ";
+    if (theCaller !== "") {
+        theCallerMsg = "Call ended: " + theCaller + ". "; 
+    }
+    $("div.callMessages").html(theCallerMsg + "Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
@@ -57,9 +67,10 @@ Twilio.Device.error(function (error) {
     }
 });
 Twilio.Device.incoming(function (conn) {
-    $("div.callMessages").html("Incomming call from: " + conn.parameters.From);
+    theCaller = conn.parameters.From;
+    $("div.callMessages").html("Incomming call from: " + theCaller);
     logger("+ Incoming call, CallSid: " + conn.parameters.CallSid);
-    logger("+ From:   " + conn.parameters.From);
+    logger("+ From:   " + theCaller);
     logger("+ To:     " + conn.parameters.To);
     logger("+ Region: " + Twilio.Device.region());
     // --------------------
@@ -71,18 +82,21 @@ Twilio.Device.incoming(function (conn) {
     $('#btn-accept').prop('disabled', false);
     $('#btn-reject').prop('disabled', false);
 });
-/** **/
 function accept() {
-    logger("Accept call.");
+    logger("Accepted call.");
     theConnection.accept();
+    $("div.callMessages").html("Accepted: incomming call from: " + theCaller);
+    $("div.msgTokenPassword").html("");
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
 }
 function reject() {
-    logger("Reject call.");
+    logger("Rejected call.");
     theConnection.reject();
+    $("div.callMessages").html("Rejected: incomming call from: " + theCaller);
+    $("div.msgTokenPassword").html("");
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
 }
@@ -105,8 +119,10 @@ function call() {
     if (theCallType !== "pstn") {
         theCallTo = theCallType + ":" + theCallTo
     }
+    theCaller ="";
     logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo);
     params = {"To": theCallTo, "From": "client:" + clientId};
+    $("div.callMessages").html("Calling: " + theCallTo);
     Twilio.Device.connect(params);
 }
 function hangup() {
