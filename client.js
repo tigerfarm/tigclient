@@ -5,7 +5,7 @@ var theConnection = "";
 var theCallSid = "";
 var theCallSidUrl = "";
 var tokenValid = false;
-
+var theConnection = "";
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
 
@@ -65,6 +65,7 @@ Twilio.Device.incoming(function (conn) {
     // --------------------
     // Accept the incoming connection and start two-way audio
     // https://www.twilio.com/docs/api/client/connection#incoming-parameters
+    theConnection = conn;
     // conn.accept();
     // Or conn.reject();
     $('#btn-accept').prop('disabled', false);
@@ -73,7 +74,7 @@ Twilio.Device.incoming(function (conn) {
 /** **/
 function accept() {
     logger("Accept call.");
-    conn.accept();
+    theConnection.accept();
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
     $('#btn-accept').prop('disabled', true);
@@ -81,7 +82,7 @@ function accept() {
 }
 function reject() {
     logger("Reject call.");
-    conn.reject();
+    theConnection.reject();
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
 }
