@@ -1,13 +1,20 @@
 // -----------------------------------------------------------------------------
+// To do:
+// Docs: https://www.twilio.com/docs/voice/client/javascript/connection
+// 
+// .mute(bool)  ...  .isMuted()
+// 
+// Call time out when receiving a call.
+
+var tokenValid = false;
 var tokenClientId = "";
 var clientId = tokenClientId;
 var theConnection = "";
 var theCaller = "";
+var theCallTo = "";
 var theCallSid = "";
 var theCallSidUrl = "";
-var tokenValid = false;
-var theConnection = "";
-var theCallTo = "";
+
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
 
@@ -24,11 +31,13 @@ Twilio.Device.connect(function (conn) {
     theCallSid = conn.parameters.CallSid;
     logger("+ CallSid: " + theCallSid);
     // ---------------------
-    theCallSidUrl = '<a target="console" href="https://www.twilio.com/console/voice/calls/logs/' + theCallSid + '" style="color:#954C08">See log.</a>';
+    theCallSidUrl = '<a target="console"'
+            + 'href="https://www.twilio.com/console/voice/calls/logs/'
+            + theCallSid + '" style="color:#954C08">See log.</a>';
     $("div.msgCallTo").html("Call connected. " + theCallSidUrl);
     theCallerMsg = theCallTo;
     if (theCaller !== "") {
-        theCallerMsg = "Call ended: " + theCaller + ". "; 
+        theCallerMsg = "Calling: " + theCaller + ". ";
     }
     $("div.callMessages").html("Call connected with: " + theCallerMsg);
     $('#btn-call').prop('disabled', true);
@@ -39,13 +48,19 @@ Twilio.Device.disconnect(function (conn) {
     $("div.msgCallTo").html("Call ended. " + theCallSidUrl);
     theCallerMsg = "Call ended: " + theCallTo + ". ";
     if (theCaller !== "") {
-        theCallerMsg = "Call ended: " + theCaller + ". "; 
+        theCallerMsg = "Call ended: " + theCaller + ". ";
     }
     $("div.callMessages").html(theCallerMsg + "Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
+});
+Twilio.Device.cancel(function () {
+    logger("++ Twilio.Device.cancel");
+});
+Twilio.Device.offline(function () {
+    logger("++ Twilio.Device.offline");
 });
 Twilio.Device.error(function (error) {
     logger("Error: " + error.message + ".");
@@ -81,6 +96,10 @@ Twilio.Device.incoming(function (conn) {
     // Or conn.reject();
     $('#btn-accept').prop('disabled', false);
     $('#btn-reject').prop('disabled', false);
+    /* Not used. It runs after: reject().
+    theConnection.on('reject', function () {
+        logger("theConnection.on('reject'");
+    }); */
 });
 function accept() {
     logger("Accepted call.");
@@ -119,7 +138,7 @@ function call() {
     if (theCallType !== "pstn") {
         theCallTo = theCallType + ":" + theCallTo
     }
-    theCaller ="";
+    theCaller = "";
     logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo);
     params = {"To": theCallTo, "From": "client:" + clientId};
     $("div.callMessages").html("Calling: " + theCallTo);
@@ -127,6 +146,8 @@ function call() {
 }
 function hangup() {
     logger("Hangup.");
+    $('#btn-call').prop('disabled', false);
+    $('#btn-hangup').prop('disabled', true);
     Twilio.Device.disconnectAll();
 }
 
@@ -153,7 +174,17 @@ function playSong() {
     playDigit(theSong.substring(theDigit, theDigit + 1));
     setTimeout('playSong()', 500);
 }
-function donothing() {}
+// function donothing() {}
+
+// -----------------------------------------------------------------------------
+// .status() : Return the status of this connection. 
+// 
+// theConnection.on('reject', handler)
+// theConnection.on('disconnect', handler)
+// theConnection.on('accept', handler)
+// Example:
+// yes: Twilio.Device.error(function (error) {
+// not: Twilio.Device.on('error', function(error) {
 
 // -----------------------------------------------------------------------------
 // Getting the access token.
@@ -226,7 +257,8 @@ function refreshClientId() {
     if (clientId === "") {
         // logger("Use default token client id.");
         clientId = tokenClientId;
-    };
+    }
+    ;
     refresh();
 }
 function logger(message) {
@@ -244,7 +276,6 @@ window.onload = function () {
     $('#btn-reject').prop('disabled', true);
     var log = document.getElementById('log');
     log.value = "+++ Start.";
-    // log.style.height = '90px';
     // setClientId();
 };
 
