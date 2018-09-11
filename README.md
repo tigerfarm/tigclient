@@ -115,27 +115,30 @@ example (replace "mytwilioclient" with your Heroku application name):
 
 1.1 Enter a Client ID, example your first name. Enter your Token password.
 
-1.2 Click Call and hear a message from the Twilio Voice service, "Error placing the call. The to-caller is required."
+1.2 Click Refresh token. The message, Token refreshed, is displayed.
 
-2.1 In the "Call to" field, enter: conference:support.
+2.1 In the "Call to" field, enter: support. Select Call to type: Conference.
 
 2.2 Click Call, and you will be connect to the Twilio conference named, support.
     You will hear the classic Twilio conference music.
 
-2.3 In another browser, use Owl Client, with different Client Id, to join the conference.
+2.3 In another browser, use Owl Client, with different Client ID, join the conference.
 
-2.4 Click Hangup to disconnect the conference call.
+2.4 Click Hangup to disconnect from the conference.
 
-3. In a separate tab, view your call logs:
-
-https://www.twilio.com/console/voice/logs/calls
-
-Note, the recent call is from caller, owluser, which is this Twilio Client's default client identity.
-Enter your name (no spaces) as the clientid (From). Click Call. Refresh the call logs. Note, the call is from your name.
+3.1 View the call log. In a separate tab, log into the Twilio Console.
+    Beside Call to, click, See log.
 
 4. Call your mobile phone number.
+   In the "Call to" field, enter your mobile phone number.
+   Select Call to type: PSTN.
+   Click Call, and your mobile phone will be dialed.
 
-5. Have someone else use the Twilio Client, with different client id, then call them.
+5. Have someone else use this Voice Client, with different Client ID. Call them.
+   In the "Call to" field, enter the other person's Client ID.
+   Select Call to type: Twilio Client.
+   Click Call, and you will be connected to the other client.
+   They will need to Accept the call, for you to talk together.
 
 ## For Developers
 
