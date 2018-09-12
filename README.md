@@ -1,15 +1,15 @@
 # Owl Client Application Version 3
 
-Deploy a Twilio Client application, to make and receive voice calls from your browser.
+To make and receive voice calls from your browser, deploy your own Twilio Client website application.
 
 Requirements:
 
-- For non-developers and developer: you will need a Twilio account. A free Trial account will work.
+- For non-developers and developers: you will need a Twilio account. A free Trial account will work.
 - For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
-- Only for developers: NodeJS installed to run the Client locally on your computer.
-Or a website that runs PHP programs such as Heroku. PHP is very common with service providers.
+- For developers, I have included a Node.JS webserver program that you can run locally on your computer.
+  You can also run this application on a website that can run PHP programs.
 
-Note, no development required to try this application.
+Note, no development required to run this application. It can be completely deployed and tested from a web browser.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
 
@@ -29,12 +29,18 @@ Owl Client Screen print:
 
 ### Add Twilio Functions
 
+1. Create a Twilio Function to generate client capability tokens.
+2. Create a Twilio Function to provide TwiML to make phone calls.
+3. Create a Voice TwiML Application entry using the above Twilio Function URL (make phone calls).
+4. Configure your account's Twilio Functions settings.
+5. Test.
+
 In the following, you will need to replace the sample domain name, "about-time-1235.twil.io," with your Runtime Domain name.
 You can view your Runtime Domain name at this link:
 
 [https://www.twilio.com/console/runtime/overview](https://www.twilio.com/console/runtime/overview)
 
-Create a Twilio Function to generate client capability tokens.
+1 - Create a Twilio Function to generate client capability tokens.
 In the Console, go to:
 
 [https://www.twilio.com/console/runtime/functions](https://www.twilio.com/console/runtime/functions)
@@ -47,7 +53,7 @@ In the Console, go to:
    - Copy and paste the contents of [tokenclient.js](tokenclient.js) into the Code box.
 3. Click Save.
 
-Create a Twilio Function to provide TwiML to make phone calls.
+2 - Create a Twilio Function to provide TwiML to make phone calls.
 
 [https://www.twilio.com/console/runtime/functions](https://www.twilio.com/console/runtime/functions)
     
@@ -59,8 +65,8 @@ Create a Twilio Function to provide TwiML to make phone calls.
    - Copy and paste the contents of [makecall.js](makecall.js) into the Code box.
 3. Click Save.
 
-Create a Voice TwiML Application entry using the above Twilio Function URL.
-This is used in the token to link to the Function (Make a call).
+3- Create a Voice TwiML Application entry using the above Twilio Function URL.
+This is used in the token to link to the Function whichs makes the phone calls.
 In the Console, go to:
 
 [https://www.twilio.com/console/voice/runtime/twiml-apps](https://www.twilio.com/console/voice/runtime/twiml-apps)
@@ -73,20 +79,16 @@ In the Console, go to:
    - The SID is used when creating a Function environment variable.
    - Example: APeb4627655a2a4be5ae1ba962fc9576cf
 
-### Twilio Function Configuration
-
-Configure your account's Twilio Functions settings.
+4 - Configure your account's Twilio Functions settings.
 In the Console, go to:
     
 [https://www.twilio.com/console/runtime/functions/configure](https://www.twilio.com/console/runtime/functions/configure)
     
-Check: Enable ACCOUNT_SID and AUTH_TOKEN.
-- This allows your Functions to access your account SID and auth token as environment variables.
-
-Create Function Environment Variables.
+1. Check: Enable ACCOUNT_SID and AUTH_TOKEN. This allows your Functions to access your account SID and auth token as environment variables.
+2. Create Function Environment Variables.
 
     (Key : value)
-    CLIENT_PHONE_NUMBER : your_Twilio_phone_number, Example, +12223331234 (caller id)
+    CLIENT_PHONE_NUMBER : your_Twilio_phone_number (your caller id, example: +16505551234 ()
     TOKEN_PASSWORD : your_password_to_generate_tokens
     VOICE_TWIML_APP_SID_CALL_CLIENT : Example: APeb4627655a2a4be5ae1ba962fc9576cf
                                       (API key code to a Twilio Function URL)
@@ -106,35 +108,27 @@ You can view the host name by going to the following link. The host name, is You
     
     If you are running nodeHttpServer.js. Restart it.
 
-### Testing Steps
+5 - Testing Steps
 
 If on the Heroku website, use a browser to access the website Twilio Client URL,
 example (replace "mytwilioclient" with your Heroku application name):
 
     https://mytwilioclient.herokuapp.com/
 
-1.1 Enter a Client ID, example your first name. Enter your Token password.
-
-1.2 Click Refresh token. The message, Token refreshed, is displayed.
-
-2.1 In the "Call to" field, enter: support. Select Call to type: Conference.
-
-2.2 Click Call, and you will be connect to the Twilio conference named, support.
+1. Enter a Client ID, example your first name. Enter your Token password.
+2. Click Refresh token. The message, Token refreshed, is displayed.
+3. In the "Call to" field, enter: support. Select Call to type: Conference.
+4. Click Call, and you will be connect to the Twilio conference named, support.
     You will hear the classic Twilio conference music.
-
-2.3 In another browser, use Owl Client, with different Client ID, join the conference.
-
-2.4 Click Hangup to disconnect from the conference.
-
-3.1 View the call log. In a separate tab, log into the Twilio Console.
+5. In another browser, use Owl Client, with different Client ID, join the conference.
+6. Click Hangup to disconnect from the conference.
+7. View the call log. In a separate tab, log into the Twilio Console.
     Beside Call to, click, See log.
-
-4. Call your mobile phone number.
+8. Call your mobile phone number.
    In the "Call to" field, enter your mobile phone number.
    Select Call to type: PSTN.
    Click Call, and your mobile phone will be dialed.
-
-5. Have someone else use this Voice Client, with different Client ID. Call them.
+9. Have someone else use this Voice Client, with different Client ID. Call them.
    In the "Call to" field, enter the other person's Client ID.
    Select Call to type: Twilio Client.
    Click Call, and you will be connected to the other client.
