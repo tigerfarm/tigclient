@@ -4,7 +4,8 @@
         <title>Tiger Voice</title>
         <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script>
+        <!-- script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script -->
+        <script src="https://media.twiliocdn.com/sdk/js/client/releases/1.5.1/twilio.min.js"></script>
         <script src="client.js"></script>
         <link rel="stylesheet" href="custom/client.css">
     </head>
@@ -72,6 +73,7 @@
                         <td><button id="btn-hangup" onclick="hangup();" disabled>Hangup</button></td>
                         <td><button id="btn-accept" onclick="accept();" disabled style='visibility: visible;'>Accept Call</button></td>
                         <td><button id="btn-reject" onclick="reject();" disabled style='visibility: visible;'>Reject Call</button></td>
+                        <!-- td><button id="btn-reset" onclick="reset();"  style='visibility: visible;'>Reset Device</button></td -->
                     </tr>
                     <tr>
                         <td><div style='padding-top: 9px;'>Messages: </div></td>

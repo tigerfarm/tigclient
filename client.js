@@ -19,6 +19,7 @@ var theCallSidUrl = "";
 // Using the Client SDK calls and objects.
 
 Twilio.Device.ready(function (device) {
+    // Docs: https://www.twilio.com/docs/voice/client/javascript/device
     $("div.msgTokenPassword").html("Token refreshed");
     $("div.callMessages").html("Ready to make and receive calls.");
     logger("Ready to make and receive calls.");
@@ -118,6 +119,10 @@ function reject() {
     $("div.msgTokenPassword").html("");
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
+}
+function reset() {
+    logger("Reset device.");
+    Twilio.Device.destroy();
 }
 
 function call() {
