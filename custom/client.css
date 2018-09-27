@@ -59,7 +59,7 @@ h1 {
 #chatBox
 {
     margin-top: 6px;
-    height: 300px;
+    height: 260px;
     width: 624px;
     border: solid #954C08;
     margin-left: 15px;
@@ -128,6 +128,7 @@ button#btn-online,
 button#btn-offline,
 button#btn-acceptTR,
 button#btn-rejectTR,
+button#btn-trHangup,
 button#clearLog {
     width: 90px;
     height: 40px;
@@ -157,6 +158,8 @@ button#btn-acceptTR:hover,
 button#btn-acceptTR:focus,
 button#btn-rejectTR:hover,
 button#btn-rejectTR:focus,
+button#btn-trHangup:hover,
+button#btn-trHangup:focus,
 button#clearLog:hover,
 button#clearLog:focus {
     background-color: #B76418;  /* hover background color */
@@ -176,6 +179,7 @@ button#btn-online:active,
 button#btn-offline:active,
 button#btn-acceptTR:active,
 button#btn-rejectTR:active,
+button#btn-trHangup:active,
 button#clearLog.active {
     background-color: gray;
     border-color: #2a65a0;
@@ -190,6 +194,7 @@ button#btn-online:disabled,
 button#btn-offline:disabled,
 button#btn-acceptTR:disabled,
 button#btn-rejectTR:disabled,
+button#btn-trHangup:disabled,
 button#btn-hangup:disabled {
     width: 90px;
     height: 40px;

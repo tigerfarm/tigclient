@@ -6,6 +6,10 @@ let worker;
 let ReservationObject;
 var trTokenValid = false;
 
+// Workspace activity SIDs:
+var ActivitySid_Idle = "WA8cdaee07d1554465405fcd1dda2dcf56";
+var ActivitySid_Offline = "WA0ab3bfa9b0954df4aeca47cd5051799d";
+
 // -----------------------------------------------------------------
 // let worker = new Twilio.TaskRouter.Worker("<?= $workerToken ?>");
 function registerTaskRouterCallbacks() {
@@ -28,19 +32,31 @@ function registerTaskRouterCallbacks() {
         setTrButtons(worker.activityName);
     });
     // -----------------------------------------------------------------
+    worker.on('reservation.created', function (reservation) {
+        logger("---------");
+        logger("reservation.created: You are reserved to handle a call from: " + reservation.task.attributes.from);
+        if (reservation.task.attributes.selected_language) {
+            logger("Caller selected language: " + reservation.task.attributes.selected_language);
+        }
+        logger("Customer request, task.attributes.selected_product: " + reservation.task.attributes.selected_product);
+        logger("Reservation SID: " + reservation.sid);
+        setTrButtons("Incoming Reservation");
+        ReservationObject = reservation;
+    });
     worker.on('reservation.accepted', function (reservation) {
         logger("Reservation " + reservation.sid + " accepted.");
         logger("---------");
         ReservationObject = reservation;
+        $('#btn-trHangup').prop('disabled', false);
     });
     worker.on('reservation.rejected', function (reservation) {
         logger("Reservation " + reservation.sid + " rejected.");
     });
     worker.on('reservation.timeout', function (reservation) {
-        logger("Reservation " + reservation.sid + " timed out.");
+        logger("Reservation timed out: " + reservation.sid);
     });
     worker.on('reservation.canceled', function (reservation) {
-        logger("Reservation " + reservation.sid + " canceled.");
+        logger("Reservation canceled: " + reservation.sid);
     });
     // -----------------------------------------------------------------
 }
@@ -48,7 +64,7 @@ function registerTaskRouterCallbacks() {
 // -----------------------------------------------------------------
 function goAvailable() {
     logger("goAvailable(): update worker's activity to: Idle.");
-    worker.update("ActivitySid", "WA8cdaee07d1554465405fcd1dda2dcf56", function (error, worker) {
+    worker.update("ActivitySid", ActivitySid_Idle, function (error, worker) {
         if (error) {
             logger("--- goAvailable, Error:");
             logger(error.code);
@@ -59,13 +75,40 @@ function goAvailable() {
 }
 function goOffline() {
     logger("goOffline(): update worker's activity to: Offline.");
-    worker.update("ActivitySid", "WA0ab3bfa9b0954df4aeca47cd5051799d", function (error, worker) {
+    worker.update("ActivitySid", ActivitySid_Offline, function (error, worker) {
         if (error) {
             logger("--- goOffline, Error:");
             logger(error.code);
             logger(error.message);
         }
     });
+}
+function trHangup() {
+    logger("trHangup(), set ReservationObject.task.complete().");
+    ReservationObject.task.complete();
+    // To totally shutdown the call:
+    // $.post("/hangup", {
+    //    participant: ReservationObject.task.attributes.conference.participants.customer,
+    //    conference: ReservationObject.task.attributes.conference.sid
+    //});
+    // /hangup :
+    //    participant = client.conferences(request.values.get('conference')).update(status="completed")
+    //    resp = VoiceResponse
+    //    return Response(str(resp), mimetype='text/xml')
+    worker.update("ActivitySid", ActivitySid_Offline, function (error, worker) {
+        logger("Worker: " + worker.friendlyName + ", has ended the call.");
+        logger("Device: disconnect.");
+        Twilio.Device.disconnectAll();
+        if (error) {
+            logger("--- trHangup, Error:");
+            logger(error.code);
+            logger(error.message);
+        } else {
+            logger(worker.activityName);
+        }
+        logger("---------");
+    });
+    logger("---------");
 }
 // -----------------------------------------------------------------
 function rejectReservation() {
@@ -79,12 +122,14 @@ function acceptReservation() {
     // To record calls, set: "Record": "true", and enable Agent Conference:
     //     https://www.twilio.com/console/voice/conferences/settings
     //
+    var postActivity = ActivitySid_Offline;
     var options = {
         // "PostWorkActivitySid": "<?= $activity['WrapUp'] ?>",
+        "PostWorkActivitySid": postActivity,
         "Timeout": "20",
         "Record": "false"
     };
-    logger("Record the confernece call: " + options.ConferenceRecord + ", Post Activity: WrapUp");
+    logger("Record the conference call: " + options.Record + ", Post Activity: " + postActivity);
     // https://www.twilio.com/docs/taskrouter/api/reservations
     ReservationObject.conference(null, null, null, null,
             function (error, reservation) {
@@ -97,7 +142,7 @@ function acceptReservation() {
             options
             );
     logger("Conference initiated.");
-    refreshWorkerUI(worker, "In a Call");
+    setTrButtons("In a Call");
 }
 
 // -----------------------------------------------------------------------------
@@ -123,14 +168,14 @@ function trToken() {
     // Since, programs cannot make an Ajax call to a remote resource,
     // Need to do an Ajax call to a local program that goes and gets the token.
     logger("Refresh the TaskRouter token using client id: " + clientId);
-    $("div.callMessages").html("Refreshing token, please wait.");
+    $("div.trMessages").html("Refreshing token, please wait.");
     //
     $.get("generateTrToken.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
         if (theToken === "0") {
-            $("div.callMessages").html("Invalid password.");
+            $("div.trMessages").html("Invalid password.");
             return;
         }
-        // $("div.callMessages").html("TaskRouter token received.");
+        // $("div.trMessages").html("TaskRouter token received.");
         worker = new Twilio.TaskRouter.Worker(theToken);
         registerTaskRouterCallbacks();
         $("div.msgClientid").html("TaskRouter Token id: " + clientId);
@@ -147,32 +192,35 @@ function trToken() {
 // -----------------------------------------------------------------
 function setTrButtons(workerActivity) {
     // logger("setTrButtons, Worker activity: " + workerActivity);
-    $("div.callMessages").html("Current TaskRouter status is: " + workerActivity);
+    $("div.trMessages").html("Current TaskRouter status is: " + workerActivity);
     switch (workerActivity) {
         case "Idle":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', false);
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
+            $('#btn-trHangup').prop('disabled', true);
             break;
         case "Offline":
             $('#btn-online').prop('disabled', false);
             $('#btn-offline').prop('disabled', true);
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
+            $('#btn-trHangup').prop('disabled', true);
             break;
         case "Incoming Reservation":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', true);
             $('#btn-acceptTR').prop('disabled', false);
             $('#btn-rejectTR').prop('disabled', false);
+            $('#btn-trHangup').prop('disabled', true);
             break;
         case "In a Call":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', true);
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
-            // buttons['hangup'] = true;
+            $('#btn-trHangup').prop('disabled', false);
             break;
     }
 }

@@ -154,6 +154,15 @@ function hangup() {
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
     Twilio.Device.disconnectAll();
+    // To totally shutdown the call:
+    // $.post("/hangup", {
+    //    participant: ReservationObject.task.attributes.conference.participants.customer,
+    //    conference: ReservationObject.task.attributes.conference.sid
+    //});
+    // /hangup :
+    //    participant = client.conferences(request.values.get('conference')).update(status="completed")
+    //    resp = VoiceResponse
+    //    return Response(str(resp), mimetype='text/xml')
 }
 
 function sendDigits(aDigit) {

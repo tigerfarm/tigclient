@@ -12,7 +12,7 @@
     </head>
     <body>
         <script type="text/javascript" src="custom/pageTop.js"></script>
-        <div id="chatBox">
+        <div id="chatBox" style="height: 330px">
             <div class="panelTitle">
                 Dashboard
             </div>
@@ -76,16 +76,21 @@
                         <td><button id="btn-reject" onclick="reject();" disabled>Reject Call</button></td>
                         <td><button id="btn-reset" onclick="reset();" style='visibility: hidden;'>Reset Device</button></td>
                     </tr>
+                    <tr>
+                        <td><div style='padding-top: 9px;'>Voice Messages: </div></td>
+                        <td colspan="4"><div class='callMessages' style='padding-top: 9px;'>Need to refresh the token.</div></td>
+                    </tr>
                     <tr style='visibility: visible;'>
                         <td><button id="btn-trtoken" onclick="trToken();" style='visibility: visible;'>TaskRouter Token</button></td>
                         <td><button id="btn-online" onclick="goAvailable();" disabled style='visibility: visible;'>Go Online</button></td>
                         <td><button id="btn-offline" onclick="goOffline();" disabled style='visibility: visible;'>Go Offline</button></td>
                         <td><button id="btn-acceptTR" onclick="acceptReservation();" disabled style='visibility: visible;'>Accept</button></td>
                         <td><button id="btn-rejectTR" onclick="rejectReservation();" disabled style='visibility: visible;'>Reject</button></td>
+                        <td><button id="btn-trHangup" onclick="trHangup();" disabled style='visibility: visible;'>Hangup</button></td>
                     </tr>
                     <tr>
-                        <td><div style='padding-top: 9px;'>Messages: </div></td>
-                        <td colspan="4"><div class='callMessages' style='padding-top: 9px;'>Need to refresh the token.</div></td>
+                        <td><div style='padding-top: 9px;'>TaskRouter: </div></td>
+                        <td colspan="4"><div class='trMessages' style='padding-top: 9px;'>Need to refresh the token.</div></td>
                     </tr>
                 </table>
             </div>
