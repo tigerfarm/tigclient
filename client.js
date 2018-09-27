@@ -275,10 +275,18 @@ function clearLog() {
     log.value = "+ Ready";
 }
 window.onload = function () {
+    //
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
+    //
+    $('#btn-join').prop('disabled', true);
+    $('#btn-online').prop('disabled', true);
+    $('#btn-offline').prop('disabled', true);
+    $('#btn-acceptTR').prop('disabled', true);
+    $('#btn-rejectTR').prop('disabled', true);
+    //
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     // setClientId();
