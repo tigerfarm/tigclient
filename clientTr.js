@@ -19,7 +19,9 @@ function registerTaskRouterCallbacks() {
             logger("Languages: " + worker.attributes.languages.join(', '));
         }
         logger("Current activity is: " + worker.activityName);
+        logger("---------");
         setTrButtons(worker.activityName);
+        $('#btn-trtoken').prop('disabled', true);
     });
     worker.on('activity.update', function (worker) {
         logger("Worker activity updated to: " + worker.activityName);
@@ -54,7 +56,6 @@ function goAvailable() {
         }
         ReservationObject.task.complete();
     });
-    logger("---------");
 }
 function goOffline() {
     logger("goOffline(): update worker's activity to: Offline.");
@@ -68,7 +69,7 @@ function goOffline() {
 }
 // -----------------------------------------------------------------
 function rejectReservation() {
-    logger("rejectReservation().");
+    logger("rejectReservation(): reject the reservation.");
     ReservationObject.reject();
 }
 function acceptReservation() {
@@ -100,8 +101,7 @@ function acceptReservation() {
 }
 
 // -----------------------------------------------------------------------------
-// Getting the TaskRouter Worker token.
-
+// Get a TaskRouter Worker token.
 function trToken() {
     if (trTokenValid) {
         $("div.msgTokenPassword").html("TaskRouter token already valid.");
@@ -146,15 +146,9 @@ function trToken() {
 
 // -----------------------------------------------------------------
 function setTrButtons(workerActivity) {
-    logger("setTrButtons, Worker activity: " + workerActivity);
+    // logger("setTrButtons, Worker activity: " + workerActivity);
     $("div.callMessages").html("Current TaskRouter status is: " + workerActivity);
     switch (workerActivity) {
-        case "none":
-            $('#btn-online').prop('disabled', false);
-            $('#btn-offline').prop('disabled', false);
-            $('#btn-acceptTR').prop('disabled', true);
-            $('#btn-rejectTR').prop('disabled', true);
-            break;
         case "Idle":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', false);
@@ -179,12 +173,6 @@ function setTrButtons(workerActivity) {
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
             // buttons['hangup'] = true;
-            break;
-        case "WrapUp":
-            $('#btn-online').prop('disabled', false);
-            $('#btn-offline').prop('disabled', false);
-            $('#btn-acceptTR').prop('disabled', true);
-            $('#btn-rejectTR').prop('disabled', true);
             break;
     }
 }
