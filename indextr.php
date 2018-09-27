@@ -1,13 +1,126 @@
+<?php
+// Load Twilio PHP Helper Library.
+// require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
+require __DIR__ . '/../twilio-php-master/Twilio/autoload.php';
+
+use Twilio\Rest\Client;
+use Twilio\Jwt\TaskRouter\WorkerCapability;
+
+// -------------------------------------------------------
+$account_sid = getenv("ACCOUNT_SID");
+$auth_token = getenv('AUTH_TOKEN');
+$client = new Client($account_sid, $auth_token);
+// -------------------------------------------------------
+$workspace_sid = getenv("WORKSPACE_SID");
+$activities = $client->taskrouter->v1->workspaces($workspace_sid)->activities->read();
+$activity = [];
+foreach ($activities as $record) {
+    $activity[$record->friendlyName] = $record->sid;
+    $activityName[$record->sid] = $record->friendlyName;
+}
+// -------------------------------------------------------
+$workerSid = 'WK10ec1823ae8a54d715ba424599ea473f';   // For worker: David
+$capability = new WorkerCapability($account_sid, $auth_token, $workspace_sid, $workerSid);
+$capability->allowFetchSubresources();
+$capability->allowActivityUpdates();
+$capability->allowReservationUpdates();
+$workerToken = $capability->generateToken(28800);  // Expire: 60 * 60 * 8
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Tiger Voice</title>
         <link href="custom/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <!-- script src="https://media.twiliocdn.com/sdk/js/client/v1.4/twilio.min.js"></script -->
         <script src="https://media.twiliocdn.com/sdk/js/client/releases/1.5.1/twilio.min.js"></script>
         <script src="client.js"></script>
+        <!-- script src="clientTr.js"></script -->
         <link rel="stylesheet" href="custom/client.css">
+        <script type="text/javascript">
+            // -----------------------------------------------------------------
+            // TaskRouter JS code
+            // -----------------------------------------------------------------
+            //
+            let ReservationObject;
+            // -----------------------------------------------------------------
+            let worker = new Twilio.TaskRouter.Worker("<?= $workerToken ?>");
+            setTrButtons(worker);
+            worker.on('ready', function (worker) {
+                logger("Successfully registered as: " + worker.friendlyName + ".");
+                if (worker.attributes.skills) {
+                    logger("Skills: " + worker.attributes.skills.join(', '));
+                }
+                if (worker.attributes.languages) {
+                    logger("Languages: " + worker.attributes.languages.join(', '));
+                }
+                logger("Current activity is: " + worker.activityName);
+                setTrButtons(worker);
+            });
+            worker.on('activity.update', function (worker) {
+                // let activityName = worker.activityName;
+                // logger("Worker activity updated to: " + activityName);
+                setTrButtons(worker);
+            });
+            // -----------------------------------------------------------------
+            function setTrButtons(worker) {
+                let activityName = activityOverride || worker.activityName;
+                logger("Worker activity: " + activityName);
+                switch (activityName) {
+                    case "Idle":
+                        $('#btn-online').prop('disabled', true);
+                        $('#btn-offline').prop('disabled', false);
+                        $('#btn-acceptTR').prop('disabled', true);
+                        $('#btn-rejectTR').prop('disabled', true);
+                        break;
+                    case "Offline":
+                        $('#btn-online').prop('disabled', false);
+                        $('#btn-offline').prop('disabled', true);
+                        $('#btn-acceptTR').prop('disabled', true);
+                        $('#btn-rejectTR').prop('disabled', true);
+                        break;
+                    case "Incoming Reservation":
+                        $('#btn-online').prop('disabled', true);
+                        $('#btn-offline').prop('disabled', true);
+                        $('#btn-acceptTR').prop('disabled', false);
+                        $('#btn-rejectTR').prop('disabled', false);
+                        break;
+                    case "In a Call":
+                        $('#btn-online').prop('disabled', true);
+                        $('#btn-offline').prop('disabled', true);
+                        $('#btn-acceptTR').prop('disabled', true);
+                        $('#btn-rejectTR').prop('disabled', true);
+                        // buttons['hangup'] = true;
+                        break;
+                    case "WrapUp":
+                        $('#btn-online').prop('disabled', false);
+                        $('#btn-offline').prop('disabled', false);
+                        $('#btn-acceptTR').prop('disabled', true);
+                        $('#btn-rejectTR').prop('disabled', true);
+                        break;
+            }
+            }
+            // -----------------------------------------------------------------
+            function goAvailable() {
+                logger("goAvailable(): update worker's activity to: Idle.");
+                worker.update("ActivitySid", "<?= $activity['Idle'] ?>", function (error, worker) {
+                    if (error) {
+                        console.log(error.code);
+                        console.log(error.message);
+                    }
+                    ReservationObject.task.complete();
+                });
+                logger("---------");
+            }
+            function goOffline() {
+                logger("goOffline(): update worker's activity to: Offline.");
+                worker.update("ActivitySid", "<?= $activity['Offline'] ?>", function (error, worker) {
+                    if (error) {
+                        console.log(error.code);
+                        console.log(error.message);
+                    }
+                });
+            }
+        </script>
     </head>
     <body>
         <script type="text/javascript" src="custom/pageTop.js"></script>
@@ -76,11 +189,11 @@
                         <!-- td><button id="btn-reset" onclick="reset();"  style='visibility: visible;'>Reset Device</button></td -->
                     </tr>
                     <tr style='visibility: visible;'>
-                        <td><button id="btn-join" onclick="join();" disabled>Join</button></td>
-                        <td><button id="btn-online" onclick="goAvailable();" disabled style='visibility: hidden;'>Go Online</button></td>
-                        <td><button id="btn-offline" onclick="goOffline();" disabled style='visibility: hidden;'>Go Offline</button></td>
-                        <td><button id="btn-acceptTR" onclick="acceptReservation();" disabled style='visibility: hidden;'>Accept</button></td>
-                        <td><button id="btn-rejectTR" onclick="rejectReservation();" disabled style='visibility: hidden;'>Reject</button></td>
+                        <td><button id="btn-join" onclick="join();" disabled style='visibility: hidden;'>Join</button></td>
+                        <td><button id="btn-online" onclick="goAvailable();" disabled style='visibility: visible;'>Go Online</button></td>
+                        <td><button id="btn-offline" onclick="goOffline();" disabled style='visibility: visible;'>Go Offline</button></td>
+                        <td><button id="btn-acceptTR" onclick="acceptReservation();" disabled style='visibility: visible;'>Accept</button></td>
+                        <td><button id="btn-rejectTR" onclick="rejectReservation();" disabled style='visibility: visible;'>Reject</button></td>
                     </tr>
                     <tr>
                         <td><div style='padding-top: 9px;'>Messages: </div></td>
