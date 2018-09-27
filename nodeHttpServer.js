@@ -24,6 +24,27 @@ http.createServer(function (request, response) {
         console.log("+ request.url: " + request.url + ", URI: " + uri);
 
         // ---------------------------------------------------------------------
+        if (uri === "/generateTrToken.php") {
+            // /generateTrToken?clientid=me&tokenPassword=yes
+            var query = require('url').parse(request.url, true).query;
+            // console.log("+ generateTrToken, clientid=" + query.clientid + ' tokenPassword:' + query.tokenPassword);
+            const exec = require('child_process').exec;
+            const theProgramName = uri;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.clientid + " " + query.tokenPassword;
+            exec(theProgram, (error, stdout, stderr) => {
+                theResponse = `${stdout}`;
+                console.log('+ theResponse: ' + theResponse);
+                // console.log(`${stderr}`);
+                if (error !== null) {
+                    console.log(`exec error: ${error}`);
+                }
+                response.writeHead(200);
+                response.write(theResponse, "binary");
+                response.end();
+            });
+            return;
+        }
+        // ---------------------------------------------------------------------
         if (uri === "/clientTokenGet.php") {
             console.log("++ Get Client token.");
             // request.url: /clientTokenGet.php?clientid=owluser
