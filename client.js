@@ -14,6 +14,7 @@ var theCaller = "";
 var theCallTo = "";
 var theCallSid = "";
 var theCallSidUrl = "";
+var theConference = "";
 
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
@@ -43,6 +44,9 @@ Twilio.Device.connect(function (conn) {
     $("div.callMessages").html("Call connected with: " + theCallerMsg);
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
+    if (theCallType === "conference") {
+        $('#btn-endconf').prop('disabled', false);
+    }
 });
 Twilio.Device.disconnect(function (conn) {
     logger("Call ended.");
@@ -54,6 +58,7 @@ Twilio.Device.disconnect(function (conn) {
     $("div.callMessages").html(theCallerMsg + "Ready to make and receive calls.");
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
+    $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
 });
@@ -78,6 +83,7 @@ Twilio.Device.error(function (error) {
         $("div.msgClientid").html("");
         $('#btn-call').prop('disabled', true);
         $('#btn-hangup').prop('disabled', true);
+        $('#btn-endconf').prop('disabled', true);
         tokenValid = false;
         return;
     }
@@ -98,9 +104,9 @@ Twilio.Device.incoming(function (conn) {
     $('#btn-accept').prop('disabled', false);
     $('#btn-reject').prop('disabled', false);
     /* Not used. It runs after: reject().
-    theConnection.on('reject', function () {
-        logger("theConnection.on('reject'");
-    }); */
+     theConnection.on('reject', function () {
+     logger("theConnection.on('reject'");
+     }); */
 });
 function accept() {
     logger("Accepted call.");
@@ -109,6 +115,7 @@ function accept() {
     $("div.msgTokenPassword").html("");
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
+    $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
 }
@@ -128,8 +135,8 @@ function reset() {
 function call() {
     // clearMessages();
     $("div.msgCallTo").html("");
-    theCallTo = $("#callTo").val();
-    if (theCallTo === "") {
+    callToValue = $("#callTo").val();
+    if (callToValue === "") {
         $("div.msgCallTo").html("<b>Required</b>");
         logger("- Required: Call to.");
         return;
@@ -141,20 +148,39 @@ function call() {
     }
     theCallType = $('#callType :selected').val();
     if (theCallType !== "pstn") {
-        theCallTo = theCallType + ":" + theCallTo
+        theCallTo = theCallType + ":" + callToValue
     }
     theCaller = "";
     logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo);
     params = {"To": theCallTo, "From": "client:" + clientId};
     $("div.callMessages").html("Calling: " + theCallTo);
     Twilio.Device.connect(params);
+    if (theCallType === "conference") {
+        theConference = callToValue;
+        logger("+ theConference: " + theConference);
+    }
 }
 function hangup() {
     logger("Hangup.");
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
+    $('#btn-endconf').prop('disabled', true);
     Twilio.Device.disconnectAll();
-    // To totally shutdown the call:
+}
+function endConference() {
+    $("div.callMessages").html("Please wait, ending conference.");
+    logger("End Conference.");
+    $.get("conferenceEndFn.php?name=" + theConference, function (theResponse) {
+        logger("Response: " + theResponse);
+        theConference = "";
+        $('#btn-call').prop('disabled', false);
+        $('#btn-hangup').prop('disabled', true);
+        $('#btn-endconf').prop('disabled', true);
+    }).fail(function () {
+        logger("- Error ending conference.");
+        return;
+    });
+    // If not using call transfer/escalations, totally shutdown the conference call:
     // $.post("/hangup", {
     //    participant: ReservationObject.task.attributes.conference.participants.customer,
     //    conference: ReservationObject.task.attributes.conference.sid
@@ -287,6 +313,7 @@ window.onload = function () {
     //
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', true);
+    $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
     //

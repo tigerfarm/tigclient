@@ -48,6 +48,7 @@ function registerTaskRouterCallbacks() {
         logger("---------");
         ReservationObject = reservation;
         $('#btn-trHangup').prop('disabled', false);
+        $('#btn-hangup').prop('disabled', true);
     });
     worker.on('reservation.rejected', function (reservation) {
         logger("Reservation " + reservation.sid + " rejected.");
@@ -86,19 +87,9 @@ function goOffline() {
 function trHangup() {
     logger("trHangup(), set ReservationObject.task.complete().");
     ReservationObject.task.complete();
-    // To totally shutdown the call:
-    // $.post("/hangup", {
-    //    participant: ReservationObject.task.attributes.conference.participants.customer,
-    //    conference: ReservationObject.task.attributes.conference.sid
-    //});
-    // /hangup :
-    //    participant = client.conferences(request.values.get('conference')).update(status="completed")
-    //    resp = VoiceResponse
-    //    return Response(str(resp), mimetype='text/xml')
     worker.update("ActivitySid", ActivitySid_Offline, function (error, worker) {
-        logger("Worker: " + worker.friendlyName + ", has ended the call.");
-        logger("Device: disconnect.");
-        Twilio.Device.disconnectAll();
+        logger("Worker ended the call: " + worker.friendlyName);
+        hangup();   // Call client hangup to take care of: Twilio.Device.disconnectAll();
         if (error) {
             logger("--- trHangup, Error:");
             logger(error.code);
@@ -117,20 +108,20 @@ function rejectReservation() {
 }
 function acceptReservation() {
     logger("acceptReservation(): start a conference call, and connect caller and agent.");
-    // https://www.twilio.com/docs/taskrouter/js-sdk/worker#reservation-conference
     // 
-    // To record calls, set: "Record": "true", and enable Agent Conference:
+    // Agent Conference call options:
     //     https://www.twilio.com/console/voice/conferences/settings
-    //
-    var postActivity = ActivitySid_Offline;
     var options = {
-        // "PostWorkActivitySid": "<?= $activity['WrapUp'] ?>",
-        "PostWorkActivitySid": postActivity,
+        "PostWorkActivitySid": ActivitySid_Offline,
         "Timeout": "20",
         "Record": "false"
     };
-    logger("Record the conference call: " + options.Record + ", Post Activity: " + postActivity);
+    logger("Conference call attribute, Record: " + options.Record);
+    logger("Conference call attribute, Timeout: " + options.Timeout);
+    logger("TaskRouter post activity SID: " + options.PostWorkActivitySid);
+    //
     // https://www.twilio.com/docs/taskrouter/api/reservations
+    // https://www.twilio.com/docs/taskrouter/js-sdk/worker#reservation-conference
     ReservationObject.conference(null, null, null, null,
             function (error, reservation) {
                 if (error) {

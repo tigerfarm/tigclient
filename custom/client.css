@@ -71,7 +71,7 @@ h1 {
 #chatMessages
 {
     height: 206px; 
-    width: 600px;
+    width: 630px;
     margin: 3px;
     padding: 3px;
 }
@@ -129,6 +129,7 @@ button#btn-offline,
 button#btn-acceptTR,
 button#btn-rejectTR,
 button#btn-trHangup,
+button#btn-endconf,
 button#clearLog {
     width: 90px;
     height: 40px;
@@ -160,6 +161,8 @@ button#btn-rejectTR:hover,
 button#btn-rejectTR:focus,
 button#btn-trHangup:hover,
 button#btn-trHangup:focus,
+button#btn-endconf:hover,
+button#btn-endconf:focus,
 button#clearLog:hover,
 button#clearLog:focus {
     background-color: #B76418;  /* hover background color */
@@ -180,6 +183,7 @@ button#btn-offline:active,
 button#btn-acceptTR:active,
 button#btn-rejectTR:active,
 button#btn-trHangup:active,
+button#btn-endconf:active,
 button#clearLog.active {
     background-color: gray;
     border-color: #2a65a0;
@@ -195,6 +199,7 @@ button#btn-offline:disabled,
 button#btn-acceptTR:disabled,
 button#btn-rejectTR:disabled,
 button#btn-trHangup:disabled,
+button#btn-endconf:disabled,
 button#btn-hangup:disabled {
     width: 90px;
     height: 40px;
