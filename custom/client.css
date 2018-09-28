@@ -190,6 +190,7 @@ button#clearLog.active {
     border-bottom-color: #3884CF;
 }
 
+button#btn-refresh:disabled,
 button#btn-accept:disabled,
 button#btn-reject:disabled,
 button#btn-call:disabled,
