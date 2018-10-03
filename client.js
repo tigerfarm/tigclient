@@ -156,7 +156,7 @@ function call() {
         theCallTo = theCallType + ":" + callToValue
     }
     theCaller = "";
-    logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo + " Call Type: " + theCallType);
+    logger("++ Make an outgoing call from: " + clientId + ", To: " + theCallTo + ", Call Type: " + theCallType);
     params = {"To": theCallTo, "From": "client:" + clientId};
     $("div.callMessages").html("Calling: " + theCallTo);
     Twilio.Device.connect(params);
