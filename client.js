@@ -151,11 +151,12 @@ function call() {
         return;
     }
     theCallType = $('#callType :selected').val();
+    theCallTo = callToValue;
     if (theCallType !== "pstn") {
         theCallTo = theCallType + ":" + callToValue
     }
     theCaller = "";
-    logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo);
+    logger("++ Make an outgoing call from: " + clientId + " To: " + theCallTo + " Call Type: " + theCallType);
     params = {"To": theCallTo, "From": "client:" + clientId};
     $("div.callMessages").html("Calling: " + theCallTo);
     Twilio.Device.connect(params);
