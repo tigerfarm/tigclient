@@ -46,6 +46,7 @@ Twilio.Device.connect(function (conn) {
     $("div.callMessages").html("Call connected with: " + theCallerMsg);
     $('#btn-call').prop('disabled', true);
     $('#btn-hangup').prop('disabled', false);
+    logger("+ theCallType: " + theCallType);
     if (theCallType === "conference") {
         $('#btn-endconf').prop('disabled', false);
     }
