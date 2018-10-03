@@ -40,7 +40,8 @@ function workerInfo(workerSid) {
                 if (theActivity === "") {
                     theActivity = worker.activitySid;
                 }
-                console.log("+ " + worker.friendlyName
+                console.log("+ " + worker.sid
+                        + " : " + worker.friendlyName
                         + " : " + theActivity
                         );
             });
