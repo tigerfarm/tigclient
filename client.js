@@ -15,6 +15,7 @@ var theCallTo = "";
 var theCallSid = "";
 var theCallSidUrl = "";
 var theConference = "";
+var theCallType = "";
 
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
