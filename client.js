@@ -321,8 +321,6 @@ window.onload = function () {
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
     //
-    $('#btn-join').prop('disabled', false);
-    //
     $('#btn-online').prop('disabled', true);
     $('#btn-offline').prop('disabled', true);
     $('#btn-acceptTR').prop('disabled', true);

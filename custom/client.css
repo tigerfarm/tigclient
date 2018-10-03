@@ -116,6 +116,37 @@ select option {
     padding: 3px;
 }
 
+.abutton {
+    width: 90px;
+    height: 40px;
+    border-radius: 9px;
+    color: white;
+    background-color: #954C08;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 0.7em; 
+}
+.abutton:hover,
+.abutton:focus {
+    background-color: #B76418;  /* hover background color */
+    color: #fff;                /* hover text */
+    border-color: #954C08;      /* top hover border */
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+}
+.abutton.active {
+    background-color: gray;
+    border-color: #2a65a0;
+    border-bottom-color: #3884CF;
+}
+.abutton:disabled {
+    width: 90px;
+    height: 40px;
+    border-radius: 9px;
+    color: white;
+    background-color: #cccccc;
+    font: Helvetica,Arial,sans-serif;
+    font-size: 0.7em; 
+}
 /* Default */
 button#btn-call,
 button#btn-hangup,
@@ -123,13 +154,6 @@ button#btn-refresh,
 button#btn-delete,
 button#btn-accept,
 button#btn-reject,
-button#btn-trtoken,
-button#btn-online,
-button#btn-offline,
-button#btn-acceptTR,
-button#btn-rejectTR,
-button#btn-trHangup,
-button#btn-endconf,
 button#clearLog {
     width: 90px;
     height: 40px;
@@ -149,20 +173,6 @@ button#btn-accept:hover,
 button#btn-accept:focus,
 button#btn-reject:hover,
 button#btn-reject:focus,
-button#btn-trtoken:focus,
-button#btn-trtoken:hover,
-button#btn-online:hover,
-button#btn-online:focus,
-button#btn-offline:hover,
-button#btn-offline:focus,
-button#btn-acceptTR:hover,
-button#btn-acceptTR:focus,
-button#btn-rejectTR:hover,
-button#btn-rejectTR:focus,
-button#btn-trHangup:hover,
-button#btn-trHangup:focus,
-button#btn-endconf:hover,
-button#btn-endconf:focus,
 button#clearLog:hover,
 button#clearLog:focus {
     background-color: #B76418;  /* hover background color */
@@ -177,13 +187,6 @@ button#btn-hangup:active,
 button#btn-refresh:active,
 button#btn-accept:active,
 button#btn-reject:active,
-button#btn-trtoken:active,
-button#btn-online:active,
-button#btn-offline:active,
-button#btn-acceptTR:active,
-button#btn-rejectTR:active,
-button#btn-trHangup:active,
-button#btn-endconf:active,
 button#clearLog.active {
     background-color: gray;
     border-color: #2a65a0;
@@ -194,13 +197,6 @@ button#btn-refresh:disabled,
 button#btn-accept:disabled,
 button#btn-reject:disabled,
 button#btn-call:disabled,
-button#btn-trtoken:disabled,
-button#btn-online:disabled,
-button#btn-offline:disabled,
-button#btn-acceptTR:disabled,
-button#btn-rejectTR:disabled,
-button#btn-trHangup:disabled,
-button#btn-endconf:disabled,
 button#btn-hangup:disabled {
     width: 90px;
     height: 40px;

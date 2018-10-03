@@ -7,6 +7,7 @@ let ReservationObject;
 var trTokenValid = false;
 
 // Workspace activity SIDs:
+// To do: use getTrActivities.php to get these values:
 var ActivitySid_Idle = "WA8cdaee07d1554465405fcd1dda2dcf56";
 var ActivitySid_Offline = "WA0ab3bfa9b0954df4aeca47cd5051799d";
 

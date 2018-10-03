@@ -19,7 +19,9 @@ $account_sid = getenv("ACCOUNT_SID");
 $auth_token = getenv('AUTH_TOKEN');
 $workspace_sid = getenv("WORKSPACE_SID");
 // -------------------------------------------------------
+// To do: get the worker SID based on a worker's freindly name paramter.
 $workerSid = 'WK1497b31f767af9d75d0955e6ed1420b3';   // For worker: david
+//
 $capability = new WorkerCapability($account_sid, $auth_token, $workspace_sid, $workerSid);
 $capability->allowFetchSubresources();
 $capability->allowActivityUpdates();
