@@ -329,6 +329,7 @@ window.onload = function () {
     //
     var log = document.getElementById('log');
     log.value = "+++ Start.";
+    theCallType = "";
     // setClientId();
 };
 
