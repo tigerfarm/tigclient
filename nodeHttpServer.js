@@ -80,10 +80,10 @@ http.createServer(function (request, response) {
         if (uri === "/conferenceEndFn.php") {
             // /conferenceEnd?name=thename
             var query = require('url').parse(request.url, true).query;
-            console.log("+ conferenceEndFn, name=" + query.name);
+            console.log("+ conferenceEndFn, conferenceName=" + query.conferenceName);
             const exec = require('child_process').exec;
             const theProgramName = uri;
-            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.name;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.conferenceName;
             exec(theProgram, (error, stdout, stderr) => {
                 theResponse = `${stdout}`;
                 console.log('+ theResponse: ' + theResponse);

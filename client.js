@@ -172,10 +172,11 @@ function hangup() {
     $('#btn-endconf').prop('disabled', true);
     Twilio.Device.disconnectAll();
 }
+// -----------------------------------------------------------------------------
 function endConference() {
     $("div.callMessages").html("Please wait, ending conference.");
-    logger("End Conference.");
-    $.get("conferenceEndFn.php?name=" + theConference, function (theResponse) {
+    logger("End the conference: " + theConference);
+    $.get("conferenceEndFn.php?conferenceName=" + theConference, function (theResponse) {
         logger("Response: " + theResponse);
         theConference = "";
         $('#btn-call').prop('disabled', false);
@@ -196,6 +197,7 @@ function endConference() {
     //    return Response(str(resp), mimetype='text/xml')
 }
 
+// -----------------------------------------------------------------------------
 function sendDigits(aDigit) {
     // logger("sendDigits: " + aDigit);
     theConnection.sendDigits(aDigit);
