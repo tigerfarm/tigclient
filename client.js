@@ -262,6 +262,7 @@ function refresh() {
     $.get("clientTokenGet.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
         // alert("theToken :" + theToken.trim() + ":");
         // Twilio.Device documentation: https://www.twilio.com/docs/api/client/device-13
+        //                              https://www.twilio.com/docs/voice/client/javascript/device
         // Optional, control sounds:
         //   Twilio.Device.setup(theToken.trim(), { sounds: {
         //      incoming: 'http://tigerfarmpress.com/tech/docs/sound/HAL.mp3',

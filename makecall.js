@@ -38,8 +38,8 @@ exports.handler = function (context, event, callback) {
     console.log("+ Caller id: " + callerId);
     //
     let dialParams = {};
-    dialParams.callerId = callerId
-    dialParams.record = "do-not-record"
+    dialParams.callerId = callerId;
+    dialParams.record = "do-not-record";
     if (callTo.startsWith("sip:")) {
         console.log("+ Make a SIP call.");
         twiml.dial(dialParams).sip(callTo);
