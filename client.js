@@ -82,7 +82,8 @@ Twilio.Device.error(function (error) {
     }
     if (error.message.indexOf("Token Expired") > 0) {
         //  Error: "JWT Token Expired."
-        $("div.msgTokenPassword").html("Token Expired");
+        $("div.msgTokenPassword").html("Voice Token Expired");
+        $("div.callMessages").html("Token Expired");
         $("div.msgClientid").html("");
         $('#btn-refresh').prop('disabled', false);
         $('#btn-call').prop('disabled', true);

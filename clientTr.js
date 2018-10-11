@@ -45,14 +45,15 @@ function registerTaskRouterCallbacks() {
         ReservationObject = reservation;
     });
     worker.on('reservation.accepted', function (reservation) {
-        logger("Reservation " + reservation.sid + " accepted.");
+        logger("Reservation accepted, SID: " + reservation.sid);
         logger("---------");
         ReservationObject = reservation;
-        $('#btn-trHangup').prop('disabled', false);
-        $('#btn-hangup').prop('disabled', true);
+        setTrButtons('reservation.accepted');
+        theConference = ReservationObject.task.attributes.conference.sid;
+        logger("Conference SID: " + theConference);
     });
     worker.on('reservation.rejected', function (reservation) {
-        logger("Reservation " + reservation.sid + " rejected.");
+        logger("Reservation rejected, SID: " + reservation.sid);
     });
     worker.on('reservation.timeout', function (reservation) {
         logger("Reservation timed out: " + reservation.sid);
@@ -71,6 +72,10 @@ function goAvailable() {
             logger("--- goAvailable, Error:");
             logger(error.code);
             logger(error.message);
+            $('#btn-online').prop('disabled', true);
+            $('#btn-offline').prop('disabled', true);
+            $('#btn-trtoken').prop('disabled', false);
+            $("div.msgTokenPassword").html("Refresh TaskRouter token.");
         }
         ReservationObject.task.complete();
     });
@@ -133,7 +138,7 @@ function acceptReservation() {
             },
             options
             );
-    logger("Conference initiated.");
+    ogger("Conference initiated.");
     setTrButtons("In a Call");
 }
 
@@ -206,6 +211,14 @@ function setTrButtons(workerActivity) {
             $('#btn-acceptTR').prop('disabled', false);
             $('#btn-rejectTR').prop('disabled', false);
             $('#btn-trHangup').prop('disabled', true);
+            break;
+        case 'reservation.accepted':
+            $('#btn-online').prop('disabled', true);
+            $('#btn-offline').prop('disabled', true);
+            $('#btn-acceptTR').prop('disabled', true);
+            $('#btn-rejectTR').prop('disabled', true);
+            $('#btn-trHangup').prop('disabled', false);
+            $('#btn-endconf').prop('disabled', false);
             break;
         case "In a Call":
             $('#btn-online').prop('disabled', true);

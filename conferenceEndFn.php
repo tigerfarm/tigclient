@@ -17,7 +17,16 @@ require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Rest\Client;
 
 $twilio = new Client(getenv("ACCOUNT_SID"), getenv('AUTH_TOKEN'));
-echo "++ End Conference: " . $conferenceName . "\xA";
+
+if (strncmp($conferenceName, "CF", 2) === 0) {
+    echo "++ End Conference, SID: " . $conferenceName . "\xA";
+    $conference = $twilio->conferences($conferenceName)
+        ->update(array("status" => "completed"));
+    echo "++ Ended.\xA";
+    return;
+}
+
+echo "++ End Conference, name: " . $conferenceName . "\xA";
 $conferences = $twilio->conferences->read(
         array(
             "friendlyName" => $conferenceName,
