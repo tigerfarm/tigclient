@@ -1,6 +1,5 @@
 <?php
 
-// Load Twilio PHP Helper Library.
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 
 use Twilio\Rest\Client;

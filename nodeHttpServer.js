@@ -98,13 +98,13 @@ http.createServer(function (request, response) {
             return;
         }
         // ---------------------------------------------------------------------
-        if (uri === "/conferenceParticipantId.php") {
-            // /voiceClientCall?From=me&To=you
+        if (uri === "/taskReservationTaskFix.php") {
+            // /taskReservationTaskFix?taskSid=WTxxxxxx
             var query = require('url').parse(request.url, true).query;
-            console.log("+ voiceClientCall, From=" + query.From + " To=" + query.From);
+            console.log("+ taskReservationTaskFix, taskSid=" + query.taskSid);
             const exec = require('child_process').exec;
             const theProgramName = uri;
-            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.From + " " + query.To;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.taskSid;
             exec(theProgram, (error, stdout, stderr) => {
                 theResponse = `${stdout}`;
                 console.log('+ theResponse: ' + theResponse);

@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------
 //
 let worker;
+let taskSid = "";
 let ReservationObject;
 var trTokenValid = false;
 
@@ -30,7 +31,21 @@ function registerTaskRouterCallbacks() {
     });
     worker.on('activity.update', function (worker) {
         logger("Worker activity updated to: " + worker.activityName);
+        logger("taskSid = " + taskSid);
         setTrButtons(worker.activityName);
+        if (taskSid !== "") {
+            // Run taskReservationTaskFix.php
+            logger("Run taskReservationTaskFix.php");
+            $.get("taskReservationTaskFix.php?taskSid=" + taskSid, function (theResponse) {
+                logger("taskReservationTaskFix.php response: " + theResponse);
+
+            })
+                    .fail(function () {
+                        logger("- Error running taskReservationTaskFix.php");
+                        return;
+                    });
+            taskSid = "";
+        }
     });
     // -----------------------------------------------------------------
     worker.on('reservation.created', function (reservation) {
@@ -43,6 +58,8 @@ function registerTaskRouterCallbacks() {
         logger("Reservation SID: " + reservation.sid);
         setTrButtons("Incoming Reservation");
         ReservationObject = reservation;
+        taskSid = reservation.task.sid;
+        logger("reservation.task.sid: " + taskSid);
     });
     worker.on('reservation.accepted', function (reservation) {
         logger("Reservation accepted, SID: " + reservation.sid);
@@ -53,6 +70,7 @@ function registerTaskRouterCallbacks() {
         logger("Conference SID: " + theConference);
     });
     worker.on('reservation.rejected', function (reservation) {
+        taskSid = "";
         logger("Reservation rejected, SID: " + reservation.sid);
     });
     worker.on('reservation.timeout', function (reservation) {
