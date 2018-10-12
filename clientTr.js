@@ -34,11 +34,10 @@ function registerTaskRouterCallbacks() {
         logger("taskSid = " + taskSid);
         setTrButtons(worker.activityName);
         if (taskSid !== "") {
-            // Run taskReservationTaskFix.php
-            logger("Run taskReservationTaskFix.php");
+            // Insure the agent is not hanging in assignment status of wrapping.
+            // logger("Run taskReservationTaskFix.php");
             $.get("taskReservationTaskFix.php?taskSid=" + taskSid, function (theResponse) {
-                logger("taskReservationTaskFix.php response: " + theResponse);
-
+                logger("Task check response: " + theResponse);
             })
                     .fail(function () {
                         logger("- Error running taskReservationTaskFix.php");

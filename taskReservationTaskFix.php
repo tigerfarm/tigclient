@@ -5,7 +5,7 @@ if ($argc === 2) {
 } else {
     $taskSid = $_REQUEST['taskSid'];
 }
-echo "+ taskSid = " . $taskSid . "\xA";
+// echo "+ taskSid = " . $taskSid . "\xA";
 if ($taskSid === null) {
     echo "0";
     return;
