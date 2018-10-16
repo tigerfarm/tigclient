@@ -139,6 +139,12 @@ function reset() {
 
 function call() {
     // clearMessages();
+    callFromNumber = $('#accountNumbers :selected').text();
+    if (callFromNumber === "") {
+        $("div#msgMsgFrom").html("<b>Required</b>");
+        logger("Required: Twilio number to use as a caller id.");
+        return;
+    }
     $("div.msgCallTo").html("");
     callToValue = $("#callTo").val();
     if (callToValue === "") {
@@ -158,7 +164,10 @@ function call() {
     }
     theCaller = "";
     logger("++ Make an outgoing call from: " + clientId + ", To: " + theCallTo + ", Call Type: " + theCallType);
-    params = {"To": theCallTo, "From": "client:" + clientId};
+    //
+    // Parameters that are passed to the Twilio Function: Make a phone call.
+    params = {"To": theCallTo, "From": "client:" + clientId, "FromNumber": callFromNumber};
+    //
     $("div.callMessages").html("Calling: " + theCallTo);
     Twilio.Device.connect(params);
     if (theCallType === "conference") {
@@ -225,14 +234,49 @@ function playSong() {
 // function donothing() {}
 
 // -----------------------------------------------------------------------------
-// .status() : Return the status of this connection. 
-// 
-// theConnection.on('reject', handler)
-// theConnection.on('disconnect', handler)
-// theConnection.on('accept', handler)
-// Example:
-// yes: Twilio.Device.error(function (error) {
-// not: Twilio.Device.on('error', function(error) {
+function setAccNumbers() {
+    logger("+ setAccNumbers");
+    // $('#accountNumbers option:selected').val("+16505551111");
+    var options = $("#accountNumbers");
+    // $.each(data, function() {
+    //   options.append(new Option(this.text, this.value));
+    // });
+    $("div#callMessages").html("+ Please wait, loading phone numbers...");
+    $.get("accountNumberList.php", function (response) {
+        logger(response);
+        if (response.indexOf("Credentials are required") > 0) {
+            $("div#msgMsgFrom").html("Check environment credentials");
+            $("div#callMessages").html("<b>- Error: environment credentials are required.</b>");
+            options.append($("<option />").val("").text("Eror loading"));
+            return;
+        }
+        if (response === "0") {
+            $("div#msgMsgFrom").html("<b>No account phone numbers.</b>");
+            $("div#callMessages").html("<b>- You are required to have at least one account phone numbers.</b>");
+        }
+        arrayNumbers = response.split(":");
+        // options.append($("<option />").val(aNumbers[0]).text(aNumbers[0]));
+        arrayNumbers.forEach(function (aNumbers) {
+            options.append($("<option />").val(aNumbers).text(aNumbers));
+        });
+        $('#accountNumbers option')[0].selected = true; // by default, select the first option.
+        $("div#callMessages").html("+ Account phone numbers loaded.");
+    }).fail(function () {
+        logger("- Get account phone numbers failed.");
+    });
+}
+
+function accNumbers() {
+    clearMessages();
+    logger("Get account phone numbers.");
+    $("div#callMessages").html("<b>Wait, getting account phone numbers...</b>");
+    $.get("accountPhoneNumbers.php", function (response) {
+        logger(response);
+        $("div#callMessages").html("+ Displayed account phone numbers.");
+    }).fail(function () {
+        logger("- Get account phone numbers failed.");
+    });
+}
 
 // -----------------------------------------------------------------------------
 // Getting the access token.
@@ -334,6 +378,7 @@ window.onload = function () {
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     theCallType = "";
+    setAccNumbers();
     // setClientId();
 };
 

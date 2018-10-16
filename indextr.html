@@ -12,17 +12,16 @@
     </head>
     <body>
         <script type="text/javascript" src="custom/pageTop.js"></script>
-        <div id="chatBox" style="height: 380px">
+        <div id="chatBox" style="height: 410px">
             <div class="panelTitle">
                 Dashboard
             </div>
             <div class="panelArea">
                 <table>
                     <tr>
-                        <td>Call to </td><td><input id="callTo" type="text"/></td>
-                        <td>
-                            <div class="msgCallTo" style="width: 210px;"></div>
-                        </td>
+                        <td>Caller id</td>
+                        <td><select id="accountNumbers"></select></td>
+                        <td><div id="msgMsgFrom" style="width: 210px;"></div></td>
                         <td rowspan="3"> 
                             <div style="margin-left: 3px;">
                                 <table>
@@ -50,6 +49,11 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td>Call to </td>
+                        <td><input id="callTo" type="text"/></td>
+                        <td><div class="msgCallTo"></div></td>
+                    </tr>
                     <tr><td>Call to type </td>
                         <td>
                             <select id="callType">
@@ -74,7 +78,8 @@
                         <td><button id="btn-hangup"  onclick="hangup();" disabled>Hangup</button></td>
                         <td><button id="btn-accept"  onclick="accept();" disabled>Accept Call</button></td>
                         <td><button id="btn-reject"  onclick="reject();" disabled>Reject Call</button></td>
-                        <td><button id="btn-reset"   onclick="reset();" style="visibility: hidden;">Reset Device</button></td>
+                        <td><button class="abutton" id="btn-accNumbers" onclick="accNumbers();">Account #s</button></td>
+                        <!-- td><button id="btn-reset"   onclick="reset();" style="visibility: hidden;">Reset Device</button></td -->
                     </tr>
                     <tr>
                         <td><div style="padding-top: 9px;">Conferences:</div></td>
