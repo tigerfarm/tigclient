@@ -20,7 +20,11 @@
                 <table>
                     <tr>
                         <td>Caller id</td>
-                        <td><select id="accountNumbers"></select></td>
+                        <td><select id="accountNumbers"></select>
+                            <span onclick="accNumbers();" class="abutton" style="font-size: 0.8em;padding: 2px 10px 0px 10px;">
+                                list
+                            </span>
+                        </td>
                         <td><div id="msgMsgFrom" style="width: 210px;"></div></td>
                         <td rowspan="3"> 
                             <div style="margin-left: 3px;">
@@ -78,12 +82,11 @@
                         <td><button id="btn-hangup"  onclick="hangup();" disabled>Hangup</button></td>
                         <td><button id="btn-accept"  onclick="accept();" disabled>Accept Call</button></td>
                         <td><button id="btn-reject"  onclick="reject();" disabled>Reject Call</button></td>
-                        <td><button class="abutton" id="btn-accNumbers" onclick="accNumbers();">Account #s</button></td>
-                        <!-- td><button id="btn-reset"   onclick="reset();" style="visibility: hidden;">Reset Device</button></td -->
+                        <td><button id="btn-reset"   onclick="reset();" style="visibility: hidden;">Reset Device</button></td>
                     </tr>
                     <tr>
                         <td><div style="padding-top: 9px;">Conferences:</div></td>
-                        <td><button class="abutton" id="btn-onholdCallers" onclick="onholdCallers();" disabled style="visibility: visible;">Put caller on hold</button></td>
+                        <td><button class="abutton" id="btn-onholdCallers" onclick="onholdCallers();" disabled style="visibility: visible;">Put others on hold</button></td>
                         <td><button class="abutton" id="btn-offholdCallers" onclick="offholdCallers();" disabled style="visibility: visible;">Off hold</button></td>
                         <td><button class="abutton" id="btn-addtoconf" onclick="addToConference();" disabled style="visibility: visible;">Add Call-to</button></td>
                         <td><button class="abutton" id="btn-rmtoconf" onclick="rmToConference();" disabled style="visibility: visible;">Remove Call-to</button></td>
