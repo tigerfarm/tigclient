@@ -17,10 +17,9 @@
             <div class="panelArea">
                 <table>
                     <tr>
-                        <td>Call to </td><td><input id="callTo" type="text"/></td>
-                        <td>
-                            <div class="msgCallTo" style='width: 210px;'></div>
-                        </td>
+                        <td>Caller id</td>
+                        <td><select id="accountNumbers"></select></td>
+                        <td><div id="msgMsgFrom" style="width: 210px;"></div></td>
                         <td rowspan="3"> 
                             <div style='margin-left: 3px;'>
                                 <table>
@@ -47,6 +46,11 @@
                                 </table>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>Call to </td>
+                        <td><input id="callTo" type="text"/></td>
+                        <td><div class="msgCallTo"></div></td>
                     </tr>
                     <tr><td>Call to type </td>
                         <td>
