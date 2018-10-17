@@ -15,6 +15,7 @@ var theCallTo = "";
 var theCallSid = "";
 var theCallSidUrl = "";
 var theConference = "";
+var theConferenceSid = "";
 var theCallType = "";
 
 // -----------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Twilio.Device.connect(function (conn) {
     logger("+ theCallType: " + theCallType);
     if (theCallType === "conference") {
         $('#btn-endconf').prop('disabled', false);
+        $('#btn-onholdCallers').prop('disabled', false);
     }
 });
 Twilio.Device.disconnect(function (conn) {
@@ -64,6 +66,8 @@ Twilio.Device.disconnect(function (conn) {
     $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
+        $('#btn-onholdCallers').prop('disabled', true);
+        $('#btn-offholdCallers').prop('disabled', true);
 });
 Twilio.Device.cancel(function () {
     logger("++ Twilio.Device.cancel");
@@ -180,6 +184,8 @@ function hangup() {
     $('#btn-call').prop('disabled', false);
     $('#btn-hangup').prop('disabled', true);
     $('#btn-endconf').prop('disabled', true);
+    $('#btn-onholdCallers').prop('disabled', true);
+    $('#btn-offholdCallers').prop('disabled', true);
     Twilio.Device.disconnectAll();
 }
 // -----------------------------------------------------------------------------
@@ -192,6 +198,8 @@ function endConference() {
         $('#btn-call').prop('disabled', false);
         $('#btn-hangup').prop('disabled', true);
         $('#btn-endconf').prop('disabled', true);
+        $('#btn-onholdCallers').prop('disabled', true);
+        $('#btn-offholdCallers').prop('disabled', true);
     }).fail(function () {
         logger("- Error ending conference.");
         return;
@@ -205,6 +213,30 @@ function endConference() {
     //    participant = client.conferences(request.values.get('conference')).update(status="completed")
     //    resp = VoiceResponse
     //    return Response(str(resp), mimetype='text/xml')
+}
+function onholdCallers() {
+    $("div.callMessages").html("Putting other callers on hold.");
+    logger("Put others onhold, conference: " + theConference + ", call SID: " + theCallSid);
+    $.get("participantsHoldOn.php?conferenceId=" + theConference + "&callSid=" + theCallSid, function (theResponse) {
+        logger("Response: " + theResponse);
+        $('#btn-onholdCallers').prop('disabled', true);
+        $('#btn-offholdCallers').prop('disabled', false);
+    }).fail(function () {
+        logger("- Error onholdCallers.");
+        return;
+    });
+}
+function offholdCallers() {
+    $("div.callMessages").html("Take other callers off hold.");
+    logger("Take others offhold, conference: " + theConference + ", call SID: " + theCallSid);
+    $.get("participantsHoldOff.php?conferenceId=" + theConference + "&callSid=" + theCallSid, function (theResponse) {
+        logger("Response: " + theResponse);
+        $('#btn-onholdCallers').prop('disabled', false);
+        $('#btn-offholdCallers').prop('disabled', true);
+    }).fail(function () {
+        logger("- Error offholdCallers.");
+        return;
+    });
 }
 
 // -----------------------------------------------------------------------------
@@ -369,6 +401,9 @@ window.onload = function () {
     $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
+    //
+    $('#btn-onholdCallers').prop('disabled', true);
+    $('#btn-offholdCallers').prop('disabled', true);
     //
     $('#btn-online').prop('disabled', true);
     $('#btn-offline').prop('disabled', true);
