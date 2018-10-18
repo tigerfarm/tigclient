@@ -99,7 +99,8 @@ http.createServer(function (request, response) {
         }
         // ---------------------------------------------------------------------
         if (uri === "/participantsHoldOn.php"
-                || uri === "/participantsHoldOff.php") {
+                || uri === "/participantsHoldOff.php"
+                || uri === "/participantRemove.php") {
             var query = require('url').parse(request.url, true).query;
             console.log("+ " + uri + ", conferenceId=" + query.conferenceId + " callSid=" + query.callSid);
             const exec = require('child_process').exec;

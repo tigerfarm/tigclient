@@ -274,7 +274,13 @@ function addToConference() {
 function rmFromConference() {
     $("div.callMessages").html("Remove to call-to from the conference.");
     logger("Remove call-to, conference: " + theConference + " Call SID: " + theCallToCallSid);
+    $.get("participantRemove.php?conferenceId=" + theConference + "&callSid=" + theCallToCallSid, function (theResponse) {
+        logger("Response: " + theResponse);
         $('#btn-rmtoconf').prop('disabled', true);
+    }).fail(function () {
+        logger("- Error rmFromConference.");
+        return;
+    });
 }
 
 // -----------------------------------------------------------------------------
