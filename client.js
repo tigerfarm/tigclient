@@ -1,6 +1,8 @@
 // -----------------------------------------------------------------------------
 // To do:
 // Docs: https://www.twilio.com/docs/voice/client/javascript/connection
+// Twilio.Device documentation: https://www.twilio.com/docs/api/client/device-13
+//                              https://www.twilio.com/docs/voice/client/javascript/device
 // 
 // .mute(bool)  ...  .isMuted()
 // 
@@ -63,15 +65,7 @@ Twilio.Device.disconnect(function (conn) {
         theCallerMsg = "Call ended: " + theCaller + ". ";
     }
     $("div.callMessages").html(theCallerMsg + "Ready to make and receive calls.");
-    $('#btn-call').prop('disabled', false);
-    $('#btn-hangup').prop('disabled', true);
-    $('#btn-endconf').prop('disabled', true);
-    $('#btn-accept').prop('disabled', true);
-    $('#btn-reject').prop('disabled', true);
-    $('#btn-onholdCallers').prop('disabled', true);
-    $('#btn-offholdCallers').prop('disabled', true);
-    $('#btn-addtoconf').prop('disabled', true);
-    $('#btn-rmtoconf').prop('disabled', true);
+    setButtons("Device.disconnect");
 });
 Twilio.Device.cancel(function () {
     logger("++ Twilio.Device.cancel");
@@ -93,10 +87,7 @@ Twilio.Device.error(function (error) {
         $("div.msgTokenPassword").html("Voice Token Expired");
         $("div.callMessages").html("Token Expired");
         $("div.msgClientid").html("");
-        $('#btn-refresh').prop('disabled', false);
-        $('#btn-call').prop('disabled', true);
-        $('#btn-hangup').prop('disabled', true);
-        $('#btn-endconf').prop('disabled', true);
+        setButtons("Token Expired");
         tokenValid = false;
         return;
     }
@@ -112,8 +103,6 @@ Twilio.Device.incoming(function (conn) {
     // Accept the incoming connection and start two-way audio
     // https://www.twilio.com/docs/api/client/connection#incoming-parameters
     theConnection = conn;
-    // conn.accept();
-    // Or conn.reject();
     $('#btn-accept').prop('disabled', false);
     $('#btn-reject').prop('disabled', false);
     /* Not used. It runs after: reject().
@@ -126,11 +115,7 @@ function accept() {
     theConnection.accept();
     $("div.callMessages").html("Accepted: incomming call from: " + theCaller);
     $("div.msgTokenPassword").html("");
-    $('#btn-call').prop('disabled', true);
-    $('#btn-hangup').prop('disabled', false);
-    $('#btn-endconf').prop('disabled', true);
-    $('#btn-accept').prop('disabled', true);
-    $('#btn-reject').prop('disabled', true);
+    setButtons("accept()");
 }
 function reject() {
     logger("Rejected call.");
@@ -185,42 +170,21 @@ function call() {
 }
 function hangup() {
     logger("Hangup.");
-    $('#btn-call').prop('disabled', false);
-    $('#btn-hangup').prop('disabled', true);
-    $('#btn-endconf').prop('disabled', true);
-    $('#btn-onholdCallers').prop('disabled', true);
-    $('#btn-offholdCallers').prop('disabled', true);
-    $('#btn-addtoconf').prop('disabled', true);
-    $('#btn-rmtoconf').prop('disabled', true);
+    setButtons("hangup()");
     Twilio.Device.disconnectAll();
 }
 // -----------------------------------------------------------------------------
 function endConference() {
     $("div.callMessages").html("Please wait, ending conference.");
     logger("End the conference: " + theConference);
+    setButtons("endConference()");
     $.get("conferenceEndFn.php?conferenceName=" + theConference, function (theResponse) {
         logger("Response: " + theResponse);
         theConference = "";
-        $('#btn-call').prop('disabled', false);
-        $('#btn-hangup').prop('disabled', true);
-        $('#btn-endconf').prop('disabled', true);
-        $('#btn-onholdCallers').prop('disabled', true);
-        $('#btn-offholdCallers').prop('disabled', true);
-        $('#btn-addtoconf').prop('disabled', true);
-        $('#btn-rmtoconf').prop('disabled', true);
     }).fail(function () {
         logger("- Error ending conference.");
         return;
     });
-    // If not using call transfer/escalations, totally shutdown the conference call:
-    // $.post("/hangup", {
-    //    participant: ReservationObject.task.attributes.conference.participants.customer,
-    //    conference: ReservationObject.task.attributes.conference.sid
-    //});
-    // /hangup :
-    //    participant = client.conferences(request.values.get('conference')).update(status="completed")
-    //    resp = VoiceResponse
-    //    return Response(str(resp), mimetype='text/xml')
 }
 function onholdCallers() {
     $("div.callMessages").html("Putting other callers on hold.");
@@ -284,20 +248,17 @@ function rmFromConference() {
 }
 
 // -----------------------------------------------------------------------------
-function sendDigits(aDigit) {
-    // logger("sendDigits: " + aDigit);
-    theConnection.sendDigits(aDigit);
-}
-
 // Play a song for amusement.
-function playDigit(aDigit) {
-    logger("playDigit: " + aDigit);
-    theConnection.sendDigits(aDigit);
-}
-// from: http://www.dumb.com/touchtones/
+// Songs from: http://www.dumb.com/touchtones/
+// var theSongName="London Bridge";
 // var theSong=" 9#963692363699#963692931"; // London Bridge
+var theSongName = "Twinkle, Twinkle, Little Star";
 var theSong = " 1199##96633221996633299663321199##96633221"; // Twinkle, Twinkle, Little Star
 var theDigit = 0;
+function doPlaySong() {
+    logger("Play: " + theSongName);
+    playSong();
+}
 function playSong() {
     theDigit++;
     if (theDigit >= theSong.length) {
@@ -306,6 +267,14 @@ function playSong() {
     }
     playDigit(theSong.substring(theDigit, theDigit + 1));
     setTimeout('playSong()', 500);
+}
+function playDigit(aDigit) {
+    logger("playDigit: " + aDigit);
+    theConnection.sendDigits(aDigit);
+}
+function sendDigits(aDigit) {
+    // logger("sendDigits: " + aDigit);
+    theConnection.sendDigits(aDigit);
 }
 // function donothing() {}
 
@@ -382,8 +351,6 @@ function refresh() {
     //
     $.get("clientTokenGet.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
         // alert("theToken :" + theToken.trim() + ":");
-        // Twilio.Device documentation: https://www.twilio.com/docs/api/client/device-13
-        //                              https://www.twilio.com/docs/voice/client/javascript/device
         // Optional, control sounds:
         //   Twilio.Device.setup(theToken.trim(), { sounds: {
         //      incoming: 'http://tigerfarmpress.com/tech/docs/sound/HAL.mp3',
@@ -439,26 +406,71 @@ function clearLog() {
     log.value = "+ Ready";
 }
 window.onload = function () {
-    //
-    $('#btn-call').prop('disabled', true);
-    $('#btn-hangup').prop('disabled', true);
-    $('#btn-endconf').prop('disabled', true);
-    $('#btn-accept').prop('disabled', true);
-    $('#btn-reject').prop('disabled', true);
-    //
-    $('#btn-onholdCallers').prop('disabled', true);
-    $('#btn-offholdCallers').prop('disabled', true);
-    //
-    $('#btn-online').prop('disabled', true);
-    $('#btn-offline').prop('disabled', true);
-    $('#btn-acceptTR').prop('disabled', true);
-    $('#btn-rejectTR').prop('disabled', true);
-    //
+    setButtons("init");
     var log = document.getElementById('log');
     log.value = "+++ Start.";
     theCallType = "";
     setAccNumbers();
     // setClientId();
 };
+
+// -----------------------------------------------------------------
+function setButtons(activity) {
+    logger("setButtons, activity: " + activity);
+    // $("div.callMessages").html("Activity: " + activity);
+    switch (activity) {
+        case "init":
+            $('#btn-call').prop('disabled', true);
+            $('#btn-hangup').prop('disabled', true);
+            $('#btn-endconf').prop('disabled', true);
+            $('#btn-accept').prop('disabled', true);
+            $('#btn-reject').prop('disabled', true);
+            //
+            $('#btn-onholdCallers').prop('disabled', true);
+            $('#btn-offholdCallers').prop('disabled', true);
+            //
+            $('#btn-online').prop('disabled', true);
+            $('#btn-offline').prop('disabled', true);
+            $('#btn-acceptTR').prop('disabled', true);
+            $('#btn-rejectTR').prop('disabled', true);
+            break;
+        case "Device.disconnect":
+            $('#btn-call').prop('disabled', false);
+            $('#btn-hangup').prop('disabled', true);
+            $('#btn-endconf').prop('disabled', true);
+            $('#btn-accept').prop('disabled', true);
+            $('#btn-reject').prop('disabled', true);
+            $('#btn-onholdCallers').prop('disabled', true);
+            $('#btn-offholdCallers').prop('disabled', true);
+            $('#btn-addtoconf').prop('disabled', true);
+            $('#btn-rmtoconf').prop('disabled', true);
+            break;
+        case "hangup()":
+            $('#btn-call').prop('disabled', false);
+            $('#btn-hangup').prop('disabled', true);
+            $('#btn-endconf').prop('disabled', true);
+            $('#btn-onholdCallers').prop('disabled', true);
+            $('#btn-offholdCallers').prop('disabled', true);
+            $('#btn-addtoconf').prop('disabled', true);
+            $('#btn-rmtoconf').prop('disabled', true);
+            break;
+        case "endConference()":
+            $('#btn-endconf').prop('disabled', true);
+            break;
+        case "accept()":
+            $('#btn-call').prop('disabled', true);
+            $('#btn-hangup').prop('disabled', false);
+            $('#btn-endconf').prop('disabled', true);
+            $('#btn-accept').prop('disabled', true);
+            $('#btn-reject').prop('disabled', true);
+            break;
+        case "Token Expired":
+            $('#btn-refresh').prop('disabled', false);
+            $('#btn-call').prop('disabled', true);
+            $('#btn-hangup').prop('disabled', true);
+            $('#btn-endconf').prop('disabled', true);
+            break;
+    }
+}
 
 // -----------------------------------------------------------------------------
