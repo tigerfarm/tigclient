@@ -17,6 +17,7 @@ var theCallSidUrl = "";
 var theConference = "";
 var theConferenceSid = "";
 var theCallType = "";
+var theCallToCallSid = "";
 
 // -----------------------------------------------------------------------------
 // Using the Client SDK calls and objects.
@@ -51,6 +52,7 @@ Twilio.Device.connect(function (conn) {
     if (theCallType === "conference") {
         $('#btn-endconf').prop('disabled', false);
         $('#btn-onholdCallers').prop('disabled', false);
+        $('#btn-addtoconf').prop('disabled', false);
     }
 });
 Twilio.Device.disconnect(function (conn) {
@@ -66,8 +68,10 @@ Twilio.Device.disconnect(function (conn) {
     $('#btn-endconf').prop('disabled', true);
     $('#btn-accept').prop('disabled', true);
     $('#btn-reject').prop('disabled', true);
-        $('#btn-onholdCallers').prop('disabled', true);
-        $('#btn-offholdCallers').prop('disabled', true);
+    $('#btn-onholdCallers').prop('disabled', true);
+    $('#btn-offholdCallers').prop('disabled', true);
+    $('#btn-addtoconf').prop('disabled', true);
+    $('#btn-rmtoconf').prop('disabled', true);
 });
 Twilio.Device.cancel(function () {
     logger("++ Twilio.Device.cancel");
@@ -186,6 +190,8 @@ function hangup() {
     $('#btn-endconf').prop('disabled', true);
     $('#btn-onholdCallers').prop('disabled', true);
     $('#btn-offholdCallers').prop('disabled', true);
+    $('#btn-addtoconf').prop('disabled', true);
+    $('#btn-rmtoconf').prop('disabled', true);
     Twilio.Device.disconnectAll();
 }
 // -----------------------------------------------------------------------------
@@ -200,6 +206,8 @@ function endConference() {
         $('#btn-endconf').prop('disabled', true);
         $('#btn-onholdCallers').prop('disabled', true);
         $('#btn-offholdCallers').prop('disabled', true);
+        $('#btn-addtoconf').prop('disabled', true);
+        $('#btn-rmtoconf').prop('disabled', true);
     }).fail(function () {
         logger("- Error ending conference.");
         return;
@@ -237,6 +245,36 @@ function offholdCallers() {
         logger("- Error offholdCallers.");
         return;
     });
+}
+function addToConference() {
+    callFromNumber = $('#accountNumbers :selected').text();
+    if (callFromNumber === "") {
+        $("div#msgMsgFrom").html("<b>Required</b>");
+        logger("Required: Twilio number to use as a caller id.");
+        return;
+    }
+    $("div.msgCallTo").html("");
+    callToValue = $("#callTo").val();
+    if (callToValue === "") {
+        $("div.msgCallTo").html("<b>Required</b>");
+        logger("- Required: Call to.");
+        return;
+    }
+    $("div.callMessages").html("Add call-to to the conference.");
+    logger("Add call-to, " + callToValue + " conference: " + theConference);
+    $.get("conferenceJoin.php?callFrom=" + callFromNumber + "&callTo=" + callToValue + "&conferenceName=" + theConference, function (theResponse) {
+        theCallToCallSid = theResponse;
+        logger("Response, theToCaller: " + theCallToCallSid);
+        $('#btn-rmtoconf').prop('disabled', false);
+    }).fail(function () {
+        logger("- Error addToConference.");
+        return;
+    });
+}
+function rmFromConference() {
+    $("div.callMessages").html("Remove to call-to from the conference.");
+    logger("Remove call-to, conference: " + theConference + " Call SID: " + theCallToCallSid);
+        $('#btn-rmtoconf').prop('disabled', true);
 }
 
 // -----------------------------------------------------------------------------

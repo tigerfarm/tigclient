@@ -119,6 +119,27 @@ http.createServer(function (request, response) {
             return;
         }
         // ---------------------------------------------------------------------
+        if (uri === "/conferenceJoin.php"
+                || uri === "/conferenceJoinRm.php") {
+            var query = require('url').parse(request.url, true).query;
+            console.log("+ " + uri + ", callFrom=" + query.callFrom + " callTo=" + query.callTo + " conferenceName=" + query.conferenceName);
+            const exec = require('child_process').exec;
+            const theProgramName = uri;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.callFrom + " " + query.callTo+ " " + query.conferenceName;
+            exec(theProgram, (error, stdout, stderr) => {
+                theResponse = `${stdout}`;
+                console.log('+ theResponse: ' + theResponse);
+                // console.log(`${stderr}`);
+                if (error !== null) {
+                    console.log(`exec error: ${error}`);
+                }
+                response.writeHead(200);
+                response.write(theResponse, "binary");
+                response.end();
+            });
+            return;
+        }
+        // ---------------------------------------------------------------------
         if (uri === "/taskReservationTaskFix.php") {
             // /taskReservationTaskFix?taskSid=WTxxxxxx
             var query = require('url').parse(request.url, true).query;
