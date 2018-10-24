@@ -288,7 +288,7 @@ function setAccNumbers() {
     // });
     $("div#callMessages").html("+ Please wait, loading phone numbers...");
     $.get("accountNumberList.php", function (response) {
-        logger(response);
+        logger("+ response :" + response + ":");
         if (response.indexOf("Credentials are required") > 0) {
             $("div#msgMsgFrom").html("Check environment credentials");
             $("div#callMessages").html("<b>- Error: environment credentials are required.</b>");

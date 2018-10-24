@@ -23,12 +23,9 @@ require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 use Twilio\Rest\Client;
 
 $client = new Client(getenv('ACCOUNT_SID'), getenv('AUTH_TOKEN'));
-$result = $client->messages->read();
-// date_default_timezone_set("UTC");
 $i = 0;
 $phArray = "";
 foreach ($client->incomingPhoneNumbers->read() as $number) {
-    // echo "\xA" . $number->dateCreated->format('Y-m-d H:i') . " : " . $number->phoneNumber;
     $phArray[$i++] = $number->phoneNumber;
 }
 if ($i == 0) {
@@ -38,11 +35,11 @@ if ($i == 0) {
 //
 $sNumbers = "";
 $separator = ":";
-$sortedArray = sortArray($phArray); // Note, sort($phArray) didn't work on Heroku.
+// $sortedArray = sortArray($phArray); // Note, sort($phArray) didn't work on Heroku.
+$sortedArray = $phArray;
 $arraylength = count($sortedArray);
 foreach ($sortedArray as $item) {
     $sNumbers = $sNumbers . $item . $separator;
 }
 echo substr($sNumbers,0,strlen($sNumbers)-1);
-// echo "\xA";
 ?>
