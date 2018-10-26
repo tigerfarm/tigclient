@@ -17,8 +17,10 @@ When you deploy to Heroku, you will be prompted for an app name.
 The name needs to be unique, example, enter your name+cc (example: davidcc). 
 Click Deploy app. Once the application is deployed, click Manage app. 
 Set Heroku project environment variables by clicking Settings. 
-Click Reveal Config Vars. Add the following key value pair:
+Click Reveal Config Vars. Add the following key value pairs:
 ````
+ACCOUNT_SID=your_account_SID (starts with "AC")
+AUTH_TOKEN=your_account_auth_token
 TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 ````
 Owl Client Screen print:
