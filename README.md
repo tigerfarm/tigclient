@@ -91,7 +91,7 @@ In the Console, go to:
 
     Key : value
 
-    CLIENT_PHONE_NUMBER : your_Twilio_phone_number (your caller id, example: +16505551234 ()
+    CLIENT_PHONE_NUMBER : your_Twilio_phone_number (your caller id, example: +16505551234)
 
     TOKEN_PASSWORD : your_password_to_generate_tokens
 
