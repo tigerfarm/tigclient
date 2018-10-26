@@ -89,7 +89,8 @@ In the Console, go to:
 1. Check: Enable ACCOUNT_SID and AUTH_TOKEN. This allows your Functions to access your account SID and auth token as environment variables.
 2. Create Function Environment Variables.
 
-    (Key : value)
+    Key : value
+
     CLIENT_PHONE_NUMBER : your_Twilio_phone_number (your caller id, example: +16505551234 ()
 
     TOKEN_PASSWORD : your_password_to_generate_tokens
