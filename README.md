@@ -19,9 +19,10 @@ Click Deploy app. Once the application is deployed, click Manage app.
 Set Heroku project environment variables by clicking Settings. 
 Click Reveal Config Vars. Add the following key value pairs:
 ````
-ACCOUNT_SID=your_account_SID (starts with "AC")
-AUTH_TOKEN=your_account_auth_token
-TOKEN_HOST=your_Twilio_Functions_domain (example: about-time-1235.twil.io)
+ACCOUNT_SID : your_account_SID (starts with "AC")
+AUTH_TOKEN : your_account_auth_token
+TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
+WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using the TaskRouter options)
 ````
 Owl Client Screen print:
 
@@ -91,13 +92,11 @@ In the Console, go to:
 
     Key : value
 
-    CLIENT_PHONE_NUMBER : your_Twilio_phone_number (your caller id, example: +16505551234)
-
-    TOKEN_PASSWORD : your_password_to_generate_tokens
+    TOKEN_PASSWORD : your_password_to_generate_tokens (user enters the password in the web application form)
 
     VOICE_TWIML_APP_SID_CALL_CLIENT : Example: APeb4627655a2a4be5ae1ba962fc9576cf
     (API key code to a Twilio Function URL)
-                                      
+
     Click Save, to save the environment variables.
 
 Update your Twilio Function host name into the Twilio Client server side programs.
