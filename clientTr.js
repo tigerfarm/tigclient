@@ -181,12 +181,17 @@ function trToken() {
     }
     // Since, programs cannot make an Ajax call to a remote resource,
     // Need to do an Ajax call to a local program that goes and gets the token.
-    logger("Refresh the TaskRouter token using client id: " + clientId);
+    logger("Refresh the TaskRouter token using client id: " + clientId + "&tokenPassword=" + tokenPassword);
     $("div.trMessages").html("Refreshing token, please wait.");
     //
-    $.get("generateTrToken.php?clientid=" + clientId + "&tokenPassword=" + tokenPassword, function (theToken) {
-        if (theToken === "0") {
+    // +  /generateTrToken.php?tokenPassword=okaynow              &=clientiddavid
+    $.get("generateTrToken.php?tokenPassword=" + tokenPassword + "&clientid=" + clientId, function (theToken) {
+        if (theToken.startsWith('0')) {
             $("div.trMessages").html("Invalid password.");
+            return;
+        }
+        if (theToken.startsWith('1')) {
+            $("div.trMessages").html("Missing client identity.");
             return;
         }
         // $("div.trMessages").html("TaskRouter token received.");

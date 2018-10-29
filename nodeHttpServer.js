@@ -25,12 +25,13 @@ http.createServer(function (request, response) {
 
         // ---------------------------------------------------------------------
         if (uri === "/generateTrToken.php") {
+            // "generateTrToken.php?tokenPassword=" + tokenPassword + "&=clientid" + clientId
             // /generateTrToken?clientid=me&tokenPassword=yes
             var query = require('url').parse(request.url, true).query;
-            // console.log("+ generateTrToken, clientid=" + query.clientid + ' tokenPassword:' + query.tokenPassword);
+            console.log("+ generateTrToken, tokenPassword=" + query.tokenPassword + ' clientid=' + query.clientid);
             const exec = require('child_process').exec;
             const theProgramName = uri;
-            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.clientid + " " + query.tokenPassword;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName) + " " + query.tokenPassword + " " + query.clientid;
             exec(theProgram, (error, stdout, stderr) => {
                 theResponse = `${stdout}`;
                 console.log('+ theResponse: ' + theResponse);

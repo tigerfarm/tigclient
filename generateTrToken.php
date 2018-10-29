@@ -12,13 +12,14 @@ if ($token_password !== $tokenPassword) {
     return;
 }
 $clientid = "";
-if ($argc > 1 ) {
+if ($argc > 2 ) {
     $clientid = $argv[2];
 } else {
     $clientid = $_REQUEST['clientid'];
 }
 if ($clientid == "") {
-    echo "0";
+    // echo "1" . " :" . $clientid . ":";
+    echo "1";
     return;
 }
 // -------------------------------------------------------
