@@ -151,9 +151,9 @@ The Worker name (example: "david") and client "contact_uri" (example: "client:da
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
 
-<img src="Taskrouter-WorkerClient01.jpg"/>
-
 <img src="Taskrouter-WorkerClient02.jpg"/>
+
+<img src="Taskrouter-WorkerClient01.jpg"/>
 
 ## For Developers
 
