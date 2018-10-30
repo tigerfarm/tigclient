@@ -22,10 +22,10 @@ Click Reveal Config Vars. Add the following key value pairs:
 ACCOUNT_SID : your_account_SID (starts with "AC")
 AUTH_TOKEN : your_account_auth_token
 TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
-TOKEN_PASSWORD : your_password for users to get TaskRouter access tokens.
+TOKEN_PASSWORD : your_TaskRouter_password for users to get TaskRouter access tokens.
 WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using the TaskRouter options)
 ````
-Owl Client Screen print:
+Tiger Client Screen print:
 
 <img src="Tiger_Voice_Client.jpg"/>
 
@@ -138,6 +138,17 @@ example (replace "mytwilioclient" with your Heroku application name):
    Select Call to type: Twilio Client.
    Click Call, and you will be connected to the other client.
    They will need to Accept the call, for you to talk together.
+
+## Using the Client's TaskRouter features
+
+Your workers need to be configured to use the Client's TaskRouter features.
+The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the OwlClient's Client ID value (example: "david").
+See the following screen prints.
+This is how the Client links to the TaskRouter Worker configuration.
+
+<img src="Taskrouter-WorkerClient01.jpg"/>
+
+<img src="Taskrouter-WorkerClient02.jpg"/>
 
 ## For Developers
 
