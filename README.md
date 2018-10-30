@@ -141,6 +141,11 @@ example (replace "mytwilioclient" with your Heroku application name):
 
 ## Using the Client's TaskRouter features
 
+
+To see the extended features, use the URL (replace example.com your domain name):
+
+    https://example.com/indextr.html
+
 Your workers need to be configured to use the Client's TaskRouter features.
 The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the OwlClient's Client ID value (example: "david").
 See the following screen prints.
