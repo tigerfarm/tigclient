@@ -22,6 +22,7 @@ Click Reveal Config Vars. Add the following key value pairs:
 ACCOUNT_SID : your_account_SID (starts with "AC")
 AUTH_TOKEN : your_account_auth_token
 TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
+TOKEN_PASSWORD : your_password for users to get TaskRouter access tokens.
 WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using the TaskRouter options)
 ````
 Owl Client Screen print:

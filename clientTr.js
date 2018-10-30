@@ -201,6 +201,7 @@ function trToken() {
         trTokenValid = true;
         // logger("Token refreshed.");
         tokenClientId = clientId;
+        $("div.msgTokenPassword").html("TaskRouter Token refreshed");
     })
             .fail(function () {
                 logger("- Error refreshing the TaskRouter token.");
