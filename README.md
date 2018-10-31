@@ -22,7 +22,7 @@ Click Reveal Config Vars. Add the following key value pairs:
 ACCOUNT_SID : your_account_SID (starts with "AC")
 AUTH_TOKEN : your_account_auth_token
 TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
-TOKEN_PASSWORD : your_TaskRouter_password for users to get TaskRouter access tokens.
+TOKEN_PASSWORD : your_TaskRouter_password for users to get TaskRouter access tokens. You create the password for your users. Suggestion, use the same password as the client password used below.
 WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using the TaskRouter options)
 ````
 Tiger Client Screen print:
