@@ -72,6 +72,6 @@ exports.handler = function (context, event, callback) {
         console.log("+ Make a PSTN call.");
         twiml.dial(dialParams, callTo);
     }
-\    console.log("+ twiml: " + twiml);
+    console.log("+ twiml: " + twiml);
     callback(null, twiml);
 };
