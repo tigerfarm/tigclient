@@ -139,7 +139,7 @@ example (replace "mytwilioclient" with your Heroku application name):
    Click Call, and you will be connected to the other client.
    They will need to Accept the call, for you to talk together.
 
-## Using the Client's TaskRouter features
+## The Client also has Conference and TaskRouter features
 
 
 To see the extended features, use the URL (replace example.com your domain name):
