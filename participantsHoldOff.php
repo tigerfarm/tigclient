@@ -12,7 +12,7 @@ if ($conferenceSid === null) {
 if ($argc > 2) {
     $CallSid = $argv[2];
 } else {
-    $CallSid = $_REQUEST['CallSid'];
+    $CallSid = $_REQUEST['callSid'];
 }
 if ($CallSid === null) {
     echo "0";
