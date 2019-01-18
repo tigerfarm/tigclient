@@ -27,7 +27,7 @@ WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using th
 ````
 Tiger Client Screen print:
 
-<img src="Tiger_Voice_Client.jpg"/>
+<img src="Tiger_Voice.jpg"/>
 
 ## Twilio Console Configurations
 
