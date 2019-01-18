@@ -1,29 +1,29 @@
 # Tiger Voice Client Application Version 3.1
 
-To make and receive voice calls from your browser, deploy your own Twilio Client website application.
+Use this application to make and receive voice calls from your browser.
 
 Requirements:
 
 - For non-developers and developers: you will need a Twilio account. A free Trial account will work.
 - For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
 - For developers, I have included a Node.JS webserver program that you can run locally on your computer.
-  You can also run this application on a website that can run PHP programs.
+  You can also run this application on a website that has a PHP runtime environment.
 
 Note, no development required to run this application. It can be completely deployed and tested from a web browser.
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
 
 When you deploy to Heroku, you will be prompted for an app name. 
-The name needs to be unique, example, enter your name+cc (example: davidcc). 
+The name needs to be unique. Example, enter your name+cc (example: davidcc). 
 Click Deploy app. Once the application is deployed, click Manage app. 
 Set Heroku project environment variables by clicking Settings. 
 Click Reveal Config Vars. Add the following key value pairs:
 ````
-ACCOUNT_SID : your_account_SID (starts with "AC")
-AUTH_TOKEN : your_account_auth_token
+ACCOUNT_SID : your_account_SID (starts with "AC", available from Twilio Console)
+AUTH_TOKEN : your_account_auth_token (Available from Twilio Console)
 TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
-TOKEN_PASSWORD : your_TaskRouter_password for users to get TaskRouter access tokens. You create the password for your users. Suggestion, use the same password as the client password used below.
-WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using the TaskRouter options)
+TOKEN_PASSWORD : your_token_password (Password is required to create tokens. You create the password for your users)
+WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using TaskRouter)
 ````
 Tiger Client Screen print:
 
@@ -126,7 +126,7 @@ example (replace "mytwilioclient" with your Heroku application name):
 4. Click Call, and you will be connect to the Twilio conference named, support.
     You will hear the classic Twilio conference music.
 5. In another browser, use Tiger Voice Client, with different Client ID, join the conference.
-6. Click Hangup to disconnect from the conference.
+6. Click Hangup to disconnect from the conference, or click End conference to disconnect all participants in the conference.
 7. View the call log. In a separate tab, log into the Twilio Console.
     Beside Call to, click, See log.
 8. Call your mobile phone number.
@@ -141,12 +141,12 @@ example (replace "mytwilioclient" with your Heroku application name):
 
 ## The Client also has Conference and TaskRouter features
 
-
-To see the extended features, use the URL (replace example.com your domain name):
-
-    https://example.com/indextr.html
-
 Your workers need to be configured to use the Client's TaskRouter features.
+Click [here](https://www.twilio.com/blog/2018/06/customize-phone-call-workflows-twilio-studio-taskrouter.html),
+to get instructions on how to configure a TaskRouter call queue and workers (agents).
+Notes, skip section: Configure an Agent Worker Activity, not required with Tiger Voice Client.
+Also, you can skip the section: Implement the Agent Web Application, because your agents can use this application.
+
 The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the Tiger Voice Client's Client ID value (example: "david").
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
