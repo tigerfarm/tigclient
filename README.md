@@ -1,6 +1,6 @@
 # Tiger Voice Client Application Version 3.1
 
-Use this application to make and receive voice calls from your browser.
+Use this application to make and receive Twilio voice calls from your browser.
 
 Requirements:
 
@@ -14,7 +14,7 @@ Note, no development required to run this application. It can be completely depl
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
 
 When you deploy to Heroku, you will be prompted for an app name. 
-The name needs to be unique. Example, enter your name+cc (example: davidcc). 
+The name needs to be unique. Example, enter your name+vc (example: davidvc). 
 Click Deploy app. Once the application is deployed, click Manage app. 
 Set Heroku project environment variables by clicking Settings. 
 Click Reveal Config Vars. Add the following key value pairs:
@@ -139,15 +139,29 @@ example (replace "mytwilioclient" with your Heroku application name):
    Click Call, and you will be connected to the other client.
    They will need to Accept the call, for you to talk together.
 
-## The Client also has Conference and TaskRouter features
+## Conference Call Features
 
-Your workers need to be configured to use the Client's TaskRouter features.
+These features allow a soft transfer.
+Once you have created a conference and are in the conference, you can put the other participant (or participants) on hold.
+You can enter a PSTN phone number in the Call to field, and click Add Call-to to dial the phone number.
+If the person answers, they are included in the conference call. The person on hold cannot hear your conversation with the new person.
+You can to talk to the person, and either keep them on the call or click Remove Call-to to remove them from the call.
+Remove Call-to: is useful if you get the person's voicemail.
+Or, you can take the other participant off hold, and they can also talk with the person who has newly been added to the call.
+At this stage, you can click Hangup to disconnect yourself from the call and the other 2 can continue talking.
+
+Use Hangup to disconnect yourself from the call. Use End Conference to end the conference which disconnects all participants from the conference.
+
+## TaskRouter Features
+
+Your agents need to configured as TaskRouter Workers to use the Client's TaskRouter features.
 Click [here](https://www.twilio.com/blog/2018/06/customize-phone-call-workflows-twilio-studio-taskrouter.html),
 to get instructions on how to configure a TaskRouter call queue and workers (agents).
-Notes, skip section: Configure an Agent Worker Activity, not required with Tiger Voice Client.
-Also, you can skip the section: Implement the Agent Web Application, because your agents can use this application.
+Notes, skip section: Configure an Agent Worker Activity, because it is not required with Tiger Voice Client.
+Also, skip the section: Implement the Agent Web Application, if your agents will be only using Tiger Voice Client and not using their mobile phone to accept TaskRouter calls.
 
-The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the Tiger Voice Client's Client ID value (example: "david").
+The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match.
+And, the name needs to match with the Tiger Voice Client ID value (example: "david").
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
 
@@ -160,8 +174,9 @@ This is how the Client links to the TaskRouter Worker configuration.
 ### Files
 
 The Client files:
-- [index.html](index.html) : Twilio JavaScript (JS) Client to make and receive phone calls.
+- [index.html](index.html) and [client.js](client.js) : Twilio Client HTML and JavaScript (JS) files to make and receive phone calls.
 - [custom/app.css](custom/app.css) : Styles
+- [clientTr.js](clientTr.js) : JavaScript (JS) file for TaskRouter Worker options.
 
 The server files:
 - [nodeHttpServer.js](nodeHttpServer.js) : a NodeJS HTTP Server that serves the Client files and calls clientTokenGet.php.
