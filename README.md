@@ -1,4 +1,4 @@
-# Owl Client Application Version 3
+# Tiger Voice Client Application Version 3.1
 
 To make and receive voice calls from your browser, deploy your own Twilio Client website application.
 
@@ -125,7 +125,7 @@ example (replace "mytwilioclient" with your Heroku application name):
 3. In the "Call to" field, enter: support. Select Call to type: Conference.
 4. Click Call, and you will be connect to the Twilio conference named, support.
     You will hear the classic Twilio conference music.
-5. In another browser, use Owl Client, with different Client ID, join the conference.
+5. In another browser, use Tiger Voice Client, with different Client ID, join the conference.
 6. Click Hangup to disconnect from the conference.
 7. View the call log. In a separate tab, log into the Twilio Console.
     Beside Call to, click, See log.
@@ -147,7 +147,7 @@ To see the extended features, use the URL (replace example.com your domain name)
     https://example.com/indextr.html
 
 Your workers need to be configured to use the Client's TaskRouter features.
-The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the OwlClient's Client ID value (example: "david").
+The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match, and match with the Tiger Voice Client's Client ID value (example: "david").
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
 

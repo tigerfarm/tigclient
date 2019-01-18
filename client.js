@@ -1,8 +1,7 @@
 // -----------------------------------------------------------------------------
 // To do:
 // Docs: https://www.twilio.com/docs/voice/client/javascript/connection
-// Twilio.Device documentation: https://www.twilio.com/docs/api/client/device-13
-//                              https://www.twilio.com/docs/voice/client/javascript/device
+// Twilio.Device documentation: https://www.twilio.com/docs/voice/client/javascript/device
 // 
 // .mute(bool)  ...  .isMuted()
 // 
@@ -17,7 +16,6 @@ var theCallTo = "";
 var theCallSid = "";
 var theCallSidUrl = "";
 var theConference = "";
-var theConferenceSid = "";
 var theCallType = "";
 var theCallToCallSid = "";
 
