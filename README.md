@@ -1,6 +1,8 @@
 # Tiger Voice Client Application Version 3.1
 
 Use this application to make and receive Twilio voice calls from your browser.
+It has conference call features for a soft transfer.
+It can be used by a TaskRouter Worker agent to manage their status and accept calls.
 
 Requirements:
 
@@ -165,10 +167,10 @@ And, the name needs to match with the Tiger Voice Client ID value (example: "dav
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
 
-Once configured, the agent can start their Tiger Voice Client: get a voice and TaskRouter token, and then
+Once configured, the agent can start their Tiger Voice Client, get a voice and TaskRouter token, and then
 set them self to available for a call, by clicking Go Online.
 When TaskRouter has a caller for the agent, the agent be given the option to Accept or Reject the call.
-If they Accept, they will be connect to the caller.
+If they Accept, they will be connected to the caller.
 
 <img src="Taskrouter-WorkerClient02.jpg"/>
 
