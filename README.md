@@ -1,6 +1,6 @@
 # Tiger Voice Client Application Version 3.1
 
-Use this application to make and receive Twilio voice calls from your browser.
+Use this application is used by people to make and receive Twilio voice calls from their browser.
 It has conference call features for a soft transfer.
 It can be used by a TaskRouter Worker agent to manage their status and accept calls.
 
