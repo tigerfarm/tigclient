@@ -146,15 +146,15 @@ Once you have created a conference and are in the conference, you can put the ot
 You can enter a PSTN phone number in the Call to field, and click Add Call-to to dial the phone number.
 If the person answers, they are included in the conference call. The person on hold cannot hear your conversation with the new person.
 You can to talk to the person, and either keep them on the call or click Remove Call-to to remove them from the call.
-Remove Call-to: is useful if you get the person's voicemail.
+Remove Call-to, is useful if you get the person's voicemail.
 Or, you can take the other participant off hold, and they can also talk with the person who has newly been added to the call.
-At this stage, you can click Hangup to disconnect yourself from the call and the other 2 can continue talking.
+At this stage, you can click Hangup to disconnect yourself from the call and the other 2 can continue talking, which completes the soft transfer.
 
-Use Hangup to disconnect yourself from the call. Use End Conference to end the conference which disconnects all participants from the conference.
+Note, use Hangup to disconnect yourself from the call. Use End Conference to end the conference which disconnects all participants from the conference.
 
 ## TaskRouter Features
 
-Your agents need to configured as TaskRouter Workers to use the Client's TaskRouter features.
+Your agents need to be configured as TaskRouter Workers, if they are to use the TaskRouter features.
 Click [here](https://www.twilio.com/blog/2018/06/customize-phone-call-workflows-twilio-studio-taskrouter.html),
 to get instructions on how to configure a TaskRouter call queue and workers (agents).
 Notes, skip section: Configure an Agent Worker Activity, because it is not required with Tiger Voice Client.
@@ -164,6 +164,11 @@ The Worker name (example: "david") and client "contact_uri" (example: "client:da
 And, the name needs to match with the Tiger Voice Client ID value (example: "david").
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
+
+Once configured, the agent can start their Tiger Voice Client: get a voice and TaskRouter token, and then
+set them self to available for a call, by clicking Go Online.
+When TaskRouter has a caller for the agent, the agent be given the option to Accept or Reject the call.
+If they Accept, they will be connect to the caller.
 
 <img src="Taskrouter-WorkerClient02.jpg"/>
 
