@@ -154,6 +154,20 @@ At this stage, you can click Hangup to disconnect yourself from the call and the
 
 Note, use Hangup to disconnect yourself from the call. Use End Conference to end the conference which disconnects all participants from the conference.
 
+TwiML Bin for having a person join the conference:
+````
+<?xml version=“1.0" encoding=“UTF-8”?>
+<Response>
+  <Dial>
+    <Conference>
+    {{conferenceid}}
+    </Conference>
+  </Dial>
+</Response>
+````
+
+Use the above TwiML Bin URL in [conferenceJoin.php](conferenceJoin.php).
+
 ## TaskRouter Features
 
 Your agents need to be configured as TaskRouter Workers, if they are to use the TaskRouter features.

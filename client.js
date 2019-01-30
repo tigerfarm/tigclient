@@ -392,7 +392,6 @@ function refreshClientId() {
         // logger("Use default token client id.");
         clientId = tokenClientId;
     }
-    ;
     refresh();
 }
 function logger(message) {
