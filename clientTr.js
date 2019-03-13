@@ -199,7 +199,7 @@ function trToken() {
         registerTaskRouterCallbacks();
         $("div.msgClientid").html("TaskRouter Token id: " + clientId);
         trTokenValid = true;
-        // logger("Token refreshed.");
+        logger("TaskRouter token refreshed :" + theToken.trim() + ":");
         tokenClientId = clientId;
         $("div.msgTokenPassword").html("TaskRouter Token refreshed");
     })
