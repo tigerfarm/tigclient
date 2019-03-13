@@ -103,10 +103,6 @@ Twilio.Device.incoming(function (conn) {
     theConnection = conn;
     $('#btn-accept').prop('disabled', false);
     $('#btn-reject').prop('disabled', false);
-    /* Not used. It runs after: reject().
-     theConnection.on('reject', function () {
-     logger("theConnection.on('reject'");
-     }); */
 });
 function accept() {
     logger("Accepted call.");
@@ -359,7 +355,7 @@ function refresh() {
         $("div.msgClientid").html("Token id: " + clientId);
         $("div.callMessages").html("");
         tokenValid = true;
-        // logger("Token refreshed.");
+        logger("Token refreshed :" + theToken.trim() + ":");
         tokenClientId = clientId;
     })
             // .done(function () {alert("second success");})

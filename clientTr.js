@@ -155,7 +155,7 @@ function acceptReservation() {
             },
             options
             );
-    ogger("Conference initiated.");
+    logger("Conference initiated.");
     setTrButtons("In a Call");
 }
 
