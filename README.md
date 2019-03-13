@@ -27,6 +27,15 @@ TOKEN_HOST : your_Twilio_Functions_domain (example: about-time-1235.twil.io)
 TOKEN_PASSWORD : your_token_password (Password is required to create tokens. You create the password for your users)
 WORKSPACE_SID : your_TaskRouter_workspace_sid (Only required if you are using TaskRouter)
 ````
+To redeploy,
+````
+To keep the same URL, remove the old app by using the Heroku dashboard:
+    https://dashboard.heroku.com,
+    Select the app, click Settings, go to the bottom, click Delete app.
+Then, from, https://github.com/tigerfarm/OwlClient, click Deploy to Heroku button.
+Note, you will need to re-enter the above Config Vars.
+````
+
 Tiger Client Screen print:
 
 <img src="Tiger_Voice.jpg"/>
