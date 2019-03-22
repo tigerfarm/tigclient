@@ -9,9 +9,12 @@ var trTokenValid = false;
 
 // Workspace activity SIDs:
 // To do: use getTrActivities.php to get these values:
-var ActivitySid_Idle = "WA8cdaee07d1554465405fcd1dda2dcf56";
-var ActivitySid_Offline = "WA0ab3bfa9b0954df4aeca47cd5051799d";
-
+// var ActivitySid_Idle = "WA8cdaee07d1554465405fcd1dda2dcf56";
+// var ActivitySid_Offline = "WA0ab3bfa9b0954df4aeca47cd5051799d";
+// J:
+var ActivitySid_Idle = "WAd63d34e11b47827f3eaba73267c6bbe3";
+var ActivitySid_Offline = "WA33d66f72b1d4e6f4bd683425a7bc0389";
+// 
 // -----------------------------------------------------------------
 // let worker = new Twilio.TaskRouter.Worker("<?= $workerToken ?>");
 function registerTaskRouterCallbacks() {

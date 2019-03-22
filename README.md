@@ -9,7 +9,7 @@ Requirements:
 - For non-developers and developers: you will need a Twilio account. A free Trial account will work.
 - For non-developers, you will need an [Heroku account](https://heroku.com/) to host your application.
 - For developers, I have included a Node.JS webserver program that you can run locally on your computer.
-  You can also run this application on a website that has a PHP runtime environment.
+  Or, you can also run this application on a website that has a PHP runtime environment.
 
 Note, no development required to run this application. It can be completely deployed and tested from a web browser.
 
