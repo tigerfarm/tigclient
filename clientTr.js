@@ -8,8 +8,9 @@ let ReservationObject;
 var trTokenValid = false;
 
 // Workspace activity SIDs
-var ActivitySid_Idle = "";
+var ActivitySid_Available = "";
 var ActivitySid_Offline = "";
+var ActivitySid_Unavailable = "";
 // 
 // -----------------------------------------------------------------
 // let worker = new Twilio.TaskRouter.Worker("<?= $workerToken ?>");
@@ -26,12 +27,14 @@ function registerTaskRouterCallbacks() {
         logger("Current activity is: " + worker.activityName);
         logger("---------");
         setTrButtons(worker.activityName);
+        setActivityStatus(worker.activityName);
         $('#btn-trtoken').prop('disabled', true);
     });
     worker.on('activity.update', function (worker) {
         logger("Worker activity updated to: " + worker.activityName);
         logger("taskSid = " + taskSid);
         setTrButtons(worker.activityName);
+        setActivityStatus(worker.activityName);
         if (taskSid !== "") {
             // Insure the agent is not hanging in assignment status of wrapping.
             // logger("Run taskReservationTaskFix.php");
@@ -66,6 +69,18 @@ function registerTaskRouterCallbacks() {
         setTrButtons('reservation.accepted');
         theConference = ReservationObject.task.attributes.conference.sid;
         logger("Conference SID: " + theConference);
+        worker.update("ActivitySid", ActivitySid_Unavailable, function (error, worker) {
+            if (error) {
+                logger("--- acceptReservation, goUnavailable, Error:");
+                logger(error.code);
+                logger(error.message);
+                $('#btn-online').prop('disabled', true);
+                $('#btn-offline').prop('disabled', true);
+                $('#btn-trtoken').prop('disabled', false);
+                $("div.msgTokenPassword").html("Refresh TaskRouter token.");
+            }
+        });
+
     });
     worker.on('reservation.rejected', function (reservation) {
         taskSid = "";
@@ -87,8 +102,8 @@ function registerTaskRouterCallbacks() {
 
 // -----------------------------------------------------------------
 function goAvailable() {
-    logger("goAvailable(): update worker's activity to: Idle.");
-    worker.update("ActivitySid", ActivitySid_Idle, function (error, worker) {
+    logger("goAvailable(): update worker's activity to: Available.");
+    worker.update("ActivitySid", ActivitySid_Available, function (error, worker) {
         if (error) {
             logger("--- goAvailable, Error:");
             logger(error.code);
@@ -218,17 +233,22 @@ function trToken() {
 function getTrActivies() {
     logger("Refresh TaskRouter workspace activities.");
     $.get("getTrActivites.php", function (theActivites) {
-        // WA0ab3bfa9b0954df4aeca47cd5051799d:Offline:WA8cdaee07d1554465405fcd1dda2dcf56:Idle:WA6de6fb4eebf599272686e22e47c9ee6e:Busy:WA29f7fc6bbc233c864fb9931089fdee76
+        logger("+ theActivites = " + theActivites);
         arrayValues = theActivites.split(":");
         var i;
         for (i = 1; i < arrayValues.length; i++) {
-            if (arrayValues[i] === "Idle") {
-                ActivitySid_Idle = arrayValues[i-1];
-                logger("+ ActivitySid_Idle = " + ActivitySid_Idle);
+            // logger("+ i value = " + i + ":" + arrayValues[i]);
+            if (arrayValues[i] === "Available") {
+                ActivitySid_Available = arrayValues[i - 1];
+                logger("+ ActivitySid_Available = " + ActivitySid_Available);
             }
             if (arrayValues[i] === "Offline") {
-                ActivitySid_Offline = arrayValues[i-1];
+                ActivitySid_Offline = arrayValues[i - 1];
                 logger("+ ActivitySid_Offline = " + ActivitySid_Offline);
+            }
+            if (arrayValues[i] === "Unavailable") {
+                ActivitySid_Unavailable = arrayValues[i - 1];
+                logger("+ ActivitySid_Unavailable = " + ActivitySid_Unavailable);
             }
         }
     })
@@ -239,9 +259,14 @@ function getTrActivies() {
 }
 
 // -----------------------------------------------------------------
+function setActivityStatus(workerActivity) {
+    $("div.trStatus").html(workerActivity);
+}
+
+// -----------------------------------------------------------------
 function setTrButtons(workerActivity) {
     // logger("setTrButtons, Worker activity: " + workerActivity);
-    $("div.trMessages").html("Current TaskRouter status is: " + workerActivity);
+    $("div.trMessages").html("Current TaskRouter status: " + workerActivity);
     switch (workerActivity) {
         case "init":
             $('#btn-online').prop('disabled', true);
@@ -251,7 +276,7 @@ function setTrButtons(workerActivity) {
             $('#btn-trHangup').prop('disabled', true);
             getTrActivies();
             break;
-        case "Idle":
+        case "Available":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', false);
             $('#btn-acceptTR').prop('disabled', true);
