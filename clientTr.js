@@ -35,11 +35,11 @@ function registerTaskRouterCallbacks() {
         logger("taskSid = " + taskSid);
         setTrButtons(worker.activityName);
         setActivityStatus(worker.activityName);
-        if (taskSid !== "") {
+        if (taskSid !== "" && worker.activityName === "Offline") {
             // Insure the agent is not hanging in assignment status of wrapping.
             // logger("Run taskReservationTaskFix.php");
             $.get("taskReservationTaskFix.php?taskSid=" + taskSid, function (theResponse) {
-                logger("Task check response: " + theResponse);
+                logger("Task check: " + theResponse);
             })
                     .fail(function () {
                         logger("- Error running taskReservationTaskFix.php");
@@ -90,7 +90,7 @@ function registerTaskRouterCallbacks() {
     worker.on('reservation.timeout', function (reservation) {
         taskSid = "";
         logger("Reservation timed out: " + reservation.sid);
-        setTrButtons("canceled");
+        setTrButtons("Offline");
     });
     worker.on('reservation.canceled', function (reservation) {
         taskSid = "";
