@@ -422,10 +422,7 @@ function setButtons(activity) {
             $('#btn-onholdCallers').prop('disabled', true);
             $('#btn-offholdCallers').prop('disabled', true);
             //
-            $('#btn-online').prop('disabled', true);
-            $('#btn-offline').prop('disabled', true);
-            $('#btn-acceptTR').prop('disabled', true);
-            $('#btn-rejectTR').prop('disabled', true);
+            setTrButtons("init");
             break;
         case "Device.disconnect":
             $('#btn-call').prop('disabled', false);

@@ -2,18 +2,14 @@
 // TaskRouter JS code
 // -----------------------------------------------------------------
 //
-let worker;
+let worker;                 // Worker object: worker.activityName
 let taskSid = "";
 let ReservationObject;
 var trTokenValid = false;
 
-// Workspace activity SIDs:
-// To do: use getTrActivities.php to get these values:
-// var ActivitySid_Idle = "WA8cdaee07d1554465405fcd1dda2dcf56";
-// var ActivitySid_Offline = "WA0ab3bfa9b0954df4aeca47cd5051799d";
-// J:
-var ActivitySid_Idle = "WAd63d34e11b47827f3eaba73267c6bbe3";
-var ActivitySid_Offline = "WA33d66f72b1d4e6f4bd683425a7bc0389";
+// Workspace activity SIDs
+var ActivitySid_Idle = "";
+var ActivitySid_Offline = "";
 // 
 // -----------------------------------------------------------------
 // let worker = new Twilio.TaskRouter.Worker("<?= $workerToken ?>");
@@ -74,12 +70,17 @@ function registerTaskRouterCallbacks() {
     worker.on('reservation.rejected', function (reservation) {
         taskSid = "";
         logger("Reservation rejected, SID: " + reservation.sid);
+        setTrButtons("canceled");
     });
     worker.on('reservation.timeout', function (reservation) {
+        taskSid = "";
         logger("Reservation timed out: " + reservation.sid);
+        setTrButtons("canceled");
     });
     worker.on('reservation.canceled', function (reservation) {
+        taskSid = "";
         logger("Reservation canceled: " + reservation.sid);
+        setTrButtons("canceled");
     });
     // -----------------------------------------------------------------
 }
@@ -212,11 +213,44 @@ function trToken() {
             });
 }
 
+// -----------------------------------------------------------------------------
+// Get TaskRouter activities.
+function getTrActivies() {
+    logger("Refresh TaskRouter workspace activities.");
+    $.get("getTrActivites.php", function (theActivites) {
+        // WA0ab3bfa9b0954df4aeca47cd5051799d:Offline:WA8cdaee07d1554465405fcd1dda2dcf56:Idle:WA6de6fb4eebf599272686e22e47c9ee6e:Busy:WA29f7fc6bbc233c864fb9931089fdee76
+        arrayValues = theActivites.split(":");
+        var i;
+        for (i = 1; i < arrayValues.length; i++) {
+            if (arrayValues[i] === "Idle") {
+                ActivitySid_Idle = arrayValues[i-1];
+                logger("+ ActivitySid_Idle = " + ActivitySid_Idle);
+            }
+            if (arrayValues[i] === "Offline") {
+                ActivitySid_Offline = arrayValues[i-1];
+                logger("+ ActivitySid_Offline = " + ActivitySid_Offline);
+            }
+        }
+    })
+            .fail(function () {
+                logger("- Error refreshing the TaskRouter workspace activities.");
+                return;
+            });
+}
+
 // -----------------------------------------------------------------
 function setTrButtons(workerActivity) {
     // logger("setTrButtons, Worker activity: " + workerActivity);
     $("div.trMessages").html("Current TaskRouter status is: " + workerActivity);
     switch (workerActivity) {
+        case "init":
+            $('#btn-online').prop('disabled', true);
+            $('#btn-offline').prop('disabled', true);
+            $('#btn-acceptTR').prop('disabled', true);
+            $('#btn-rejectTR').prop('disabled', true);
+            $('#btn-trHangup').prop('disabled', true);
+            getTrActivies();
+            break;
         case "Idle":
             $('#btn-online').prop('disabled', true);
             $('#btn-offline').prop('disabled', false);
@@ -252,6 +286,13 @@ function setTrButtons(workerActivity) {
             $('#btn-acceptTR').prop('disabled', true);
             $('#btn-rejectTR').prop('disabled', true);
             $('#btn-trHangup').prop('disabled', false);
+            break;
+        case "canceled":
+            $('#btn-online').prop('disabled', true);
+            $('#btn-offline').prop('disabled', false);
+            $('#btn-acceptTR').prop('disabled', true);
+            $('#btn-rejectTR').prop('disabled', true);
+            $('#btn-trHangup').prop('disabled', true);
             break;
     }
 }

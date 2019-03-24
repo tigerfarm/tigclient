@@ -46,6 +46,27 @@ http.createServer(function (request, response) {
             return;
         }
         // ---------------------------------------------------------------------
+        if (uri === "/getTrActivites.php") {
+            // "getTrActivites.php
+            var query = require('url').parse(request.url, true).query;
+            console.log("+ getTrActivites");
+            const exec = require('child_process').exec;
+            const theProgramName = uri;
+            const theProgram = 'php ' + path.join(process.cwd(), theProgramName);
+            exec(theProgram, (error, stdout, stderr) => {
+                theResponse = `${stdout}`;
+                console.log('+ theResponse: ' + theResponse);
+                // console.log(`${stderr}`);
+                if (error !== null) {
+                    console.log(`exec error: ${error}`);
+                }
+                response.writeHead(200);
+                response.write(theResponse, "binary");
+                response.end();
+            });
+            return;
+        }
+        // ---------------------------------------------------------------------
         if (uri === "/clientTokenGet.php") {
             console.log("++ Get Client token.");
             // request.url: /clientTokenGet.php?clientid=owluser
