@@ -67,6 +67,7 @@ Twilio.Device.disconnect(function (conn) {
 });
 Twilio.Device.cancel(function () {
     logger("++ Twilio.Device.cancel");
+    setButtons("Device.disconnect");
 });
 Twilio.Device.offline(function () {
     logger("++ Twilio.Device.offline");
