@@ -20,9 +20,10 @@ $twilio = new Client($account_sid, $auth_token);
 $workspaceSid = getenv("WORKSPACE_SID");
 $workflowSid = getenv("WORKFLOW_SUPPORT");
 
+$theAttributes = '{"from": "' . getenv("PHONE_NUMBER_1") . '", "to": "theConferenceName", "selected_product":"okayProduct"}';
 $task = $twilio->taskrouter->workspaces($workspaceSid)->tasks
     ->create(array(
-      'attributes' => '{"from": "+16508661233", "to": "theConferenceName", "selected_product":"okayProduct"}',
+      'attributes' => $theAttributes,
       'TaskChannel' => "voice",
       'workflowSid' => $workflowSid,
     ));
