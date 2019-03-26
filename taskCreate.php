@@ -5,7 +5,10 @@
 // Task SID: WT5791d819dcc0f953c214311c14b4dd33 selected_product:support assignmentStatus:pending from:+16508661233
 // Call SID: CF83401c984035f8d597b688742919de01 Name: WT21dacce356ba47fbba3c0eeaf5686d65
 // 
-// Other documentation: https://www.twilio.com/docs/taskrouter/api/tasks
+// Other documentation:
+// https://www.twilio.com/docs/taskrouter/api/tasks
+// https://www.twilio.com/docs/taskrouter/api/tasks#required-post-parameters
+// https://www.twilio.com/docs/taskrouter/api/tasks#optional-post-parameters
 
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
 
@@ -19,7 +22,8 @@ $workflowSid = getenv("WORKFLOW_SUPPORT");
 
 $task = $twilio->taskrouter->workspaces($workspaceSid)->tasks
     ->create(array(
-      'attributes' => '{"selected_product": "support","from": "client:stacy"}',
+      'attributes' => '{"from": "+16508661233", "to": "theConferenceName", "selected_product":"okayProduct"}',
+      'TaskChannel' => "voice",
       'workflowSid' => $workflowSid,
     ));
 print("+ Task created: " . $task->sid);

@@ -50,6 +50,7 @@ function registerTaskRouterCallbacks() {
     });
     // -----------------------------------------------------------------
     worker.on('reservation.created', function (reservation) {
+        // reservation.task.attributes can be passed when the task is created.
         logger("---------");
         logger("reservation.created: You are reserved to handle a call from: " + reservation.task.attributes.from);
         if (reservation.task.attributes.selected_language) {
@@ -74,6 +75,7 @@ function registerTaskRouterCallbacks() {
                 logger("--- acceptReservation, goUnavailable, Error:");
                 logger(error.code);
                 logger(error.message);
+                // Example error message: The conference instruction can only be issued on a task that was created using the <Enqueue> TwiML verb.
                 $('#btn-online').prop('disabled', true);
                 $('#btn-offline').prop('disabled', true);
                 $('#btn-trtoken').prop('disabled', false);
@@ -164,6 +166,7 @@ function acceptReservation() {
     //
     // https://www.twilio.com/docs/taskrouter/api/reservations
     // https://www.twilio.com/docs/taskrouter/js-sdk/worker#reservation-conference
+    // Note: The conference instruction can only be issued on a task that was created using the <Enqueue> TwiML verb.
     ReservationObject.conference(null, null, null, null,
             function (error, reservation) {
                 if (error) {
@@ -176,6 +179,36 @@ function acceptReservation() {
             );
     logger("Conference initiated.");
     setTrButtons("In a Call");
+}
+
+// -----------------------------------------------------------------------------
+// Get TaskRouter activities.
+function getTrActivies() {
+    logger("Refresh TaskRouter workspace activities.");
+    $.get("getTrActivites.php", function (theActivites) {
+        logger("+ theActivites = " + theActivites);
+        arrayValues = theActivites.split(":");
+        var i;
+        for (i = 1; i < arrayValues.length; i++) {
+            // logger("+ i value = " + i + ":" + arrayValues[i]);
+            if (arrayValues[i] === "Available") {
+                ActivitySid_Available = arrayValues[i - 1];
+                logger("+ ActivitySid_Available = " + ActivitySid_Available);
+            }
+            if (arrayValues[i] === "Offline") {
+                ActivitySid_Offline = arrayValues[i - 1];
+                logger("+ ActivitySid_Offline = " + ActivitySid_Offline);
+            }
+            if (arrayValues[i] === "Unavailable") {
+                ActivitySid_Unavailable = arrayValues[i - 1];
+                logger("+ ActivitySid_Unavailable = " + ActivitySid_Unavailable);
+            }
+        }
+    })
+            .fail(function () {
+                logger("- Error refreshing the TaskRouter workspace activities.");
+                return;
+            });
 }
 
 // -----------------------------------------------------------------------------
@@ -224,36 +257,6 @@ function trToken() {
     })
             .fail(function () {
                 logger("- Error refreshing the TaskRouter token.");
-                return;
-            });
-}
-
-// -----------------------------------------------------------------------------
-// Get TaskRouter activities.
-function getTrActivies() {
-    logger("Refresh TaskRouter workspace activities.");
-    $.get("getTrActivites.php", function (theActivites) {
-        logger("+ theActivites = " + theActivites);
-        arrayValues = theActivites.split(":");
-        var i;
-        for (i = 1; i < arrayValues.length; i++) {
-            // logger("+ i value = " + i + ":" + arrayValues[i]);
-            if (arrayValues[i] === "Available") {
-                ActivitySid_Available = arrayValues[i - 1];
-                logger("+ ActivitySid_Available = " + ActivitySid_Available);
-            }
-            if (arrayValues[i] === "Offline") {
-                ActivitySid_Offline = arrayValues[i - 1];
-                logger("+ ActivitySid_Offline = " + ActivitySid_Offline);
-            }
-            if (arrayValues[i] === "Unavailable") {
-                ActivitySid_Unavailable = arrayValues[i - 1];
-                logger("+ ActivitySid_Unavailable = " + ActivitySid_Unavailable);
-            }
-        }
-    })
-            .fail(function () {
-                logger("- Error refreshing the TaskRouter workspace activities.");
                 return;
             });
 }
