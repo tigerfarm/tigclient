@@ -56,7 +56,9 @@ function registerTaskRouterCallbacks() {
         if (reservation.task.attributes.selected_language) {
             logger("Caller selected language: " + reservation.task.attributes.selected_language);
         }
-        logger("Customer request, task.attributes.selected_product: " + reservation.task.attributes.selected_product);
+        if (reservation.task.attributes.selected_product) {
+            logger("Customer request, task.attributes.selected_product: " + reservation.task.attributes.selected_product);
+        }
         logger("Reservation SID: " + reservation.sid);
         setTrButtons("Incoming Reservation");
         ReservationObject = reservation;
@@ -86,7 +88,7 @@ function registerTaskRouterCallbacks() {
     });
     worker.on('reservation.rejected', function (reservation) {
         taskSid = "";
-        logger("Reservation rejected, SID: " + reservation.sid);
+        logger("Reservation rejected, SID: " + reservation.sid + " by worker.sid: " + worker.sid);
         setTrButtons("canceled");
     });
     worker.on('reservation.timeout', function (reservation) {

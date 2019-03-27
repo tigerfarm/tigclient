@@ -11,7 +11,6 @@
 // https://www.twilio.com/docs/taskrouter/api/tasks#optional-post-parameters
 
 require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
-
 use Twilio\Rest\Client;
 
 $account_sid = getenv("ACCOUNT_SID");
@@ -21,6 +20,7 @@ $workspaceSid = getenv("WORKSPACE_SID");
 $workflowSid = getenv("WORKFLOW_SUPPORT");
 
 $theAttributes = '{"from": "' . getenv("PHONE_NUMBER_1") . '", "to": "theConferenceName", "selected_product":"okayProduct"}';
+print("+ Task attributes: " . $theAttributes);
 $task = $twilio->taskrouter->workspaces($workspaceSid)->tasks
     ->create(array(
       'attributes' => $theAttributes,
