@@ -20,14 +20,15 @@ $auth_token = getenv('AUTH_TOKEN');
 $client = new Client($account_sid, $auth_token);
 $workspaceSid = getenv("WORKSPACE_SID");
 $workflowSid = getenv("WORKFLOW_SUPPORT");
-
+$activityOfflineSid = getenv("ACTIVITY_OFFLINE");
 $reservation = $client->taskrouter->workspaces($workspaceSid)
     ->workers($workerSid)
     ->reservations($reservationSid)
     ->update(
-        array('reservationStatus' => 'rejected', 'workerName' => 'lucy')
-    );
-
-print("+ Task updated: " . $task->sid);
+        array(
+            'reservationStatus' => 'rejected',
+            'WorkerActivitySid' => $activityOfflineSid
+        ));
+print("+ Task updated: " . $task->sid . ", Activity set to Offline.");
 
 ?>                    
