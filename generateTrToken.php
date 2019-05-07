@@ -4,7 +4,7 @@ $token_password = getenv("TOKEN_PASSWORD");
 if ($argc > 1 ) {
     $tokenPassword = $argv[1];
 } else {
-    $tokenPassword = $_REQUEST['tokenPassword'];
+    $tokenPassword = $_GET['tokenPassword'];
 }
 if ($token_password !== $tokenPassword) {
     // echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
