@@ -42,6 +42,8 @@ if ($counter === 0) {
     echo "+ Conference not found.\xA";
     return;
 }
+
 $conference = $twilio->conferences($theConference)->update(array("status" => "completed"));
+
 echo "++ Ended.\xA";
 ?>
