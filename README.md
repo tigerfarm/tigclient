@@ -1,4 +1,4 @@
-# Tiger Voice Client Application Version 3.1
+# Voice Client Application Version 3.1
 
 This application is used by people to make and receive Twilio voice calls from their browser.
 It has conference call features for a soft transfer.
@@ -36,7 +36,7 @@ Then, from, https://github.com/tigerfarm/OwlClient, click Deploy to Heroku butto
 Note, you will need to re-enter the above Config Vars.
 ````
 
-Tiger Client Screen print:
+Client Screen print:
 
 <img src="Tiger_Voice.jpg"/>
 
@@ -136,7 +136,7 @@ example (replace "mytwilioclient" with your Heroku application name):
 3. In the "Call to" field, enter: support. Select Call to type: Conference.
 4. Click Call, and you will be connect to the Twilio conference named, support.
     You will hear the classic Twilio conference music.
-5. In another browser, use Tiger Voice Client, with different Client ID, join the conference.
+5. In another browser, use the Voice Client, with different Client ID, join the conference.
 6. Click Hangup to disconnect from the conference, or click End conference to disconnect all participants in the conference.
 7. View the call log. In a separate tab, log into the Twilio Console.
     Beside Call to, click, See log.
@@ -182,15 +182,15 @@ Use the above TwiML Bin URL in [conferenceJoin.php](conferenceJoin.php).
 Your agents need to be configured as TaskRouter Workers, if they are to use the TaskRouter features.
 Click [here](https://www.twilio.com/blog/2018/06/customize-phone-call-workflows-twilio-studio-taskrouter.html),
 to get instructions on how to configure a TaskRouter call queue and workers (agents).
-Notes, skip section: Configure an Agent Worker Activity, because it is not required with Tiger Voice Client.
-Also, skip the section: Implement the Agent Web Application, if your agents will be only using Tiger Voice Client and not using their mobile phone to accept TaskRouter calls.
+Notes, skip section: Configure an Agent Worker Activity, because it is not required with the Voice Client.
+Also, skip the section: Implement the Agent Web Application, if your agents will be only using the Voice Client and not using their mobile phone to accept TaskRouter calls.
 
 The Worker name (example: "david") and client "contact_uri" (example: "client:david") need to match.
-And, the name needs to match with the Tiger Voice Client ID value (example: "david").
+And, the name needs to match with the the Voice Client ID value (example: "david").
 See the following screen prints.
 This is how the Client links to the TaskRouter Worker configuration.
 
-Once configured, the agent can start their Tiger Voice Client, get a voice and TaskRouter token, and then
+Once configured, the agent can start their the Voice Client, get a voice and TaskRouter token, and then
 set them self to available for a call, by clicking Go Online.
 When TaskRouter has a caller for the agent, the agent be given the option to Accept or Reject the call.
 If they Accept, they will be connected to the caller.
