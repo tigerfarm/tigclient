@@ -1,4 +1,4 @@
-# Ignore my specific variables:
-0setvars.sh
-
+# Ignore my specific files:
+#
+setheroku.sh
 #
