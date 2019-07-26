@@ -13,7 +13,7 @@ Requirements:
 
 Note, no development required to run this application. It can be completely deployed and tested from a web browser.
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/OwlClient)
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tigerfarm/tigclient)
 
 When you deploy to Heroku, you will be prompted for an app name. 
 The name needs to be unique. Example, enter your name+vc (example: davidvc). 
@@ -32,7 +32,7 @@ To redeploy,
 To keep the same URL, remove the old app by using the Heroku dashboard:
     https://dashboard.heroku.com,
     Select the app, click Settings, go to the bottom, click Delete app.
-Then, from, https://github.com/tigerfarm/OwlClient, click Deploy to Heroku button.
+Then, from, https://github.com/tigerfarm/tigclient, click Deploy to Heroku button.
 Note, you will need to re-enter the above Config Vars.
 ````
 
@@ -232,11 +232,11 @@ Note, the Twilio Node.JS helper library is not required.
 
 Download the project zip file.
 
-    https://github.com/tigerfarm/OwlClient
+    https://github.com/tigerfarm/tigclient
 
 1. Click Clone or Download. Click Download ZIP.
 2. Unzip the file into a work directory.
-3. Change into the unzipped directory: OwlClient-master.
+3. Change into the unzipped directory: tigclient-master.
 
 Install the NodeJS "request" module:
     
