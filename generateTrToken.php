@@ -1,5 +1,8 @@
 <?php
 // -------------------------------------------------------
+// clientid : a TaskRouter Worker.
+// tokenPassword : text string match to environment variable TOKEN_PASSWORD.
+// -------------------------------------------------------
 $clientid = htmlspecialchars($_GET["clientid"]);
 if ($clientid == "") {
     $clientid = getenv('CLIENT_ID');
@@ -34,7 +37,7 @@ use Twilio\Rest\Client;
 $twilio = new Client(getenv('ACCOUNT_SID'), getenv('AUTH_TOKEN'));
 $workers = $twilio->taskrouter->v1->workspaces(getenv("WORKSPACE_SID"))->workers->read();
 foreach ($workers as $record) {
-    print('+ Workers SID: ' . $record->sid . " Friendly Name: " . $record->friendlyName . "\xA");
+    // print('+ Workers SID: ' . $record->sid . " Friendly Name: " . $record->friendlyName . "\xA");
     if ($clientid == $record->friendlyName) {
         $workerSid = $record->sid;
     }
