@@ -16,7 +16,7 @@ if ($tokenPassword == "") {
 }
 $token_password = getenv("TOKEN_PASSWORD");
 if ($token_password !== $tokenPassword) {
-    echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
+    // echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
     echo "0";
     return;
 }
@@ -34,7 +34,7 @@ use Twilio\Rest\Client;
 $twilio = new Client(getenv('ACCOUNT_SID'), getenv('AUTH_TOKEN'));
 $workers = $twilio->taskrouter->v1->workspaces(getenv("WORKSPACE_SID"))->workers->read();
 foreach ($workers as $record) {
-    // print('+ Workers SID: ' . $record->sid . " Friendly Name: " . $record->friendlyName . "\xA");
+    print('+ Workers SID: ' . $record->sid . " Friendly Name: " . $record->friendlyName . "\xA");
     if ($clientid == $record->friendlyName) {
         $workerSid = $record->sid;
     }
