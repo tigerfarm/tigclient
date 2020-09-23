@@ -16,7 +16,7 @@ if ($tokenPassword == "") {
 }
 $token_password = getenv("TOKEN_PASSWORD");
 if ($token_password !== $tokenPassword) {
-    // echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
+    echo "0" . " :" . $token_password . ":" . $tokenPassword . ":";
     echo "0";
     return;
 }
